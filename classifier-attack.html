@@ -14,276 +14,280 @@
         max-width: 200px;
     }
 </style>
-
-<body>
-    <div class="container-fluid h-100">
-        <div class="row h-100">
-            <aside class="col-3 col-12 col-md-4 col-xl-3 p-0 bg-dark-subtle">
-                <nav class="navbar navbar-expand flex-md-column flex-row align-items-start sticky-top">
-                    <div class="collapse navbar-collapse w-100 ">
-                        <div class="sidebar-sticky mx-2 w-100">
-                            <div class="profile flex-column">
-                                <h1 class="my-5 text-center mx-2">George Ogden</h3>
-                                    <img src="images/george.jpg"
-                                        alt="George Ogden standing by the fountain in Trinity College"
-                                        class="rounded-circle img-fluid my-4 align-center mx-auto d-block">
-                            </div>
-                            <ul class="nav flex-md-column flex-row text-center mx-auto justify-content-center py-3">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Blog</a>
-                                </li>
-                            </ul>
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <aside class="col-3 col-12 col-md-4 col-xl-3 p-0 bg-dark-subtle">
+            <nav class="navbar navbar-expand flex-md-column flex-row align-items-start sticky-top">
+                <div class="collapse navbar-collapse w-100 ">
+                    <div class="sidebar-sticky mx-2 w-100">
+                        <div class="profile flex-column">
+                            <h1 class="my-5 text-center mx-2">George Ogden</h3>
+                                <img src="images/george.jpg"
+                                    alt="George Ogden standing by the fountain in Trinity College"
+                                    class="rounded-circle img-fluid my-4 align-center mx-auto d-block">
                         </div>
+                        <ul class="nav flex-md-column flex-row text-center mx-auto justify-content-center py-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Blog</a>
+                            </li>
+                        </ul>
                     </div>
-                </nav>
-            </aside>
-            <main class="my-4 col-md-8 col-lg 9 col-12 text-break mx-5">
-                <h1 class="py-5 px-3 text-center">Classifier Attack</h1>
-                <div class="row p-3 pb15">
-                    <h1 class="py-2">Introduction</h1>
-                    <p class="p-3">Image classifiers have become incredibly good at classifying images [papers of
-                        models], particularly on ImageNet [https://arxiv.org/abs/1409.0575]. Still, no model is perfect
-                        and image space is so incredibly large that we can expect pockets in which we can find
-                        incorrectly-classified images. Additionally, we can anticipate that there are some areas of
-                        image space not represented in datasets that the classifiers do not agree on
-                        [https://pdfs.semanticscholar.org/29e3/7b524b68fcfa3aad1e3e26476aa5f6c6e667.pdf]. Here, we
-                        exploit this by creating images that are very close to real images in image space but just far
-                        enough away that they are misclassified.
                 </div>
-                <div class="row p-3 pb-1">
-                    <h2 class="py-2">Background</h2>
-                    <p class="p-3">Neural networks work best with data that follows a standard normal distribution
-                        [citation]. Images generally do not obey this but scaling allows them to [citation]. We exploit
-                        this feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect
-                        label. To make this even more obvious, we decide on an alternative class and try to move the
-                        image towards a point that minimises the loss on this class while leaving the image visually
-                        very similar.
-                </div>
-                <div class="row p-3 pb-1">
-                    <h2 class="py-2">Approach</h2>
-                    <p class="p-3">Neural networks work best with data that follows a standard normal distribution
-                        [citation]. Images generally do not obey this but scaling allows them to [citation]. We exploit
-                        this feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect
-                        label. To make this even more obvious, we decide on an alternative class and try to move the
-                        image towards a point that minimises the loss on this class while leaving the image visually
-                        very similar.
-                </div>
-                <div class="row p-3 pb-1">
-                    <h2 class="py-2">Results</h2>
-                    <p class="p-3">This trick works incredibly well - giving images a fine layer of noise that confuses
-                        classifiers and achieves the desired incorrect predictions to a very high level of accuracy.
-                    <div class="container">
-                        <div class="row flex-row d-flex justify-content-evenly py-4">
-                            <div class="d-flex flex-column flex-align-center w-auto p-3">
-                                <h3 class="text-center p-2">Apple</h3>
-                                <img src="images/apple.bmp" alt="Granny Smith" title="Granny Smith"
-                                    class="img-fluid mb-3 m-auto p-3">
-                            </div>
-                            <div class="w-auto p-3">
-                                <table class="table table-striped table-responsive-lg" style="width:400px">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Model</th>
-                                            <th scope="col">Class</th>
-                                            <th scope="col">Score</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>AlexNet</td>
-                                            <td>pomegranate</td>
-                                            <td>89.4%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>DenseNet-121</td>
-                                            <td>pineapple</td>
-                                            <td>97.5%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>EfficientNet-b0</td>
-                                            <td>strawberry</td>
-                                            <td>90.2%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mobilenet-v3</td>
-                                            <td>orange</td>
-                                            <td>94.1%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>ResNet-50</td>
-                                            <td>jackfruit</td>
-                                            <td>91.6%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SqueezeNet-v1.1</td>
-                                            <td>lemon</td>
-                                            <td>98.2%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>VGG-11</td>
-                                            <td>banana</td>
-                                            <td>96.1%</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+            </nav>
+        </aside>
+        <main class="my-4 col-md-8 col-lg 9 col-12 text-break mx-5">
+            <h1 class="py-5 px-3 text-center">Classifier Attack</h1>
+            <div class="row p-3 pb15">
+                <h1 class="py-2">Introduction</h1>
+                <p class="p-3">Image classifiers have become incredibly good at classifying images [papers of
+                    models], particularly on ImageNet [https://arxiv.org/abs/1409.0575]. Still, no model is perfect
+                    and image space is so incredibly large that we can expect pockets in which we can find
+                    incorrectly-classified images. Additionally, we can anticipate that there are some areas of
+                    image space not represented in datasets that the classifiers do not agree on
+                    [https://pdfs.semanticscholar.org/29e3/7b524b68fcfa3aad1e3e26476aa5f6c6e667.pdf]. Here, we
+                    exploit this by creating images that are very close to real images in image space but just far
+                    enough away that they are misclassified.
+            </div>
+            <div class="row p-3 pb-1">
+                <h2 class="py-2">Background</h2>
+                <p class="p-3">Neural networks work best with data that follows a standard normal distribution
+                    [citation]. Images generally do not obey this but scaling allows them to [citation]. We exploit
+                    this feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect
+                    label. To make this even more obvious, we decide on an alternative class and try to move the
+                    image towards a point that minimises the loss on this class while leaving the image visually
+                    very similar.
+            </div>
+            <div class="row p-3 pb-1">
+                <h2 class="py-2">Approach</h2>
+                <p class="p-3">The aim of a neural network is to minimise a loss function by gradient descent:
+                <p>$$\theta_{n+1} = \theta_n - \alpha \frac{\partial \mathcal L}{\partial \theta_n}$$
+                <p>We make two simple changes to the parameters of this equation to achieve the desired result:
+                <ol class="px-5">
+                    <li class="py-1">Let \(\theta_n\) parameterise the image - not the classifier
+                    <li class="py-1">Change the loss to be $$\mathcal {\hat L} =\frac{1}{N} \sum_{i=0}^{N-1} w_i\
+                        BCE(f_i(\theta), T_i)$$ where \(f_i\)
+                        is the \(i^{th}\) classifier, \(T_i\) is the target class and \(w_i\) is the weight given to
+                        the \(i^{th}\) classifier. This is a weighted binary cross-entropy loss.
+                </ol>
+                <p>We also modify the loss for faster convergence by adding a normalisation term to the loss and setting
+                    $$w_i = \begin{cases} 1 & \text{if } \text{confidence}_i \ge 95\% \\ 0 & \text{otherwise}
+                    \end{cases}$$
+            </div>
+            <div class="row p-3 pb-1">
+                <h2 class="py-2">Results</h2>
+                <p class="p-3">This trick works incredibly well - giving images a fine layer of noise that confuses
+                    classifiers and achieves the desired incorrect predictions to a very high level of accuracy.
+                <div class="container">
+                    <div class="row flex-row d-flex justify-content-evenly py-4">
+                        <div class="d-flex flex-column flex-align-center w-auto p-3">
+                            <h3 class="text-center p-2">Apple</h3>
+                            <img src="images/apple.bmp" alt="Granny Smith" title="Granny Smith"
+                                class="img-fluid mb-3 m-auto p-3">
                         </div>
-
-                        <div class="row flex-row-reverse d-flex justify-content-evenly py-4">
-                            <div class="d-flex flex-column flex-align-center w-auto p-3">
-                                <h3 class="text-center p-2">Ball</h3>
-                                <img src="images/ball.bmp" alt="Soccer Ball" title="Soccer Ball"
-                                    class="img-fluid mb-3 m-auto p-3">
-                            </div>
-
-                            <div class="w-auto p-3">
-                                <table class="table table-striped" style="width:400px">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Class</th>
-                                            <th scope="col">Score</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>AlexNet</td>
-                                            <td>croquet ball</td>
-                                            <td>90.3%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>DenseNet-121</td>
-                                            <td>ping-pong ball</td>
-                                            <td>98.4%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>EfficientNet-b0</td>
-                                            <td>baseball</td>
-                                            <td>98.6%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mobilenet-v3</td>
-                                            <td>basketball</td>
-                                            <td>98.9%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>ResNet-50</td>
-                                            <td>tennis ball</td>
-                                            <td>97.6%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SqueezeNet-v1.1</td>
-                                            <td>golf ball</td>
-                                            <td>98.9%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>VGG-11</td>
-                                            <td>volleyball</td>
-                                            <td>98.1%</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-
-                        <div class="row flex-row d-flex justify-content-evenly py-4">
-                            <div class="d-flex flex-column flex-align-center w-auto p-3">
-                                <h3 class="text-center p-2">Pig</h3>
-                                <img src="images/pig.bmp" alt="Hog" title="Hog" class="img-fluid"
-                                    class="img-fluid mb-3 m-auto p-3">
-                            </div>
-                            <div class="w-auto p-3">
-                                <table class="table table-striped table-responsive-lg" style="width:400px">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Class</th>
-                                            <th>Score</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>AlexNet</td>
-                                            <td>brown bear</td>
-                                            <td>89.5%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>DenseNet-121</td>
-                                            <td>cougar</td>
-                                            <td>98.6%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>EfficientNet-b0</td>
-                                            <td>zebra</td>
-                                            <td>96.4%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mobilenet-v3</td>
-                                            <td>tiger</td>
-                                            <td>97.7%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>ResNet-50</td>
-                                            <td>triceratops</td>
-                                            <td>94.4%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SqueezeNet-v1.1</td>
-                                            <td>hippopotamus</td>
-                                            <td>98.9%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>VGG-11</td>
-                                            <td>Komodo dragon</td>
-                                            <td>99.0%</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="w-auto p-3">
+                            <table class="table table-striped table-responsive-lg" style="width:400px">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Model</th>
+                                        <th scope="col">Class</th>
+                                        <th scope="col">Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <td>AlexNet</td>
+                                        <td>pomegranate</td>
+                                        <td>89.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DenseNet-121</td>
+                                        <td>pineapple</td>
+                                        <td>97.5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>EfficientNet-b0</td>
+                                        <td>strawberry</td>
+                                        <td>90.2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mobilenet-v3</td>
+                                        <td>orange</td>
+                                        <td>94.1%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ResNet-50</td>
+                                        <td>jackfruit</td>
+                                        <td>91.6%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SqueezeNet-v1.1</td>
+                                        <td>lemon</td>
+                                        <td>98.2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VGG-11</td>
+                                        <td>banana</td>
+                                        <td>96.1%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
-                </div>
-                <div class="row p-3 pb-1">
-                    <h2 class="py-2">Limitations</h2>
-                    <div class="d-flex-col justify-content-start">
-                        <div class="py-2">
-                            <h3>Brittleness</h4>
-                                <p class="py-3">Even though the predictions are very poor on the images given, these
-                                    images are very brittle. Smoothing them or even saving them as a JPG or PNG (which
-                                    removes most of the noise during compression) results in almost identical
-                                    classification to the unedited picture.
+                    <div class="row flex-row-reverse d-flex justify-content-evenly py-4">
+                        <div class="d-flex flex-column flex-align-center w-auto p-3">
+                            <h3 class="text-center p-2">Ball</h3>
+                            <img src="images/ball.bmp" alt="Soccer Ball" title="Soccer Ball"
+                                class="img-fluid mb-3 m-auto p-3">
                         </div>
-                        <div class="py-2">
-                            <h3>Resources</h4>
-                                <p class="py-3">These experiments were run on CNNs due to their availability and smaller
-                                    size. They also rely heavily on local information. Transformer-based models do note.
+
+                        <div class="w-auto p-3">
+                            <table class="table table-striped" style="width:400px">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Class</th>
+                                        <th scope="col">Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <td>AlexNet</td>
+                                        <td>croquet ball</td>
+                                        <td>90.3%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DenseNet-121</td>
+                                        <td>ping-pong ball</td>
+                                        <td>98.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>EfficientNet-b0</td>
+                                        <td>baseball</td>
+                                        <td>98.6%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mobilenet-v3</td>
+                                        <td>basketball</td>
+                                        <td>98.9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ResNet-50</td>
+                                        <td>tennis ball</td>
+                                        <td>97.6%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SqueezeNet-v1.1</td>
+                                        <td>golf ball</td>
+                                        <td>98.9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VGG-11</td>
+                                        <td>volleyball</td>
+                                        <td>98.1%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="row flex-row d-flex justify-content-evenly py-4">
+                        <div class="d-flex flex-column flex-align-center w-auto p-3">
+                            <h3 class="text-center p-2">Pig</h3>
+                            <img src="images/pig.bmp" alt="Hog" title="Hog" class="img-fluid"
+                                class="img-fluid mb-3 m-auto p-3">
+                        </div>
+                        <div class="w-auto p-3">
+                            <table class="table table-striped table-responsive-lg" style="width:400px">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Class</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>AlexNet</td>
+                                        <td>brown bear</td>
+                                        <td>89.5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DenseNet-121</td>
+                                        <td>cougar</td>
+                                        <td>98.6%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>EfficientNet-b0</td>
+                                        <td>zebra</td>
+                                        <td>96.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mobilenet-v3</td>
+                                        <td>tiger</td>
+                                        <td>97.7%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ResNet-50</td>
+                                        <td>triceratops</td>
+                                        <td>94.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SqueezeNet-v1.1</td>
+                                        <td>hippopotamus</td>
+                                        <td>98.9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VGG-11</td>
+                                        <td>Komodo dragon</td>
+                                        <td>99.0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div class="row p-3 pb-1">
-                    <h2 class="py-2">Conclusions</h2>
-                    <p class="p-3">Modern image classifiers are extremely strong and robust. While this approach manages
-                        to create images that are classified incorrectly, this provides no advantage or malicious use as
-                        merely saving the image as a JPG or PNG corrects most of the damage.
-                    <p class="p-3">Additionally, while there may be some benefits of using images augmented in this way
-                        during training, it would be very small and very costly, but some people do [citation].
 
+            </div>
+            <div class="row p-3 pb-1">
+                <h2 class="py-2">Limitations</h2>
+                <div class="d-flex-col justify-content-start">
+                    <div class="py-2">
+                        <h3>Brittleness</h4>
+                            <p class="py-3">Even though the predictions are very poor on the images given, these
+                                images are very brittle. Smoothing them or even saving them as a JPG or PNG (which
+                                removes most of the noise during compression) results in almost identical
+                                classification to the unedited picture.
+                    </div>
+                    <div class="py-2">
+                        <h3>Resources</h4>
+                            <p class="py-3">These experiments were run on CNNs due to their availability and smaller
+                                size. They also rely heavily on local information. Transformer-based models do note.
+                    </div>
                 </div>
-            </main>
-        </div>
+            </div>
+            <div class="row p-3 pb-1">
+                <h2 class="py-2">Conclusions</h2>
+                <p class="p-3">Modern image classifiers are extremely strong and robust. While this approach manages
+                    to create images that are classified incorrectly, this provides no advantage or malicious use as
+                    merely saving the image as a JPG or PNG corrects most of the damage.
+                <p class="p-3">Additionally, while there may be some benefits of using images augmented in this way
+                    during training, it would be very small and very costly, but some people do [citation].
+
+            </div>
+        </main>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
-        integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js"
+    integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i"
+    crossorigin="anonymous"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
