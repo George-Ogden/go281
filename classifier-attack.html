@@ -1,0 +1,100 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        :root {
+            --darkest: #1C262D;
+            --darker: #27343E;
+            --lighter: #002c66;
+            --lightest: #08489B;
+            --main: #1371C3;
+        }
+    
+        body {
+            background: var(--darkest);
+            color: white;
+        }
+    
+        main {
+            font-size: 1.2em;
+        }
+    
+        aside {
+            background: var(--darker);
+        }
+    
+        .navbar ul li a {
+            font-size: 2rem;
+        }
+    
+        .navbar img {
+            max-width: 200px;
+        }
+    </style>
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <aside class="col-12 col-md-4 col-lg-3 p-0">
+                <nav class="navbar navbar-expand navbar-dark flex-md-column flex-row align-items-start">
+                    <div class="collapse navbar-collapse w-100">
+                        <div class="sidebar-sticky mx-2 w-100">
+                            <div class="profile flex-column">
+                                <h1 class="my-5 text-center">George Ogden</h3>
+                                    <img src="images/george.jpg"
+                                        alt="George Ogden standing by the fountain in Trinity College"
+                                        class="rounded-circle img-fluid my-4 align-center mx-auto d-block">
+                            </div>
+                            <ul class="nav flex-md-column flex-row text-center mx-auto justify-content-center py-3">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Blog</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+            <main class="col py-4 px-5">
+                <h1 class="py-5 px-3">Classifier Attack</h1>
+                <div class="row p-3 pb15">
+                    <h1 class="py-2">Introduction</h1>
+                    <p class="text-left p-3">Image classifiers have become incredibly good at classifying images  [papers of models], particularly on ImageNet [https://arxiv.org/abs/1409.0575]. Still, no model is perfect and image space is so incredibly large that we can expect pockets in which we can find incorrectly-classified images. Additionally, we can anticipate that there are some areas of image space not represented in datasets that the classifiers do not agree on [https://pdfs.semanticscholar.org/29e3/7b524b68fcfa3aad1e3e26476aa5f6c6e667.pdf]. Here, we exploit this by creating images that are very close to real images in image space but just far enough away that they are misclassified.
+                </div>
+                <div class="row p-3 pb-1">
+                    <h2 class="py-2">Background</h2>
+                    <p class="text-left p-3">Neural networks work best with data that follows a standard normal distribution [citation]. Images generally do not obey this but scaling allows them to [citation]. We exploit this feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect label. To make this even more obvious, we decide on an alternative class and try to move the image towards a point that minimises the loss on this class while leaving the image visually very similar.
+                </div>
+                <div class="row p-3 pb-1">
+                    <h2 class="py-2">Approach</h2>
+                    <p class="text-left p-3">Neural networks work best with data that follows a standard normal distribution [citation]. Images generally do not obey this but scaling allows them to [citation]. We exploit this feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect label. To make this even more obvious, we decide on an alternative class and try to move the image towards a point that minimises the loss on this class while leaving the image visually very similar.
+                </div>
+                <div class="row p-3 pb-1">
+                    <h2 class="py-2">Results</h2>
+                    <p class="text-left p-3">This trick works incredibly well - giving images a fine layer of noise that confuses classifiers and achieves the desired incorrect predictions to a very high level of accuracy. 
+                </div>
+                <div class="row p-3 pb-1">
+                    <h2 class="py-2">Limitations</h2>
+                    <div class="d-flex-col justify-content-start">
+                        <div class="py-2">
+                            <h3>Brittleness</h4>
+                            <p class="text-left py-3">Even though the predictions are very poor on the images given, these images are very  brittle. Smoothing them or even saving them as a JPG or PNG (which removes most of the noise during compression) results in almost identical classification to the unedited picture. 
+                        </div>
+                        <div class="py-2">
+                            <h3>Resources</h4>
+                            <p class="text-left py-3">These experiments were run on CNNs due to their availability and smaller size. They also rely heavily on local information. Transformer-based models do note.
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-3 pb-1">
+                    <h2 class="py-2">Conclusions</h2>
+                    <p class="text-left p-3">Modern image classifiers are extremely strong and robust. While this approach manages to create images that are classified incorrectly, this provides no advantage or malicious use as merely saving the image as a JPG or PNG corrects most of the damage.
+                    <p class="text-left p-3">Additionally, while there may be some benefits of using images augmented in this way during training, it would be very small and very costly, but some people do [citation].
+
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
