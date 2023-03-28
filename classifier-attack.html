@@ -1,22 +1,8 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        :root {
-            --darkest: #1b1f22;
-            --darker: #212529;
-        }
-    
-        body {
-            background: var(--darkest);
-            color: white;
-        }
-    
+<html data-bs-theme=dark lang="en">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+<style>
         main {
             font-size: 1.2em;
-        }
-    
-        aside {
-            background: var(--darker);
         }
     
         .navbar ul li a {
@@ -27,9 +13,10 @@
             max-width: 200px;
         }
     </style>
+    <body>
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <aside class="col-3 col-12 col-md-4 col-xl-3 p-0">
+            <aside class="col-3 col-12 col-md-4 col-xl-3 p-0 bg-dark-subtle">
                 <nav class="navbar navbar-expand flex-md-column flex-row align-items-start sticky-top">
                     <div class="collapse navbar-collapse w-100 ">
                         <div class="sidebar-sticky mx-2 w-100">
@@ -68,6 +55,169 @@
                 <div class="row p-3 pb-1">
                     <h2 class="py-2">Results</h2>
                     <p class="p-3">This trick works incredibly well - giving images a fine layer of noise that confuses classifiers and achieves the desired incorrect predictions to a very high level of accuracy. 
+                        <div class="container">
+                            <div class="row flex-row">
+                              <div class="col-md-6">
+                                <div class="content">
+                                    <h2 class="text-center">Apple</h2>
+                                    <img src="images/apple.bmp" alt="Granny Smith" title="Granny Smith" class="img-fluid mb-3">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Model</th>
+                                      <th scope="col">Class</th>
+                                      <th scope="col">Score</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>AlexNet</td>
+                                      <td>pomegranate</td>
+                                      <td>89.4%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>DenseNet-121</td>
+                                      <td>pineapple</td>
+                                      <td>97.5%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>EfficientNet-b0</td>
+                                      <td>strawberry</td>
+                                      <td>90.2%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Mobilenet-v3</td>
+                                      <td>orange</td>
+                                      <td>94.1%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>ResNet-50</td>
+                                      <td>jackfruit</td>
+                                      <td>91.6%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>SqueezeNet-v1.1</td>
+                                      <td>lemon</td>
+                                      <td>98.2%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>VGG-11</td>
+                                      <td>banana</td>
+                                      <td>96.1%</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              
+                              <div class="col-md-6">
+                                <h2>Ball</h2>
+                                <img src="images/ball.bmp" alt="Soccer Ball" title="Soccer Ball" class="img-fluid mb-3">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th>Name</th>
+                                      <th>Class</th>
+                                      <th>Score</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>AlexNet</td>
+                                      <td>croquet ball</td>
+                                      <td>90.3%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>DenseNet-121</td>
+                                      <td>ping-pong ball</td>
+                                      <td>98.4%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>EfficientNet-b0</td>
+                                      <td>baseball</td>
+                                      <td>98.6%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Mobilenet-v3</td>
+                                      <td>basketball</td>
+                                      <td>98.9%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>ResNet-50</td>
+                                      <td>tennis ball</td>
+                                      <td>97.6%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>SqueezeNet-v1.1</td>
+                                      <td>golf ball</td>
+                                      <td>98.9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VGG-11</td>
+                                        <td>volleyball</td>
+                                        <td>98.1%</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div class="col-md-4">
+                                <h2>Pig</h2>
+                                <img src="images/pig.bmp" alt="Hog" title="Hog" class="img-fluid">
+                              </div>
+                              <div class="col-md-8">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th>Name</th>
+                                      <th>Class</th>
+                                      <th>Score</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>AlexNet</td>
+                                      <td>brown bear</td>
+                                      <td>89.5%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>DenseNet-121</td>
+                                      <td>cougar</td>
+                                      <td>98.6%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>EfficientNet-b0</td>
+                                      <td>zebra</td>
+                                      <td>96.4%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Mobilenet-v3</td>
+                                      <td>tiger</td>
+                                      <td>97.7%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>ResNet-50</td>
+                                      <td>triceratops</td>
+                                      <td>94.4%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>SqueezeNet-v1.1</td>
+                                      <td>hippopotamus</td>
+                                      <td>98.9%</td>
+                                    </tr>
+                                    <tr>
+                                      <td>VGG-11</td>
+                                      <td>Komodo dragon</td>
+                                      <td>99.0%</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>                            
+                            </div>
+                        </div>
+                    </p>
+                          
                 </div>
                 <div class="row p-3 pb-1">
                     <h2 class="py-2">Limitations</h2>
@@ -92,6 +242,6 @@
         </div>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.min.js" integrity="sha384-heAjqF+bCxXpCWLa6Zhcp4fu20XoNIA98ecBC1YkdXhszjoejr5y9Q77hIrv8R9i" crossorigin="anonymous"></script>
+    </body></html>
