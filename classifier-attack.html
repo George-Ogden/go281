@@ -42,18 +42,16 @@
             <h1 class="py-5 px-3 text-center">Classifier Attack</h1>
             <div class="row p-3 pb15">
                 <h1 class="py-2">Introduction</h1>
-                <p class="p-3">Image classifiers have achieved incredibly high accuracy in classifying images
-                    [https://arxiv.org/abs/1409.0575]. Still, no model is perfect and image space is so incredibly large
+                <p class="p-3">Image classifiers have achieved incredibly high accuracy in classifying images[[alexnet]]. Still, no model is perfect and image space is so incredibly large
                     that we can expect pockets in which we can find incorrectly-classified images. Additionally, we can
                     anticipate that there are some areas of image space not represented in datasets that the classifiers
-                    do not agree on [https://pdfs.semanticscholar.org/29e3/7b524b68fcfa3aad1e3e26476aa5f6c6e667.pdf].
-                    Here, we exploit this by creating fake images that are very close to real images in image space but
+                    do not agree on. Here, we exploit this by creating fake images that are very close to real images in image space but
                     far enough away that they are misclassified.
             </div>
             <div class="row p-3 pb-1">
                 <h2 class="py-2">Background</h2>
                 <p class="p-3">Neural networks work best with data that follows a standard normal distribution. Images
-                    generally do not obey this but a series of transforms allows them to [citation]. We exploit this
+                    generally do not obey this but a series of transforms allows them to[[alexnet]]. We exploit this
                     feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect label. To
                     make this even more obvious, we decide on an alternative class and try to move the image towards a
                     point that minimises the loss on this class while leaving the image visually very similar.
@@ -64,7 +62,7 @@
                 <p class="p-3">In 2018, researchers demonstrated that they could trick the object recognition system in
                     self-driving cars to misclasify stop signs as speed-limit signs. The stickers placed on them looked
                     like random graffiti to passers-by, but had a much greater affect on the system inside the
-                    cars.[https://arxiv.org/abs/1707.08945]
+                    cars[[stop]].
 
             </div>
             <div class="row p-3 pb-1">
@@ -87,14 +85,13 @@
                         <h3>Models</h3>
                         <p class="py-3">For this experiment, the models we used were:
                         <ul class="px-5">
-                            <li>AlexNet
-                                [https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf]
-                            <li>DenseNet-121 [https://arxiv.org/abs/1608.06993]
-                            <li>EfficientNet-b0 [https://arxiv.org/abs/1905.11946]
-                            <li>MobileNet-v2 [https://arxiv.org/abs/1801.04381]
-                            <li>ResNet-50 [https://arxiv.org/abs/1512.03385]
-                            <li>SqueezeNet-v1 [https://arxiv.org/abs/1602.07360]
-                            <li>VGG-11 [https://arxiv.org/abs/1409.1556]
+                            <li>AlexNet[[alexnet]]
+                            <li>DenseNet-121[[densenet]]
+                            <li>EfficientNet-b0[[efficientnet]]
+                            <li>MobileNet-v2[[mobilenet]]
+                            <li>ResNet-50[[resnet]]
+                            <li>SqueezeNet-v1[[squeezenet]]
+                            <li>VGG-11[[vgg]]
                         </ul>
                         <p>All of these models were all trained on ImageNet and are available with pretrained weights on
                             the <a href="https://pytorch.org/vision/stable/models.html#classification">PyTorch Hub</a>
