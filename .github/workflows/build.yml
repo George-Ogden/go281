@@ -27,4 +27,5 @@ jobs:
     - name: Build website
       run: make
     - name: Deploy to hosting
+      run: ls -l # check key created
       run: scp -ri private.key build/* go281@shell.srcf.net:~/public_html/
