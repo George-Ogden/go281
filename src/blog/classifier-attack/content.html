@@ -1,7 +1,7 @@
 <h1 class="py-5 px-3 text-center">Classifier Attack</h1>
-<div class="row p-3 pb15" id="introduction">
+<div class="row p-3 pb-1" id="introduction">
     <h1 class="py-2">Introduction</h1>
-    <p class="p-3">Image classifiers have achieved incredibly high accuracy in classifying images[[alexnet]]. Still,
+    <p class="py-3">Image classifiers have achieved incredibly high accuracy in classifying images[[alexnet]]. Still,
         no
         model is perfect and image space is so incredibly large
         that we can expect pockets in which we can find incorrectly-classified images. Additionally, we can
@@ -13,16 +13,16 @@
 </div>
 <div class="row p-3 pb-1" id="background">
     <h2 class="py-2">Background</h2>
-    <p class="p-3">Neural networks work best with data that follows a standard normal distribution. Images
+    <p class="py-3">Neural networks work best with data that follows a standard normal distribution. Images
         generally do not obey this but a series of transforms allows them to[[alexnet]]. We exploit this
         feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect label. To
         make this even more obvious, we decide on an alternative class and try to move the image towards a
         point that minimises the loss on this class while leaving the image visually very similar.
-    <p class="p-3">Classifier attacks are particularly harmful against public APIs, particularly when open
+    <p class="py-3">Classifier attacks are particularly harmful against public APIs, particularly when open
         source models have been used and approaches like the one outlined here can be applied. However,
         printing images and holding them up to cameras can also be effective and approaches like these may
         seem suspicious but the intentions of fooling a classifier may not be obvious to passers by.
-    <p class="p-3">In 2018, researchers demonstrated that they could trick the object recognition system in
+    <p class="py-3">In 2018, researchers demonstrated that they could trick the object recognition system in
         self-driving cars to misclasify stop signs as speed-limit signs. The stickers placed on them looked
         like random graffiti to passers-by, but had a much greater affect on the system inside the
         cars[[stop]].
@@ -30,7 +30,7 @@
 </div>
 <div class="row p-3 pb-1" id="approach">
     <h2 class="py-2">Approach</h2>
-    <p class="p-3">The aim of a neural network is to minimise a loss function by gradient descent:
+    <p class="py-3">The aim of a neural network is to minimise a loss function by gradient descent:
     <p>$$\theta_{n+1} = \theta_n - \alpha \frac{\partial \mathcal L}{\partial \theta_n}$$
     <p>We make two simple changes to the parameters of this equation to achieve the desired result:
     <ol class="px-5">
@@ -63,7 +63,7 @@
 </div>
 <div class="row p-3 pb-1" id="results">
     <h2 class="py-2">Results</h2>
-    <p class="p-3">This trick works incredibly well - giving images a fine layer of noise that confuses
+    <p class="py-3">This trick works incredibly well - giving images a fine layer of noise that confuses
         classifiers and achieves the desired incorrect predictions to a very high level of accuracy.
     <div class="container">
         <div class="row flex-row d-flex justify-content-evenly py-4">
@@ -255,7 +255,7 @@
 </div>
 <div class="row p-3 pb-1" id="conclusions">
     <h2 class="py-2">Conclusions</h2>
-    <p class="p-3">Modern image classifiers are extremely accurate and robust. While the approach presented
+    <p class="py-3">Modern image classifiers are extremely accurate and robust. While the approach presented
         here manages to create images that are classified incorrectly, the effort and quality of results
         demonstrate the strength of these models rather than displaying a potential weakness. As a result,
         there is limited scope for how this could be used maliciously as routine transforms correct most of
