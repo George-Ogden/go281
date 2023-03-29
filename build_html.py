@@ -1,4 +1,7 @@
+from pybtex.database import parse_file
+from pybtex import make_bibliography
 from glob import glob
+
 import argparse
 import os
 import re
@@ -11,6 +14,25 @@ def parse_args():
     parser.add_argument("-o", "--output-dir", required=True)
     return parser.parse_args()
 
+
+def complete_citations(template, directory) -> str:
+    bibtex_file = os.path.join(directory, "citations.bib")
+    if not os.path.exists(bibtex_file):
+        return template
+    references = parse_file(bibtex_file)
+    for match in re.finditer(r"\[\[(.*?)\]\]", template):
+        if match.group(1) == "bibliography":
+            continue
+        reference = references.entries[match.group(1)]
+        authors = reference.persons["author"]
+        author = authors[0].last_names[0]
+        if len(authors) > 1:
+            author += " et al."
+        year = reference.fields["YEAR"]
+        template = template.replace(
+            match.group(0), f" (<a href=\"#bibliography\" class=\"text-decoration-none\">{author} ({year})</a>)"
+        )
+    return template
 
 def get_template(directory, file=None) -> str:
     if file is None:
@@ -32,6 +54,7 @@ def build_template(directory, file=None) -> str:
         template = template.replace(
             match.group(0), build_template(directory, match.group(1) + ".html")
         )
+    template = complete_citations(template, directory)
     return template
 
 
