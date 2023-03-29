@@ -19,7 +19,7 @@ jobs:
     - name: Create SSH key
       run: |
         mkdir -p ~/.ssh/
-        echo "$SSH_KEY" > ../private.key
+        echo "${{ secrets.SSH_KEY }}" > ../private.key
         sudo chmod 600 ../private.key
     - name: Install dependencies
       run: |
@@ -28,4 +28,4 @@ jobs:
     - name: Build website
       run: make
     - name: Deploy to hosting
-      run: scp -ri ../private.key build/* go281@shell.srcf.net:~/public_html/ 
+      run: scp -ri ../private.key build/* go281@shell.srcf.net:~/public_html/
