@@ -1,15 +1,17 @@
 <h1 class="py-5 px-3 text-center">Classifier Attack</h1>
-<div class="row p-3 pb15">
+<div class="row p-3 pb15" id="introduction">
     <h1 class="py-2">Introduction</h1>
-    <p class="p-3">Image classifiers have achieved incredibly high accuracy in classifying images[[alexnet]]. Still, no
+    <p class="p-3">Image classifiers have achieved incredibly high accuracy in classifying images[[alexnet]]. Still,
+        no
         model is perfect and image space is so incredibly large
         that we can expect pockets in which we can find incorrectly-classified images. Additionally, we can
         anticipate that there are some areas of image space not represented in datasets that the classifiers
-        do not agree on. Here, we exploit this by creating fake images that are very close to real images in image space
+        do not agree on. Here, we exploit this by creating fake images that are very close to real images in image
+        space
         but
         far enough away that they are misclassified.
 </div>
-<div class="row p-3 pb-1">
+<div class="row p-3 pb-1" id="background">
     <h2 class="py-2">Background</h2>
     <p class="p-3">Neural networks work best with data that follows a standard normal distribution. Images
         generally do not obey this but a series of transforms allows them to[[alexnet]]. We exploit this
@@ -26,7 +28,7 @@
         cars[[stop]].
 
 </div>
-<div class="row p-3 pb-1">
+<div class="row p-3 pb-1" id="approach">
     <h2 class="py-2">Approach</h2>
     <p class="p-3">The aim of a neural network is to minimise a loss function by gradient descent:
     <p>$$\theta_{n+1} = \theta_n - \alpha \frac{\partial \mathcal L}{\partial \theta_n}$$
@@ -59,7 +61,7 @@
         </div>
     </div>
 </div>
-<div class="row p-3 pb-1">
+<div class="row p-3 pb-1" id="results">
     <h2 class="py-2">Results</h2>
     <p class="p-3">This trick works incredibly well - giving images a fine layer of noise that confuses
         classifiers and achieves the desired incorrect predictions to a very high level of accuracy.
@@ -233,7 +235,7 @@
     </div>
 
 </div>
-<div class="row p-3 pb-1">
+<div class="row p-3 pb-1" id="limitations">
     <h2 class="py-2">Limitations</h2>
     <div class="d-flex-col justify-content-start">
         <div class="py-2">
@@ -251,11 +253,15 @@
         </div>
     </div>
 </div>
-<div class="row p-3 pb-1">
+<div class="row p-3 pb-1" id="conclusions">
     <h2 class="py-2">Conclusions</h2>
     <p class="p-3">Modern image classifiers are extremely accurate and robust. While the approach presented
         here manages to create images that are classified incorrectly, the effort and quality of results
         demonstrate the strength of these models rather than displaying a potential weakness. As a result,
         there is limited scope for how this could be used maliciously as routine transforms correct most of
         the damage.
+</div>
+<div class="row p-3 pb-1" id="bibliography">
+    <h2 class="py-2">Bibliography</h2>
+    [[bibliography]]
 </div>
