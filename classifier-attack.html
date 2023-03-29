@@ -42,23 +42,30 @@
             <h1 class="py-5 px-3 text-center">Classifier Attack</h1>
             <div class="row p-3 pb15">
                 <h1 class="py-2">Introduction</h1>
-                <p class="p-3">Image classifiers have become incredibly good at classifying images [papers of
-                    models], particularly on ImageNet [https://arxiv.org/abs/1409.0575]. Still, no model is perfect
-                    and image space is so incredibly large that we can expect pockets in which we can find
-                    incorrectly-classified images. Additionally, we can anticipate that there are some areas of
-                    image space not represented in datasets that the classifiers do not agree on
-                    [https://pdfs.semanticscholar.org/29e3/7b524b68fcfa3aad1e3e26476aa5f6c6e667.pdf]. Here, we
-                    exploit this by creating images that are very close to real images in image space but just far
-                    enough away that they are misclassified.
+                <p class="p-3">Image classifiers have achieved incredibly high accuracy in classifying images
+                    [https://arxiv.org/abs/1409.0575]. Still, no model is perfect and image space is so incredibly large
+                    that we can expect pockets in which we can find incorrectly-classified images. Additionally, we can
+                    anticipate that there are some areas of image space not represented in datasets that the classifiers
+                    do not agree on [https://pdfs.semanticscholar.org/29e3/7b524b68fcfa3aad1e3e26476aa5f6c6e667.pdf].
+                    Here, we exploit this by creating fake images that are very close to real images in image space but
+                    far enough away that they are misclassified.
             </div>
             <div class="row p-3 pb-1">
                 <h2 class="py-2">Background</h2>
-                <p class="p-3">Neural networks work best with data that follows a standard normal distribution
-                    [citation]. Images generally do not obey this but scaling allows them to [citation]. We exploit
-                    this feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect
-                    label. To make this even more obvious, we decide on an alternative class and try to move the
-                    image towards a point that minimises the loss on this class while leaving the image visually
-                    very similar.
+                <p class="p-3">Neural networks work best with data that follows a standard normal distribution. Images
+                    generally do not obey this but a series of transforms allows them to [citation]. We exploit this
+                    feature by engineering spiky noise that “confuses” the classifier, leading to an incorrect label. To
+                    make this even more obvious, we decide on an alternative class and try to move the image towards a
+                    point that minimises the loss on this class while leaving the image visually very similar.
+                <p class="p-3">Classifier attacks are particularly harmful against public APIs, particularly when open
+                    source models have been used and approaches like the one outlined here can be applied. However,
+                    printing images and holding them up to cameras can also be effective and approaches like these may
+                    seem suspicious but the intentions of fooling a classifier may not be obvious to passers by.
+                <p class="p-3">In 2018, researchers demonstrated that they could trick the object recognition system in
+                    self-driving cars to misclasify stop signs as speed-limit signs. The stickers placed on them looked
+                    like random graffiti to passers-by, but had a much greater affect on the system inside the
+                    cars.[https://arxiv.org/abs/1707.08945]
+
             </div>
             <div class="row p-3 pb-1">
                 <h2 class="py-2">Approach</h2>
@@ -75,6 +82,24 @@
                 <p>We also modify the loss for faster convergence by adding a normalisation term to the loss and setting
                     $$w_i = \begin{cases} 1 & \text{if } \text{confidence}_i \ge 95\% \\ 0 & \text{otherwise}
                     \end{cases}$$
+                <div class="d-flex-col justify-content-start">
+                    <div class="py-2">
+                        <h3>Models</h3>
+                        <p class="py-3">For this experiment, the models we used were:
+                        <ul class="px-5">
+                            <li>AlexNet
+                                [https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf]
+                            <li>DenseNet-121 [https://arxiv.org/abs/1608.06993]
+                            <li>EfficientNet-b0 [https://arxiv.org/abs/1905.11946]
+                            <li>MobileNet-v2 [https://arxiv.org/abs/1801.04381]
+                            <li>ResNet-50 [https://arxiv.org/abs/1512.03385]
+                            <li>SqueezeNet-v1 [https://arxiv.org/abs/1602.07360]
+                            <li>VGG-11 [https://arxiv.org/abs/1409.1556]
+                        </ul>
+                        <p>All of these models were all trained on ImageNet and are available with pretrained weights on
+                            the <a href="https://pytorch.org/vision/stable/models.html#classification">PyTorch Hub</a>
+                    </div>
+                </div>
             </div>
             <div class="row p-3 pb-1">
                 <h2 class="py-2">Results</h2>
@@ -257,27 +282,27 @@
                 <h2 class="py-2">Limitations</h2>
                 <div class="d-flex-col justify-content-start">
                     <div class="py-2">
-                        <h3>Brittleness</h4>
-                            <p class="py-3">Even though the predictions are very poor on the images given, these
-                                images are very brittle. Smoothing them or even saving them as a JPG or PNG (which
-                                removes most of the noise during compression) results in almost identical
-                                classification to the unedited picture.
+                        <h3>Brittleness</h3>
+                        <p class="py-3">Even though the predictions are very poor on the fake images, these images are
+                            very brittle. Smoothing them, resizing them or even saving them as a JPG or PNG (which
+                            removes most of the noise during compression) results in almost identical classification to
+                            the original images.
                     </div>
                     <div class="py-2">
-                        <h3>Resources</h4>
-                            <p class="py-3">These experiments were run on CNNs due to their availability and smaller
-                                size. They also rely heavily on local information. Transformer-based models do note.
+                        <h3>Resources</h3>
+                        <p class="py-3">This process is time-consuming, taking ~6 hours to run on a single laptop GPU
+                            (one model loaded at a time). While it can be parallelised for many images and sped up
+                            dramatically by leaving all models on the same GPU, this requires more computing resources.
                     </div>
                 </div>
             </div>
             <div class="row p-3 pb-1">
                 <h2 class="py-2">Conclusions</h2>
-                <p class="p-3">Modern image classifiers are extremely strong and robust. While this approach manages
-                    to create images that are classified incorrectly, this provides no advantage or malicious use as
-                    merely saving the image as a JPG or PNG corrects most of the damage.
-                <p class="p-3">Additionally, while there may be some benefits of using images augmented in this way
-                    during training, it would be very small and very costly, but some people do [citation].
-
+                <p class="p-3">Modern image classifiers are extremely accurate and robust. While the approach presented
+                    here manages to create images that are classified incorrectly, the effort and quality of results
+                    demonstrate the strength of these models rather than displaying a potential weakness. As a result,
+                    there is limited scope for how this could be used maliciously as routine transforms correct most of
+                    the damage.
             </div>
         </main>
     </div>
