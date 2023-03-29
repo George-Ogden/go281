@@ -1,5 +1,5 @@
+from pybtex.textutils import abbreviate
 from pybtex.database import parse_file
-from pybtex import make_bibliography
 from glob import glob
 
 import argparse
@@ -16,23 +16,84 @@ def parse_args():
 
 
 def complete_citations(template, directory) -> str:
+    # check if citations.bib exists
     bibtex_file = os.path.join(directory, "citations.bib")
     if not os.path.exists(bibtex_file):
         return template
+
+    # parse bibtex file
     references = parse_file(bibtex_file)
+
+    # convert all placeholders in the document to citations
+    citations = []
     for match in re.finditer(r"\[\[(.*?)\]\]", template):
-        if match.group(1) == "bibliography":
+        citation = match.group(1)
+        # ignore bibliography placeholder
+        if citation == "bibliography":
             continue
-        reference = references.entries[match.group(1)]
+
+        # only fill in each citation once
+        if not citation in citations:
+            reference = references.entries[citation]
+            # convert authors to readable format
+            authors = reference.persons["author"]
+            author = " ".join(
+                name.render_as("html") for name in authors[0].rich_last_names
+            )
+            if len(authors) > 1:
+                author += " et al."
+
+            year = reference.fields["year"]
+            # add citation to main text
+            template = template.replace(
+                match.group(0),
+                f' (<a href="#bibliography" class="text-decoration-none">{author}, {year}</a>)',
+            )
+
+            citations.append(citation)
+
+    # generate bibliography
+    bibliography = ""
+    for citation in citations + sorted(
+        list(set(references.entries.keys()).difference(citations))
+    ):
+        # fill out fields
+        reference = references.entries[citation]
         authors = reference.persons["author"]
-        author = authors[0].last_names[0]
-        if len(authors) > 1:
-            author += " et al."
-        year = reference.fields["YEAR"]
-        template = template.replace(
-            match.group(0), f" (<a href=\"#bibliography\" class=\"text-decoration-none\">{author} ({year})</a>)"
+        # convert authors to readable format
+        author = ", ".join(
+            [
+                abbreviate(
+                    " ".join(name.render_as("html") for name in author.rich_first_names)
+                )
+                + " ".join(name.render_as("html") for name in author.rich_last_names)
+                for author in authors
+            ][:10]
         )
+        if len(authors) > 10:
+            author += " et al."
+        year = reference.fields["year"]
+        title = reference.fields["title"]
+        if (
+            "eprinttype" in reference.fields
+            and reference.fields["eprinttype"] == "arXiv"
+        ):
+            # add link to arXiv
+            journal = "arXiv preprint arXiv:{eprint}".format(**reference.fields)
+        elif "journal" in reference.fields:
+            journal = reference.fields["journal"]
+        elif "booktitle" in reference.fields:
+            journal = reference.fields["booktitle"]
+        # add line to bibliography
+        bibliography += f"<p>{author}. {title}. <i>{journal}</i>, {year}."
+
+    # add bibliography to template
+    template = template.replace("[[bibliography]]", bibliography)
+
+    # delete references
+    del references
     return template
+
 
 def get_template(directory, file=None) -> str:
     if file is None:
@@ -44,6 +105,7 @@ def get_template(directory, file=None) -> str:
             template = f.read()
     except FileNotFoundError:
         return get_template(os.path.split(directory)[0], file)
+    template = complete_citations(template, directory)
     return template
 
 
@@ -54,7 +116,6 @@ def build_template(directory, file=None) -> str:
         template = template.replace(
             match.group(0), build_template(directory, match.group(1) + ".html")
         )
-    template = complete_citations(template, directory)
     return template
 
 
