@@ -27,5 +27,6 @@ jobs:
     - name: Build website
       run: make
     - name: Deploy to hosting
-      run: ssh-keyscan -H shell.srcf.net >> ~/.ssh/known_hosts 
-      run: scp -ri private.key build/* go281@shell.srcf.net:~/public_html/
+      run: |
+        ssh-keyscan -H shell.srcf.net >> ~/.ssh/known_hosts 
+        scp -ri private.key build/* go281@shell.srcf.net:~/public_html/
