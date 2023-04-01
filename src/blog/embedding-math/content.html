@@ -1,2 +1,52 @@
-<h1 class="py-5 px-3 text-center">Embedding Math</h1>
-<h2>Coming Soon!</h2>
+<h1 class="py-5 px-3 text-center">BERT Embedding Math</h1>
+<div class="row p-3 pb-1" id="introduction">
+    <h1 class="py-2">Introduction</h1>
+    <p class="py-3">The embeddings of the Bidirectional Encoder Representations from Transformers (BERT) model[[bert]] are not fully understood. These embeddings capture the semantic properties of words, which are a fundamental part of natural language processing (NLP). By converting a discrete set of tokens into a continuous space, information about the words is condensed and the huge vocabulary is represented by a smaller dimension space. These make up the first layer of the model, which we investigate here.
+</div>
+<div class="row p-3 pb-1" id="background">
+    <h2 class="py-2">Background</h2>
+    <p class="py-3">BERT has been a key turning point in the field of NLP. Even though it was released in 2018, the model and its main architectural component, the transformer[[transformer]], are still not fully understood. The embedding layer of BERT converts discrete tokens into a continuous vector space that is much smaller than the vocabulary, which we find contains semantic information about words, but not in the linear way that we would expect.
+    <p class="py-3">The additive property of embeddings has been known for a long time, even before the advent of transformer-based models, with unsupervised embeddings[[glove]]. Words, particularly nouns, can be thought of as a set of semantic properties, so modifying these embeddings should modify the way the word is interpreted by the model.
+</div>
+<div class="row p-3 pb-1" id="experiments">
+    <h2 class="py-2">Experiments</h2>
+    <div class="d-flex-col justify-content-start">
+        <div class="py-2">
+            <h3>Countries and Cities</h3>
+            <p class="py-3">Countries and cities have unambiguous semantics representing location, which makes them an ideal starting point. Looking at the clustering of the cities [[fig 1.]] within countries, we can see that cities from the same countries cluster together, which we expect is due to a common set of semantics along a few dimensions that represent the country.
+            <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome Paper[[rome]], which aims to modify factual embeddings in GPT. We modify the embedding of Rome to become Rome - Italy + France. Unsurprisingly, the predicted token for "Rome is the capital of [MASK]." changes from France to Italy. This also works on a country-continent scale.
+        </div>
+        <div class="py-2">
+            <h3>Colour</h3>
+            <p class="py-3">BERT[[bert]] was pretrained only on text, so does not have any visual cues about words. As a result, we see a phenomenon similar to The Black Sheep Problem[[https://jonisalminen.com/the-black-sheep-problem-in-machine-learning/]] where language models assign a disproportionality high probability to a sheep being black. This is because sheep are generally white and this assumption leads to a much higher frequency of the phrase "black sheep" than "white sheep" in the training corpus.
+            <p class="py-3">The embeddings for colours display that the similarity (cosine similarity) of colours has very little to do with their visual similarity and a lot more to do with the way they are used in sentences. Clear examples of this are the white-black pairing and silver-gold pairing. Visually, silver is more like grey and gold like yellow than they are to each other but BERT shows no concept of this in its embeddings.
+        </div>
+        <div class="py-2">
+            <h3>Addition</h3>
+            <p class="py-3">We attempt to see if the "word offset technique", the idea that performing simple algebraic operations on word vectors is valid linguistically, conjectured in[[Miolov]] holds. As a result, we would expect that "King" - "Man" + "Woman" results in a vector representation is closest to the vector representation of the word "Queen". While we have seen there is strong semantic information in the embeddings, it is not strong enough for us to achieve:
+            <p class="py-3">The embeddings for colours display that the similarity (cosine similarity) of colours has very little to do with their visual similarity and a lot more to do with the way they are used in sentences. Clear examples of this are the white-black pairing and silver-gold pairing. Visually, silver is more like grey and gold like yellow than they are to each other but BERT shows no concept of this in its embeddings.
+        </div>
+        <div class="py-2">
+            <h3>Gender</h3>
+            <p class="py-3">BERT suffers from biases, such as gender[[bert]].
+            <p class="py-3">This works very well and could possibly be used to reduce biases by adding constraints on how far apart these and similar embeddings are allowed to be, but this is not a perfect solution to the problem.
+        </div>
+    </div>
+</div>
+<div class="row p-3 pb-1" id="limitations">
+    <h2 class="py-2">Limitations</h2>
+    <p class="py-3">BERT marked a fundamental change in the field of NLP, however, it has now been superseded by many other language models and is no longer the state of the art. However, reviewing other language models with these techniques is impossible when other language models are not opened source[[gpt-4]]; do not perform masked language modelling[[t5]], which we use in this evaluation; or have tokens that represent very few characters[[roberta]].
+    <p class="py-3">Additionally, RoBERTa discovers that while BERT introduced the idea of pretraining, it was significantly undertrained and BERT's pretraining contained a next-sentence prediction task, which hurt performance. As a result, the embedding matrix is not as well-formed as it could be and there are many biases present in BERT[[roberta]].
+</div>
+<div class="row p-3 pb-1" id="conclusions">
+    <h2 class="py-2">Conclusions</h2>
+    <p class="py-3">Embeddings in BERT contain lots of structure and semantic information, which we can exploit by performing embedding arithmetic. However, this structure has a loose additive property that we cannot use for search but can use for modifying embeddings and the model will process these in a consistent way. We also observe a lack of real-world information contained in the model, however, newer multimodal approaches are addressing this issue.
+</div>
+<div class="row p-3 pb-1" id="bibliography">
+    <h2 class="py-2 pb-4">Bibliography</h2>
+    [[bibliography]]
+</div>
+<div class="row p-3 pb-1" id="conclusions">
+    <h2 class="py-2">Code</h2>
+    <p class="py-3">The code is available on GitHub: <a href="https://github.com/George-Ogden/embedding-math">https://github.com/George-Ogden/embedding-math</a>
+</div>
