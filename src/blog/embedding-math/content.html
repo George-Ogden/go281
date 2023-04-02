@@ -14,20 +14,20 @@
         <div class="py-2">
             <h3>Countries and Cities</h3>
             <p class="py-3">Countries and cities have unambiguous semantics representing location, which makes them an ideal starting point. Looking at the clustering of the cities [[fig 1.]] within countries, we can see that cities from the same countries cluster together, which we expect is due to a common set of semantics along a few dimensions that represent the country.
-            <figure class="figure">
-                <img src="/images/embedding-math/countries.png" alt="Scatter Plot of TSNE Embeddings" title="BERT Embedding Plot" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
-                <figcaption class="figure-caption text-center">[[fig 1.]]A plot of TSNE[[tsne]] reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for each country and they are colour-coded by country.</figcaption>
+            <figure class="figure" id="fig-cities">
+                <img src="/images/embedding-math/countries.png" alt="A plot of TSNE reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for each country and they are colour-coded by country." title="BERT embeddings of major European cities" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
+                <figcaption class="figure-caption text-center">A plot of TSNE[[tsne]] reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for each country and they are colour-coded by country.</figcaption>
             </figure>
             <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome Paper[[rome]], which aims to modify factual embeddings in GPT. We modify the embedding of Rome to become Rome - Italy + France. Unsurprisingly, the predicted token for "Rome is the capital of [MASK]." changes from France to Italy. This also works on a country-continent scale.
         </div>
         <div class="py-2">
             <h3>Colour</h3>
             <p class="py-3">BERT[[bert]] was pretrained only on text, so does not have any visual cues about words. As a result, we see a phenomenon similar to The Black Sheep Problem[[https://jonisalminen.com/the-black-sheep-problem-in-machine-learning/]] where language models assign a disproportionality high probability to a sheep being black. This is because sheep are generally white and this assumption leads to a much higher frequency of the phrase "black sheep" than "white sheep" in the training corpus.
-                <figure class="figure">
-                    <img src="/images/embedding-math/colours.png" alt="Similarity Matrix and Dendrogram of Colour Similarity" title="BERT Similarity Plot" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
-                    <figcaption class="figure-caption text-center">[[fig.3]]A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram with the clustering.</figcaption>
+                <figure class="figure" id="fig-colour">
+                    <img src="/images/embedding-math/colours.png" alt="A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram with the clustering." title="Similarity of BERT embeddings for colours" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
+                    <figcaption class="figure-caption text-center">A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram with the clustering.</figcaption>
                 </figure>
-            <p class="py-3">The embeddings for colours display that the similarity (cosine similarity) of colours has very little to do with their visual similarity and a lot more to do with the way they are used in sentences. Clear examples of this are the white-black pairing and silver-gold pairing. Visually, silver is more like grey and gold like yellow than they are to each other but BERT shows no concept of this in its embeddings.
+            <p class="py-3">The embeddings for colours [(colour)] display that the similarity (cosine similarity) of colours has very little to do with their visual similarity and a lot more to do with the way they are used in sentences. Clear examples of this are the white-black pairing and silver-gold pairing. Visually, silver is more like grey and gold like yellow than they are to each other but BERT shows no concept of this in its embeddings.
         </div>
         <div class="py-2">
             <h3>Addition</h3>
