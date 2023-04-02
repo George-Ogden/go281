@@ -19,6 +19,50 @@
                 <figcaption class="figure-caption text-center">A plot of TSNE[[tsne]] reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for each country and they are colour-coded by country.</figcaption>
             </figure>
             <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome Paper[[rome]], which aims to modify factual embeddings in GPT. We modify the embedding of Rome to become Rome - Italy + France. Unsurprisingly, the predicted token for "Rome is the capital of [MASK]." changes from France to Italy. This also works on a country-continent scale.
+            <figure class="figure" id="fig-paris">
+                <blockquote class="blockquote mx-auto" style="width:fit-content">
+                    Sentence: <b>Rome</b> is the capital of [MASK].<br>Modification: \(\mathbf{\text{Rome}} = \text{Rome} - \text{Italy} + \text{France}\)<br>Predicted label: France<br>Confidence: 92.9%
+                </blockquote>
+                <figcaption class="figure-caption text-center">Modifying the embedding of Rome so that it is in France.</figcaption>
+            </figure>
+            <hr>
+            <figure class="figure" id="fig-kuwait">
+                <blockquote class="blockquote mx-auto" style="width:fit-content">
+                    Sentence: <b>Kuwait</b> is the south of [MASK].<br>Modification: \(\mathbf{\text{Kuwait}} = \text{Kuwait} - \text{Asia} + \mathbf{\text{Continent}}\)
+                </blockquote>
+                <table class="table table-striped mx-auto" style="width:400px">
+                    <thead>
+                        <tr>
+                            <th scope="col">Continent</th>
+                            <th scope="col">Prediction</th>
+                            <th scope="col">Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td>Asia</td>
+                            <td>Iraq</td>
+                            <td>6.6%</td>
+                        </tr>
+                        <tr>
+                            <td>Africa</td>
+                            <td>Nigeria</td>
+                            <td>3.6%</td>
+                        </tr>
+                        <tr>
+                            <td>Europe</td>
+                            <td>Paris</td>
+                            <td>2.1%</td>
+                        </tr>
+                        <tr>
+                            <td>Oceania</td>
+                            <td>Tokyo</td>
+                            <td>1.2%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <figcaption class="figure-caption text-center">Modifying the embedding of Kuwait so that it is in different continents. Here, we include the most likely token predicted by the model that is not "Kuwait".</figcaption>
+            </figure>
         </div>
         <div class="py-2">
             <h3>Colour</h3>
@@ -31,8 +75,14 @@
         </div>
         <div class="py-2">
             <h3>Addition</h3>
-            <p class="py-3">We attempt to see if the "word offset technique", the idea that performing simple algebraic operations on word vectors is valid linguistically, conjectured in[[Miolov]] holds. As a result, we would expect that "King" - "Man" + "Woman" results in a vector representation is closest to the vector representation of the word "Queen". While we have seen there is strong semantic information in the embeddings, it is not strong enough for us to achieve:
-            <p class="py-3">The embeddings for colours display that the similarity (cosine similarity) of colours has very little to do with their visual similarity and a lot more to do with the way they are used in sentences. Clear examples of this are the white-black pairing and silver-gold pairing. Visually, silver is more like grey and gold like yellow than they are to each other but BERT shows no concept of this in its embeddings.
+            <p class="pt-1 my-2">We attempt to see if the "word offset technique", the idea that performing simple algebraic operations on word vectors is valid linguistically, conjectured in[[Miolov]] holds. As a result, we would expect that
+            <blockquote class="my-2 text-center">\(\text{queen} - \text{woman} + \text{man} \approx \text{king}\)</blockquote>
+            <p class="my-2">using the vector representations of the words. While we have seen there is strong semantic information in the embeddings, it is not strong enough for us to achieve
+            <blockquote class="my-2 text-center">\(\text{king} - \text{man} + \text{woman} \approx \text{queen}\)</blockquote>
+            <p class="my-2">The result here is an embedding that is still very close to king.
+            <blockquote class="my-2 text-center">\(\text{king} - \text{man} + \text{woman} \approx \text{king}\)</blockquote>
+            <p class="my-2">And likewise,
+            <blockquote class="my-2 text-center">\(\text{queen} - \text{woman} + \text{man} \approx \text{queen}\)</blockquote>
         </div>
         <div class="py-2">
             <h3>Gender</h3>
