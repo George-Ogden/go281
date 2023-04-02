@@ -26,9 +26,9 @@
                 <figcaption class="figure-caption text-center">Modifying the embedding of Rome so that it is in France.</figcaption>
             </figure>
             <hr>
-            <figure class="figure" id="fig-kuwait">
+            <figure class="figure" id="fig-pakistan">
                 <blockquote class="blockquote mx-auto" style="width:fit-content">
-                    Sentence: <b>Kuwait</b> is the south of [MASK].<br>Modification: \(\mathbf{\text{Kuwait}} = \text{Kuwait} - \text{Asia} + \mathbf{\text{Continent}}\)
+                    Sentence: <b>Pakistan</b> is the south of [MASK].<br>Modification: \(\mathbf{\text{Pakistan}} = \text{Pakistan} - \text{Asia} + \mathbf{\text{Continent}}\)
                 </blockquote>
                 <table class="table table-striped mx-auto text-center" style="width:400px">
                     <thead>
@@ -41,29 +41,29 @@
                     <tbody class="table-group-divider">
                         <tr>
                             <td>Asia</td>
-                            <td>Iraq</td>
-                            <td>6.6%</td>
+                            <td>Afghanistan</td>
+                            <td>37.8%</td>
                         </tr>
                         <tr>
                             <td>Africa</td>
-                            <td>Nigeria</td>
-                            <td>3.6%</td>
+                            <td>Angola</td>
+                            <td>4.8%</td>
                         </tr>
                         <tr>
                             <td>Europe</td>
-                            <td>Paris</td>
-                            <td>2.1%</td>
+                            <td>France</td>
+                            <td>4.0%</td>
                         </tr>
                         <tr>
                             <td>Oceania</td>
-                            <td>Tokyo</td>
+                            <td>Paris</td>
                             <td>1.2%</td>
                         </tr>
                     </tbody>
                 </table>
-                <figcaption class="figure-caption text-center">Modifying the embedding of Kuwait so that it is in different continents. Here, we include the most likely token predicted by the model that is not "Kuwait".</figcaption>
+                <figcaption class="figure-caption text-center">Modifying the embedding of Pakistan so that it is in different continents. The prediction is the most likely token predicted by the model that is not "Pakistan".</figcaption>
             </figure>
-            <p class="py-3">The embedding maths also works on a country-continent scale, however, the results are not as impressive [(kuwait)].
+            <p class="py-3">The embedding maths also works on a country-continent scale [(pakistan)]. The results are not as clear as when changing the location of cities, but Rome has a semantically stronger relation to Italy than Pakistan does to Asia.
         </div>
         <div class="py-2">
             <h3>Colour</h3>
