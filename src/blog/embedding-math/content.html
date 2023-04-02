@@ -67,7 +67,7 @@
         </div>
         <div class="py-2">
             <h3>Colour</h3>
-            <p class="py-3">BERT[[bert]] was pretrained only on text, so does not have any visual cues about words. As a result, we see a phenomenon similar to The Black Sheep Problem[[https://jonisalminen.com/the-black-sheep-problem-in-machine-learning/]] where language models assign a disproportionality high probability to a sheep being black. This is because sheep are generally white and this assumption leads to a much higher frequency of the phrase "black sheep" than "white sheep" in the training corpus.
+            <p class="py-3">BERT[[bert]] was pretrained only on text, so does not have any visual cues about words. As a result, we see a phenomenon similar to The Black Sheep Problem[[black-sheep]] where language models assign a disproportionality high probability to a sheep being black. This is because sheep are generally white and this assumption leads to a much higher frequency of the phrase "black sheep" than "white sheep" in the training corpus.
                 <figure class="figure" id="fig-colour">
                     <img src="/images/embedding-math/colours.png" alt="A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram with the clustering." title="Similarity of BERT embeddings for colours" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
                     <figcaption class="figure-caption text-center">A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram with the clustering.</figcaption>
@@ -76,7 +76,7 @@
         </div>
         <div class="py-2">
             <h3>Addition</h3>
-            <p class="pt-1 my-2">We attempt to see if the "word offset technique", the idea that performing simple algebraic operations on word vectors is valid linguistically, conjectured in[[Miolov]] holds. As a result, we would expect that
+            <p class="pt-1 my-2">We attempt to see if the "word offset technique", the idea that performing simple algebraic operations on word vectors is valid linguistically, conjectured in[[bengio]] holds. As a result, we would expect that
             <blockquote class="my-2 text-center">\(\text{queen} - \text{woman} + \text{man} \approx \text{king}\)</blockquote>
             <p class="my-2">using the vector representations of the words. While we have seen there is strong semantic information in the embeddings, it is not strong enough for us to achieve
             <blockquote class="my-2 text-center">\(\text{king} - \text{man} + \text{woman} \approx \text{queen}\)</blockquote>
@@ -136,7 +136,7 @@
 </div>
 <div class="row p-3 pb-1" id="limitations">
     <h2 class="py-2">Limitations</h2>
-    <p class="py-3">BERT marked a fundamental change in the field of NLP, however, it has now been superseded by many other language models and is no longer the state of the art. However, reviewing other language models with these techniques is impossible when other language models are not opened source[[gpt-4]]; do not perform masked language modelling[[t5]], which we use in this evaluation; or have tokens that represent very few characters[[roberta]].
+    <p class="py-3">BERT marked a fundamental change in the field of NLP, however, it has now been superseded by many other language models and is no longer the state of the art. However, reviewing other language models with these techniques is impossible when other language models are not opened source[[gpt4]]; do not perform masked language modelling[[t5]], which we use in this evaluation; or have tokens that represent very few characters[[roberta]].
     <p class="py-3">Additionally, RoBERTa discovers that while BERT introduced the idea of pretraining, it was significantly undertrained and BERT's pretraining contained a next-sentence prediction task, which hurt performance. As a result, the embedding matrix is not as well-formed as it could be and there are many biases present in BERT[[roberta]].
 </div>
 <div class="row p-3 pb-1" id="conclusions">

@@ -99,6 +99,8 @@ def complete_citations(template, directory) -> str:
 def complete_figures(template) -> str:
     soup = BeautifulSoup(template, "html.parser")
     figures = []
+    if not soup.find("figure"):
+        return template
     for figure in soup.find_all("figure"):
         id = figure["id"]
         figures.append(id)
@@ -126,8 +128,8 @@ def get_template(directory, file=None) -> str:
             template = f.read()
     except FileNotFoundError:
         return get_template(os.path.split(directory)[0], file)
-    template = complete_citations(template, directory)
     template = complete_figures(template)
+    template = complete_citations(template, directory)
     return template
 
 
