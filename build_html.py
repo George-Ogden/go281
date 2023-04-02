@@ -1,5 +1,6 @@
 from pybtex.textutils import abbreviate
 from pybtex.database import parse_file
+from bs4 import BeautifulSoup
 from glob import glob
 
 import argparse
@@ -95,6 +96,26 @@ def complete_citations(template, directory) -> str:
     return template
 
 
+def complete_figures(template) -> str:
+    soup = BeautifulSoup(template, "html.parser")
+    figures = []
+    for figure in soup.find_all("figure"):
+        id = figure["id"]
+        figures.append(id)
+        # add figure to caption
+        caption = figure.find("figcaption")
+        caption.string = f"Figure {len(figures)} | " + caption.get_text()
+    html = str(soup)
+    for i, figure in enumerate(figures):
+        prefix, figure = figure.split("-", 1)
+        # add figure to main text
+        html = html.replace(
+            f"[({figure})]",
+            f'(<a href="#{prefix}-{figure}" class="text-decoration-none">Figure {i+1}</a>)',
+        )
+    return html
+
+
 def get_template(directory, file=None) -> str:
     if file is None:
         file = "template.html"
@@ -106,6 +127,7 @@ def get_template(directory, file=None) -> str:
     except FileNotFoundError:
         return get_template(os.path.split(directory)[0], file)
     template = complete_citations(template, directory)
+    template = complete_figures(template)
     return template
 
 
