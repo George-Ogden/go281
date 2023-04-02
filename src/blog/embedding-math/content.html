@@ -13,12 +13,12 @@
     <div class="d-flex-col justify-content-start">
         <div class="py-2">
             <h3>Countries and Cities</h3>
-            <p class="py-3">Countries and cities have unambiguous semantics representing location, which makes them an ideal starting point. Looking at the clustering of the cities [[fig 1.]] within countries, we can see that cities from the same countries cluster together, which we expect is due to a common set of semantics along a few dimensions that represent the country.
+            <p class="py-3">Countries and cities have unambiguous semantics representing location, which makes them an ideal starting point. Looking at the clustering of the cities [(cities)] within countries, we can see that cities from the same countries cluster together, which we expect is due to a common set of semantics along a few dimensions that represent the country.
             <figure class="figure" id="fig-cities">
                 <img src="/images/embedding-math/countries.png" alt="A plot of TSNE reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for each country and they are colour-coded by country." title="BERT embeddings of major European cities" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
                 <figcaption class="figure-caption text-center">A plot of TSNE[[tsne]] reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for each country and they are colour-coded by country.</figcaption>
             </figure>
-            <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome Paper[[rome]], which aims to modify factual embeddings in GPT. We modify the embedding of Rome to become Rome - Italy + France. Unsurprisingly, the predicted token for "Rome is the capital of [MASK]." changes from France to Italy. This also works on a country-continent scale.
+            <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome Paper[[rome]], which aims to modify factual embeddings in GPT. We modify the embedding of Rome to become Rome - Italy + France [(paris)]. Unsurprisingly, the predicted token for "Rome is the capital of [MASK]." changes from France to Italy.
             <figure class="figure" id="fig-paris">
                 <blockquote class="blockquote mx-auto" style="width:fit-content">
                     Sentence: <b>Rome</b> is the capital of [MASK].<br>Modification: \(\mathbf{\text{Rome}} = \text{Rome} - \text{Italy} + \text{France}\)<br>Predicted label: France<br>Confidence: 92.9%
@@ -30,7 +30,7 @@
                 <blockquote class="blockquote mx-auto" style="width:fit-content">
                     Sentence: <b>Kuwait</b> is the south of [MASK].<br>Modification: \(\mathbf{\text{Kuwait}} = \text{Kuwait} - \text{Asia} + \mathbf{\text{Continent}}\)
                 </blockquote>
-                <table class="table table-striped mx-auto" style="width:400px">
+                <table class="table table-striped mx-auto text-center" style="width:400px">
                     <thead>
                         <tr>
                             <th scope="col">Continent</th>
@@ -63,6 +63,7 @@
                 </table>
                 <figcaption class="figure-caption text-center">Modifying the embedding of Kuwait so that it is in different continents. Here, we include the most likely token predicted by the model that is not "Kuwait".</figcaption>
             </figure>
+            <p class="py-3">The embedding maths also works on a country-continent scale, however, the results are not as impressive [(kuwait)].
         </div>
         <div class="py-2">
             <h3>Colour</h3>
@@ -86,8 +87,50 @@
         </div>
         <div class="py-2">
             <h3>Gender</h3>
-            <p class="py-3">BERT suffers from biases, such as gender[[bert]].
-            <p class="py-3">This works very well and could possibly be used to reduce biases by adding constraints on how far apart these and similar embeddings are allowed to be, but this is not a perfect solution to the problem.
+            <p class="py-3">The training data from BERT was BookCorpus[[bookcorpus]] and English Wikipedia, which could be considered fairly neutral sources of information, however, there are clear biases in BERT, including gender.
+            <figure class="figure" id="fig-gender">
+                <blockquote class="blockquote mx-auto" style="width:fit-content">
+                    Sentence: <b>Pronoun</b> works as a [MASK].
+                </blockquote>
+                <table class="table table-striped mx-auto text-center" style="max-width:500px">
+                    <thead>
+                        <tr>
+                            <th scope="col">\(\text{He}\)</th>
+                            <th scope="col">\(\text{She}\)</th>
+                            <th scope="col">\(\frac{\text{He} + \text{She}}{2}\)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <td>Lawyer<span class="small d-block text-muted">17.5%</span></td>
+                            <td>Teacher<span class="small d-block text-muted">16.2%</span></td>
+                            <td>Lawyer<span class="small d-block text-muted">18.7%</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>Farmer</b><span class="small d-block text-muted">9.3%</span></td>
+                            <td><b>Model</b><span class="small d-block text-muted">13.5%</span></td>
+                            <td>Teacher<span class="small d-block text-muted">10.9%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Teacher<span class="small d-block text-muted">9.1%</span></td>
+                            <td>Journalist<span class="small d-block text-muted">9.1%</span></td>
+                            <td>Journalist<span class="small d-block text-muted">8.7%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Jurnalist<span class="small d-block text-muted">7.9%</span></td>
+                            <td>Lawyer<span class="small d-block text-muted">8.4%</span></td>
+                            <td><b>Farmer</b><span class="small d-block text-muted">5.7%</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>Businessman</b><span class="small d-block text-muted">5.4%</span></td>
+                            <td><b>Nurse</b><span class="small d-block text-muted">7.2%</span></td>
+                            <td><b>Businessman</b><span class="small d-block text-muted">3.9%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <figcaption class="figure-caption text-center">Averaging pronouns to create a more gender-neutral pronoun and reduce biases in BERT's predictions.</figcaption>
+            </figure>    
+            <p class="py-3">The approach of averaging the embeddings [(gender)] reduces biases in this example and functions as a more gender-neutral pronoun. It also illustrates that the embedding layer has an important role to play in the presence of biases in language models, due to incorrect semantic properties that have been added to each pronoun during training.
         </div>
     </div>
 </div>
