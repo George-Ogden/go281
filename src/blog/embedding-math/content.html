@@ -5,8 +5,8 @@
 </div>
 <div class="row p-3 pb-1" id="background">
     <h2 class="py-2">Background</h2>
-    <p class="py-3">BERT has been a key turning point in the field of NLP. Even though it was released in 2018, the model and its main architectural component, the transformer[[transformer]], are still not fully understood. The embedding layer of BERT converts discrete tokens into a continuous vector space that is much smaller than the vocabulary, which we find contains semantic information about words, but not in the linear way that we would expect.
-    <p class="py-3">The additive property of embeddings has been known for a long time, even before the advent of transformer-based models, with unsupervised embeddings[[glove]]. Words, particularly nouns, can be thought of as a set of semantic properties, so modifying these embeddings should modify the way the word is interpreted by the model.
+    <p class="py-3">BERT has been a key turning point in the field of natural language processing (NLP), yet despite its release in 2018, there is still much to be learned about the model and its key architectural component, the transformer[[transformer]]. BERT's embedding layer is responsible for converting discrete tokens into a continuous vector space that is significantly smaller than the vocabulary. This vector space is found to contain semantic information about words, but not in the linear way that we would expect.
+    <p class="py-3">The additive property of embeddings has been observed in unsupervised embeddings[[glove]] even before the advent of transformer-based models like BERT. As words, especially nouns, can be viewed as a set of semantic properties, modifying these embeddings can alter the way in which the word is interpreted by the model.
 </div>
 <div class="row p-3 pb-1" id="experiments">
     <h2 class="py-2">Experiments</h2>
@@ -14,19 +14,19 @@
         <div class="py-2">
             <h3>Countries and Cities</h3>
             <p class="py-3">Countries and cities have unambiguous semantics representing location, which makes them an ideal starting point. Looking at the clustering of the cities [(cities)] within countries, we can see that cities from the same countries cluster together, which we expect is due to a common set of semantics along a few dimensions that represent the country.
-            <figure class="figure" id="fig-cities">
-                <img src="/images/embedding-math/countries.png" alt="A plot of TSNE reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for each country and they are colour-coded by country." title="BERT embeddings of major European cities" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
-                <figcaption class="figure-caption text-center">A plot of TSNE[[tsne]] reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for each country and they are colour-coded by country.</figcaption>
+            <figure class="figure d-block mx-auto" id="fig-cities">
+                <img src="/images/embedding-math/countries.png" alt="A plot of TSNE reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for a unqiue major city and they are colour-coded by country." title="BERT embeddings of major European cities" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
+                <figcaption class="figure-caption text-center">A plot of TSNE[[tsne]] reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for a unqiue major city and they are colour-coded by country.</figcaption>
             </figure>
-            <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome Paper[[rome]], which aims to modify factual embeddings in GPT. We modify the embedding of Rome to become Rome - Italy + France [(paris)]. Unsurprisingly, the predicted token for "Rome is the capital of [MASK]." changes from France to Italy.
-            <figure class="figure" id="fig-paris">
+            <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome Paper[[rome]], which aims to modify factual embeddings in GPT. We modify the embedding of Rome to become $$\text{Rome} - \text{Italy} + \text{France}$$ As a result, the predicted token for "Rome is the capital of [MASK]." changes from France to Italy [(paris)].
+            <figure class="figure d-block mx-auto" id="fig-paris">
                 <blockquote class="blockquote mx-auto" style="width:fit-content">
                     Sentence: <b>Rome</b> is the capital of [MASK].<br>Modification: \(\mathbf{\text{Rome}} = \text{Rome} - \text{Italy} + \text{France}\)<br>Predicted label: France<br>Confidence: 92.9%
                 </blockquote>
                 <figcaption class="figure-caption text-center">Modifying the embedding of Rome so that it is in France.</figcaption>
             </figure>
             <hr>
-            <figure class="figure" id="fig-pakistan">
+            <figure class="figure d-block mx-auto" id="fig-pakistan">
                 <blockquote class="blockquote mx-auto" style="width:fit-content">
                     Sentence: <b>Pakistan</b> is the south of [MASK].<br>Modification: \(\mathbf{\text{Pakistan}} = \text{Pakistan} - \text{Asia} + \mathbf{\text{Continent}}\)
                 </blockquote>
@@ -68,11 +68,11 @@
         <div class="py-2">
             <h3>Colour</h3>
             <p class="py-3">BERT[[bert]] was pretrained only on text, so does not have any visual cues about words. As a result, we see a phenomenon similar to The Black Sheep Problem[[black-sheep]] where language models assign a disproportionality high probability to a sheep being black. This is because sheep are generally white and this assumption leads to a much higher frequency of the phrase "black sheep" than "white sheep" in the training corpus.
-                <figure class="figure" id="fig-colour">
+                <figure class="figure d-block mx-auto" id="fig-colour">
                     <img src="/images/embedding-math/colours.png" alt="A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram with the clustering." title="Similarity of BERT embeddings for colours" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
                     <figcaption class="figure-caption text-center">A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram with the clustering.</figcaption>
                 </figure>
-            <p class="py-3">The embeddings for colours [(colour)] display that the similarity (cosine similarity) of colours has very little to do with their visual similarity and a lot more to do with the way they are used in sentences. Clear examples of this are the white-black pairing and silver-gold pairing. Visually, silver is more like grey and gold like yellow than they are to each other but BERT shows no concept of this in its embeddings.
+            <p class="py-3">The embeddings for colours [(colour)] display that the similarity (cosine similarity) of colours has very little to do with their visual similarity and a lot more to do with the way they are used in sentences. Clear examples of this are the white-black pairing and silver-gold cluster. Visually, silver is more like grey and gold like yellow than they are to each other but BERT shows no concept of this in its embeddings.
         </div>
         <div class="py-2">
             <h3>Addition</h3>
@@ -88,7 +88,7 @@
         <div class="py-2">
             <h3>Gender</h3>
             <p class="py-3">The training data from BERT was BookCorpus[[bookcorpus]] and English Wikipedia, which could be considered fairly neutral sources of information, however, there are clear biases in BERT, including gender.
-            <figure class="figure" id="fig-gender">
+            <figure class="figure d-block mx-auto" id="fig-gender">
                 <blockquote class="blockquote mx-auto" style="width:fit-content">
                     Sentence: <b>Pronoun</b> works as a [MASK].
                 </blockquote>
@@ -136,8 +136,8 @@
 </div>
 <div class="row p-3 pb-1" id="limitations">
     <h2 class="py-2">Limitations</h2>
-    <p class="py-3">BERT marked a fundamental change in the field of NLP, however, it has now been superseded by many other language models and is no longer the state of the art. However, reviewing other language models with these techniques is impossible when other language models are not opened source[[gpt4]]; do not perform masked language modelling[[t5]], which we use in this evaluation; or have tokens that represent very few characters[[roberta]].
-    <p class="py-3">Additionally, RoBERTa discovers that while BERT introduced the idea of pretraining, it was significantly undertrained and BERT's pretraining contained a next-sentence prediction task, which hurt performance. As a result, the embedding matrix is not as well-formed as it could be and there are many biases present in BERT[[roberta]].
+    <p class="py-3">BERT marked a fundamental change in the field of NLP, however, it has now been superseded by many other language models and is no longer the state of the art. Unfortunately, reviewing other language models with these techniques is impossible when other language models are not open source[[gpt4]]; do not perform masked language modelling[[t5]], which we use in this evaluation; or have tokens that represent very few characters[[roberta]].
+    <p class="py-3">Additionally, RoBERTa discovers that while BERT introduced the idea of pretraining, it was significantly undertrained and BERT's pretraining contained a next-sentence prediction task, which hurt performance. As a result, the embedding matrix is not as well-formed as it could be and there are many biases present in BERT as these help it take shortcuts during prediction[[roberta]].
 </div>
 <div class="row p-3 pb-1" id="conclusions">
     <h2 class="py-2">Conclusions</h2>
