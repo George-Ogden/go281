@@ -14,7 +14,13 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
-
+<style>
+    @media (max-width: 576px) {
+        main div, main .blockquote {
+            font-size: 1rem!important;
+        }
+    }
+</style>
 <div class="container-fluid h-100">
     <div class="row h-100">
         <aside class="col-12 col-md-4 col-xl-3 p-0 bg-dark-subtle">
@@ -54,7 +60,7 @@
                 </div>
             </nav>
         </aside>
-        <main class="my-4 col-md-8 col-xl-9 col-12 text-break px-5" style="font-size: 1.2em">
+        <main class="my-4 col-md-8 col-xl-9 col-12 text-break px-3 fs-5">
             <div class="mx-auto" style="max-width:700px">
                 {{content}}
             </div>
