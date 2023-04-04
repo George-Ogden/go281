@@ -51,7 +51,7 @@ def complete_citations(template: str, directory: str) -> str:
             # add citation to main text
             template = template.replace(
                 match.group(0),
-                f' (<a href="#bibliography" class="text-decoration-none">{author}, {year}</a>)',
+                f" (<a onclick=\"document.getElementById('bib-{citation}').scrollIntoView()\" class=\"text-decoration-none\">{author}, {year}</a>)",
             )
 
             citations.append(citation)
@@ -91,7 +91,7 @@ def complete_citations(template: str, directory: str) -> str:
         else:
             raise ValueError(f"Unknown journal type for {citation}")
         # add line to bibliography
-        bibliography += f"<p>{author}. {title}. <i>{journal}</i>, {year}."
+        bibliography += f"<p id =\"bib-{citation}\">{author}. {title}. <i>{journal}</i>, {year}."
 
     # add bibliography to template
     template = template.replace("[[bibliography]]", bibliography)
@@ -118,7 +118,7 @@ def complete_figures(template: str) -> str:
         # add figure to main text
         html = html.replace(
             f"[({figure})]",
-            f'(<a href="#{prefix}-{figure}" class="text-decoration-none">Figure {i+1}</a>)',
+            f"(<a onclick=\"document.getElementById('{prefix}-{figure}').scrollIntoView()\" class=\"text-decoration-none\">Figure {i+1}</a>)"
         )
     return html
 
