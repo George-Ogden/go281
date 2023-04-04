@@ -1,0 +1,39 @@
+Options +FollowSymLinks
+RewriteEngine on
+RewriteOptions inherit
+RewriteBase /
+RewriteRule [A-Z] - [E=HASCAPS:TRUE,S=1]
+RewriteRule ![A-Z] - [S=28]
+RewriteRule ^(.*?)A(.*)$ $1a$2
+RewriteRule ^(.*?)B(.*)$ $1b$2
+RewriteRule ^(.*?)C(.*)$ $1c$2
+RewriteRule ^(.*?)D(.*)$ $1d$2
+RewriteRule ^(.*?)E(.*)$ $1e$2
+RewriteRule ^(.*?)F(.*)$ $1f$2
+RewriteRule ^(.*?)G(.*)$ $1g$2
+RewriteRule ^(.*?)H(.*)$ $1h$2
+RewriteRule ^(.*?)I(.*)$ $1i$2
+RewriteRule ^(.*?)J(.*)$ $1j$2
+RewriteRule ^(.*?)K(.*)$ $1k$2
+RewriteRule ^(.*?)L(.*)$ $1l$2
+RewriteRule ^(.*?)M(.*)$ $1m$2
+RewriteRule ^(.*?)N(.*)$ $1n$2
+RewriteRule ^(.*?)O(.*)$ $1o$2
+RewriteRule ^(.*?)P(.*)$ $1p$2
+RewriteRule ^(.*?)Q(.*)$ $1q$2
+RewriteRule ^(.*?)R(.*)$ $1r$2
+RewriteRule ^(.*?)S(.*)$ $1s$2
+RewriteRule ^(.*?)T(.*)$ $1t$2
+RewriteRule ^(.*?)U(.*)$ $1u$2
+RewriteRule ^(.*?)V(.*)$ $1v$2
+RewriteRule ^(.*?)W(.*)$ $1w$2
+RewriteRule ^(.*?)X(.*)$ $1x$2
+RewriteRule ^(.*?)Y(.*)$ $1y$2
+RewriteRule ^(.*?)Z(.*)$ $1z$2
+
+RewriteCond %{THE_REQUEST} /([^.]+)\.((php)|(htm)|(html)) [NC]
+RewriteRule ^ /%1 [NC,L,R]
+RewriteCond %{THE_REQUEST} ^GET.*index [NC]
+RewriteRule ^(.*?\/?)index/? $1 [R=301,NE,L]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^ %{REQUEST_URI}.html [NC,L]
