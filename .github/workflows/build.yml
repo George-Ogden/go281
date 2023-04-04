@@ -30,4 +30,4 @@ jobs:
     - name: Deploy to hosting
       run: |
         ssh-keyscan -H shell.srcf.net >> ~/.ssh/known_hosts 
-        scp -ri ~/.ssh/private.key build/* go281@shell.srcf.net:~/public_html/
+        scp -ri ~/.ssh/private.key build/* build/.htaccess go281@shell.srcf.net:~/public_html/
