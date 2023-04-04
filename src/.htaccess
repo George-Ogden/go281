@@ -37,3 +37,7 @@ RewriteCond %{THE_REQUEST} ^GET.*index [NC]
 RewriteRule ^(.*?\/?)index/? $1 [R=301,NE,L]
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^ %{REQUEST_URI}.html [NC,L]
+
+RewriteEngine On
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
