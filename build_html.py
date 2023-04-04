@@ -3,6 +3,8 @@ from pybtex.database import parse_file
 from bs4 import BeautifulSoup
 from glob import glob
 
+from typing import List, Optional
+
 import argparse
 import os
 import re
@@ -13,10 +15,11 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--input-dir", required=True)
     parser.add_argument("-o", "--output-dir", required=True)
+    parser.add_argument("-u", "--url", default="https://go281.user.srcf.net")
     return parser.parse_args()
 
 
-def complete_citations(template, directory) -> str:
+def complete_citations(template: str, directory: str) -> str:
     # check if citations.bib exists
     bibtex_file = os.path.join(directory, "citations.bib")
     if not os.path.exists(bibtex_file):
@@ -98,7 +101,7 @@ def complete_citations(template, directory) -> str:
     return template
 
 
-def complete_figures(template) -> str:
+def complete_figures(template: str) -> str:
     soup = BeautifulSoup(template, "html.parser")
     figures = []
     if not soup.find("figure"):
@@ -120,7 +123,7 @@ def complete_figures(template) -> str:
     return html
 
 
-def get_template(directory, file=None) -> str:
+def get_template(directory: str, file=None) -> str:
     if file is None:
         file = "template.html"
     os.path.relpath(directory, start=INPUT_DIR)
@@ -135,7 +138,7 @@ def get_template(directory, file=None) -> str:
     return template
 
 
-def build_template(directory, file=None) -> str:
+def build_template(directory: str, file: Optional[str] = None) -> str:
     template = get_template(directory, file)
     for match in re.finditer(r"{{(.*?)}}", template):
         # recursively build template
@@ -145,27 +148,34 @@ def build_template(directory, file=None) -> str:
     return template
 
 
-def generate_directory(directory):
+def generate_directory(directory: str) -> List[str]:
+    pages = []
     # recursively generate files in directory
     for root, dirs, files in os.walk(directory):
         if not glob(os.path.join(root, "*.html")):
             continue
-        target_dir = os.path.join(OUTPUT_DIR, os.path.relpath(root, start=INPUT_DIR))
+        relative_path = os.path.relpath(root, start=INPUT_DIR)
+        target_dir = os.path.join(OUTPUT_DIR, relative_path)
         os.makedirs(target_dir, exist_ok=True)
         file = build_template(root)
         with open(
-            os.path.join(
-                OUTPUT_DIR, os.path.relpath(root, start=INPUT_DIR), "index.html"
-            ),
+            os.path.join(target_dir, "index.html"),
             "w",
         ) as f:
             f.write(file)
+        pages.append(relative_path)
         for dir in dirs:
-            generate_directory(dir)
+            pages.extend(generate_directory(dir))
+    return pages
 
 
-def main(args):
-    generate_directory(args.input_dir)
+def main(args: argparse.Namespace):
+    pages = generate_directory(args.input_dir)
+    with open(os.path.join(OUTPUT_DIR, "sitemap.txt"), "w") as f:
+        # first page is the root (".")
+        f.write(f"{args.url}\n")
+        for page in pages[1:]:
+            f.write(f"{args.url}/{page}/\n")
 
 
 if __name__ == "__main__":
