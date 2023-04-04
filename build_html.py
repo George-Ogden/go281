@@ -118,7 +118,7 @@ def complete_figures(template: str) -> str:
         # add figure to main text
         html = html.replace(
             f"[({figure})]",
-            f'(<a href="#{prefix}-{figure}" class="text-decoration-none">Figure {i+1}</a>)',
+            f"(<a onclick=\"document.getElementById('{prefix}-{figure}').scrollIntoView()\" class=\"text-decoration-none\">Figure {i+1}</a>)"
         )
     return html
 
