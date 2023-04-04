@@ -24,16 +24,16 @@
         <div class="py-2">
             <h3>Countries and Cities</h3>
             <p class="py-3">Countries and cities have unambiguous semantics representing location, which makes them an
-                ideal starting point. Looking at the clustering of the cities [(cities)] within countries, we can see
-                that cities from the same countries cluster together, which we expect is due to a common set of
+                ideal starting point. Looking at the clustering of the cities [(cities)], we can see
+                that cities from the same country cluster together, which we expect is due to a common set of
                 semantics along a few dimensions that represent the country.
             <figure class="figure d-block mx-auto" id="fig-cities">
                 <img src="/images/embedding-math/countries.png"
-                    alt="A plot of TSNE reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for a unqiue major city and they are colour-coded by country."
+                    alt="A plot of TSNE reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for a unique major city and they are colour-coded by country."
                     title="BERT embeddings of major European cities" class="img-fluid figure-img rounded"
                     class="img-fluid mb-3 m-auto p-3">
                 <figcaption class="figure-caption text-center">A plot of TSNE[[tsne]] reduced-dimension embeddings of
-                    cities from a range of European countries. Each coloured dot represents the embeddings for a unqiue
+                    cities from a range of European countries. Each coloured dot represents the embeddings for a unique
                     major city and they are colour-coded by country.</figcaption>
             </figure>
             <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome
@@ -95,7 +95,7 @@
         </div>
         <div class="py-2">
             <h3>Colour</h3>
-            <p class="py-3">BERT[[bert]] was pretrained only on text, so does not have any visual cues about words. As a
+            <p class="py-3">BERT[[bert]] was pretrained only on text, so does not have any visual information about the world. As a
                 result, we see a phenomenon similar to The Black Sheep Problem[[black-sheep]] where language models
                 assign a disproportionality high probability to a sheep being black. This is because sheep are generally
                 white and this assumption leads to a much higher frequency of the phrase "black sheep" than "white
@@ -125,7 +125,7 @@
                 information in the embeddings, it is not strong enough for us to achieve
             <blockquote class="my-2 text-center">\(\text{king} - \text{man} + \text{woman} \approx \text{queen}\)
             </blockquote>
-            <p class="my-2">The result here is an embedding that is still very close to king.
+            <p class="my-2">The result here is an embedding that is still very close to "king".
             <blockquote class="my-2 text-center">\(\text{king} - \text{man} + \text{woman} \approx \text{king}\)
             </blockquote>
             <p class="my-2">And likewise,
@@ -191,7 +191,7 @@
     <h2 class="py-2">Limitations</h2>
     <p class="py-3">BERT marked a fundamental change in the field of NLP, however, it has now been superseded by many
         other language models and is no longer the state of the art. Unfortunately, reviewing other language models with
-        these techniques is impossible when other language models are not open source[[gpt4]]; do not perform masked
+        these techniques is impossible when these models are not open source[[gpt4]]; do not perform masked
         language modelling[[t5]], which we use in this evaluation; or have tokens that represent very few
         characters[[roberta]].
     <p class="py-3">Additionally, RoBERTa discovers that while BERT introduced the idea of pretraining, it was
