@@ -85,6 +85,8 @@ def complete_citations(template, directory) -> str:
             journal = reference.fields["journal"]
         elif "booktitle" in reference.fields:
             journal = reference.fields["booktitle"]
+        else:
+            raise ValueError(f"Unknown journal type for {citation}")
         # add line to bibliography
         bibliography += f"<p>{author}. {title}. <i>{journal}</i>, {year}."
 
