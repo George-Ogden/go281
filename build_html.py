@@ -9,7 +9,7 @@ import argparse
 import os
 import re
 
-
+IGNORED = {"calls"}
 def parse_args():
     # parse input and output directories
     parser = argparse.ArgumentParser()
@@ -175,7 +175,8 @@ def main(args: argparse.Namespace):
         # first page is the root (".")
         f.write(f"{args.url}\n")
         for page in pages[1:]:
-            f.write(f"{args.url}/{page}/\n")
+            if page not in IGNORED:
+                f.write(f"{args.url}/{page}/\n")
 
 
 if __name__ == "__main__":
