@@ -9,7 +9,7 @@ import argparse
 import os
 import re
 
-IGNORED = {"calls"}
+IGNORED = {}
 def parse_args():
     # parse input and output directories
     parser = argparse.ArgumentParser()
