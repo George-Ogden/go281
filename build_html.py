@@ -94,7 +94,7 @@ def complete_citations(template: str, directory: str) -> str:
             raise ValueError(f"Unknown journal type for {citation}")
         # add line to bibliography
         bibliography += (
-            f'<p id ="bib-{citation}">{author}. {title}. <i>{journal}</i>, {year}.'
+            f'<p id ="bib-{citation}">{author}. {title}. <i>{journal}</i>, {year}.</p>'
         )
 
     # add bibliography to template
