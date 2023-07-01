@@ -10,6 +10,8 @@ import os
 import re
 
 IGNORED = {}
+
+
 def parse_args():
     # parse input and output directories
     parser = argparse.ArgumentParser()
@@ -51,7 +53,7 @@ def complete_citations(template: str, directory: str) -> str:
             # add citation to main text
             template = template.replace(
                 match.group(0),
-                f" (<a onclick=\"document.getElementById('bib-{citation}').scrollIntoView()\" class=\"text-decoration-none\">{author}, {year}</a>)",
+                f' (<a onclick="document.getElementById(\'bib-{citation}\').scrollIntoView()" class="text-decoration-none">{author}, {year}</a>)',
             )
 
             citations.append(citation)
@@ -91,7 +93,9 @@ def complete_citations(template: str, directory: str) -> str:
         else:
             raise ValueError(f"Unknown journal type for {citation}")
         # add line to bibliography
-        bibliography += f"<p id =\"bib-{citation}\">{author}. {title}. <i>{journal}</i>, {year}."
+        bibliography += (
+            f'<p id ="bib-{citation}">{author}. {title}. <i>{journal}</i>, {year}.'
+        )
 
     # add bibliography to template
     template = template.replace("[[bibliography]]", bibliography)
@@ -118,23 +122,45 @@ def complete_figures(template: str) -> str:
         # add figure to main text
         html = html.replace(
             f"[({figure})]",
-            f"(<a onclick=\"document.getElementById('{prefix}-{figure}').scrollIntoView()\" class=\"text-decoration-none\">Figure {i+1}</a>)"
+            f'(<a onclick="document.getElementById(\'{prefix}-{figure}\').scrollIntoView()" class="text-decoration-none">Figure {i+1}</a>)',
         )
     return html
 
 
-def get_template(directory: str, file=None) -> str:
+def fill_template(template: str, directory: str) -> str:
+    soup = BeautifulSoup(template, "html.parser")
+    tags = {}
+    replacements = {}
+    element = soup.html
+    while element:
+        if element.name is not None:
+            if element.name not in tags:
+                tags[element.name] = get_template(directory, element.name + ".html")
+            if tags[element.name] is not None:
+                new_element = tags[element.name]
+                for attribute in element.children:
+                    new_element = new_element.replace(
+                        f"[[{attribute.name}]]", attribute.text
+                    )
+                replacements[element] = BeautifulSoup(new_element, "html.parser")
+        element = element.next_element
+    for element, replacement in replacements.items():
+        element.replace_with(replacement)
+    return str(soup)
+
+
+def get_template(directory: str, file=None) -> Optional[str]:
+    if not directory:
+        return
     if file is None:
         file = "template.html"
-    os.path.relpath(directory, start=INPUT_DIR)
     # recursively search for template file
     try:
         with open(os.path.join(directory, file), "r") as f:
             template = f.read()
     except FileNotFoundError:
-        return get_template(os.path.split(directory)[0], file)
-    template = complete_figures(template)
-    template = complete_citations(template, directory)
+        parent_directory = os.path.split(directory)[0]
+        return get_template(parent_directory, file)
     return template
 
 
@@ -145,6 +171,9 @@ def build_template(directory: str, file: Optional[str] = None) -> str:
         template = template.replace(
             match.group(0), build_template(directory, match.group(1) + ".html")
         )
+    template = fill_template(template, directory)
+    template = complete_figures(template)
+    template = complete_citations(template, directory)
     return template
 
 
