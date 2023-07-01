@@ -142,7 +142,7 @@ def fill_template(template: str, directory: str) -> str:
                     if attribute.name is None:
                         continue
                     new_element = new_element.replace(
-                        f"[[{attribute.name}]]", attribute.decode_contents()
+                        f"<<{attribute.name}>>", attribute.decode_contents()
                     )
                 replacements[element] = BeautifulSoup(new_element, "html.parser")
         element = element.next_element
