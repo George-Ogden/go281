@@ -1,6 +1,6 @@
+from bs4 import BeautifulSoup
 from pybtex.textutils import abbreviate
 from pybtex.database import parse_file
-from bs4 import BeautifulSoup
 from glob import glob
 
 from typing import List, Optional
@@ -139,14 +139,19 @@ def fill_template(template: str, directory: str) -> str:
             if tags[element.name] is not None:
                 new_element = tags[element.name]
                 for attribute in element.children:
+                    if attribute.name is None:
+                        continue
                     new_element = new_element.replace(
-                        f"[[{attribute.name}]]", attribute.text
+                        f"<<{attribute.name}>>", attribute.decode_contents()
                     )
                 replacements[element] = BeautifulSoup(new_element, "html.parser")
         element = element.next_element
     for element, replacement in replacements.items():
         element.replace_with(replacement)
-    return str(soup)
+    if str(soup) == template:
+        return template
+    # recursively fill in any changes
+    return fill_template(str(soup), directory)
 
 
 def get_template(directory: str, file=None) -> Optional[str]:
