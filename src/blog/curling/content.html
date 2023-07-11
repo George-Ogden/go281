@@ -1,16 +1,16 @@
 <h1 class="py-5 px-3 text-center">Lessons Learned from AI Curling</h1>
-<figure class="figure d-block mx-auto" id="fig-colour">
-    <img src="/images/curling/arena.png"
-        alt="A rendered image of the curling simulation environment."
-        title="Simulated curling environment" class="img-fluid figure-img rounded"
-        class="img-fluid mb-3 m-auto p-3">
-    <figcaption class="figure-caption text-center">A rendering of the simulated curling environment after an evaluation episode.</figcaption>
+<figure class="figure d-block mx-auto" id="fig-arena">
+    <img src="/images/curling/arena.png" alt="A rendered image of the curling simulation environment."
+        title="Simulated curling environment" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
+    <figcaption class="figure-caption text-center">A rendering of the simulated curling environment after an evaluation
+        episode.</figcaption>
 </figure>
- <div class="row p-3 pb-1">
+<div class="row p-3 pb-1">
     <paragraph>
         <text>
             After 6 months of working on AI curling (attempting to achieve superhuman level performance in a simulated
-            curling environment), I've reached the time where the best next step would be to restart and rewrite the
+            curling environment [(arena)]), I've reached the time where the best next step would be to restart and
+            rewrite the
             whole thing using Jax/Mojo. I've come a long way since the project's inception and when you can see only a
             few peaks in advance, you don't bring swimming trunks to the desert.
         </text>
@@ -57,7 +57,8 @@
     </paragraph>
     <paragraph>
         <text>
-            I don't want this to turn into "I tried <var>X</var> and it didn't work because of <var>Y</var>. Then I tried <var>Z</var>..." so I'm just
+            I don't want this to turn into "I tried <var>X</var> and it didn't work because of <var>Y</var>. Then I
+            tried <var>Z</var>..." so I'm just
             going to focus on the intuitions I built up rather than the process that got me there. Maybe that reveals
             the most important part and leaves little evidence for you to trust what I say but just look at the GitHub
             code and see what the commits are (from 10% of the way in). Maybe in the future, I'll even add comments to
@@ -96,7 +97,8 @@
     </paragraph>
     <paragraph>
         <text>
-            I tried many ways of approximating this distribution. First a normal distribution with clipping. The bell
+            I tried many ways of approximating this distribution [(dist)]. First a normal distribution with clipping.
+            The bell
             curve may be a general-purpose tool and appear in many places but approximating arbitrary distributions is
             not its forte. Even if we truncate, that doesn't help much either. What about a beta distribution, as
             suggested here? Again, this is not the way forwards. A beta distribution has a purpose too but it isn't a
@@ -111,6 +113,13 @@
             does "more data, more compute".
         </text>
     </paragraph>
+    <figure class="figure d-block mx-auto" id="fig-dist">
+        <img src="/images/curling/distributions.png" alt="Different approximations of a distribution in one dimension."
+            title="Distribution Approximations" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
+        <figcaption class="figure-caption text-center">A toy example of approximating different distributions.
+        </figcaption>
+    </figure>
+
     <paragraph>
         <text>
             If you approximate the policy with this distribution, the next problem is how to approximate the value. The
