@@ -2,22 +2,22 @@
 <div class="row p-3 pb-1">
     <paragraph>
         <text>
-            After 6 months of working on AI curling (attempting to achieve superhuman level performance in a simulated curling environment), I’ve reached the time where the best next step would be to restart and rewrite the whole thing using Jax/Mojo. I’ve come a long way since the project’s inception and when you can see only a few peaks in advance, you don’t bring swimming trunks to the desert.
+            After 6 months of working on AI curling (attempting to achieve superhuman level performance in a simulated curling environment), I've reached the time where the best next step would be to restart and rewrite the whole thing using Jax/Mojo. I've come a long way since the project's inception and when you can see only a few peaks in advance, you don't bring swimming trunks to the desert.
         </text>
     </paragraph>
     <paragraph>
         <text>
-            Some side projects are also starting to demand more attention so for now, I put down the stones, broom and shoes and move on to the next challenge. 6 months seems like a long time to spend with no concrete deliverable (except reproducing these results with a simulated curling environment). Fortunately, what I’ve learned more than makes up for the absence of superhuman AI curlers.
+            Some side projects are also starting to demand more attention so for now, I put down the stones, broom and shoes and move on to the next challenge. 6 months seems like a long time to spend with no concrete deliverable (except reproducing these results with a simulated curling environment). Fortunately, what I've learned more than makes up for the absence of superhuman AI curlers.
         </text>
     </paragraph>
     <paragraph>
         <text>
-            The most important lesson from this project applies to (almost) every project I’ll ever do in the future: how to start. First, I need an idea - usually a problem or an experiment. I have a list of these written down waiting for spare time and experience to reject them or take them on. Then comes a plan done with pen and paper away from the keyboard. “Weeks of programming can save hours of planning.” Followed by `git init`. This is not the first project that has been plagued with the absence of a full version history and in the same way I used to lose homework by not pressing Ctrl+s frequently enough, I have lost enough reprogramming time after deleting code and then deciding I need it again.
+            The most important lesson from this project applies to (almost) every project I'll ever do in the future: how to start. First, I need an idea - usually a problem or an experiment. I have a list of these written down waiting for spare time and experience to reject them or take them on. Then comes a plan done with pen and paper away from the keyboard. “Weeks of programming can save hours of planning.” Followed by `git init`. This is not the first project that has been plagued with the absence of a full version history and in the same way I used to lose homework by not pressing Ctrl+s frequently enough, I have lost enough reprogramming time after deleting code and then deciding I need it again.
         </text>
     </paragraph>
     <paragraph>
         <text>
-            There are many other general lessons I learned but I want to share more of the intuitions that I have developed as you can learn most of what I would have written by doing a few projects and realising “this doesn’t work for me". There’s no journal for failed experiments so lots of things that seem obvious but no one’s tried probably have been tried but failed. This isn’t always the case but I do a lot of experiments I don’t expect to work because I want to know why they don’t work.
+            There are many other general lessons I learned but I want to share more of the intuitions that I have developed as you can learn most of what I would have written by doing a few projects and realising “this doesn't work for me". There's no journal for failed experiments so lots of things that seem obvious but no one's tried probably have been tried but failed. This isn't always the case but I do a lot of experiments I don't expect to work because I want to know why they don't work.
         </text>
     </paragraph>
     <paragraph>
@@ -27,7 +27,7 @@
     </paragraph>
     <paragraph>
         <text>
-        I don’t want this to turn into “I tried X and it didn’t work because of Y. Then I tried Z…” so I’m just going to focus on the intuitions I built up rather than the process that got me there. Maybe that reveals the most important part and leaves little evidence for you to trust what I say but just look at the GitHub code and see what the commits are (from 10% of the way in). Maybe in the future, I’ll even add comments to my code in case other people read the earlier versions.
+        I don't want this to turn into “I tried X and it didn't work because of Y. Then I tried Z…” so I'm just going to focus on the intuitions I built up rather than the process that got me there. Maybe that reveals the most important part and leaves little evidence for you to trust what I say but just look at the GitHub code and see what the commits are (from 10% of the way in). Maybe in the future, I'll even add comments to my code in case other people read the earlier versions.
         </text>
     </paragraph>
     <paragraph>
@@ -48,12 +48,12 @@ The way to get around this is to approximate the distribution. For curling, we c
     </paragraph>
     <paragraph>
         <text>
-        I tried many ways of approximating this distribution. First a normal distribution with clipping. The bell curve may be a general-purpose tool and appear in many places but approximating arbitrary distributions is not its forte. Even if we truncate, that doesn’t help much either. What about a beta distribution, as suggested here? Again, this is not the way forwards. A beta distribution has a purpose too but it isn’t a general-purpose tool. Additionally, the distribution will diverge if $\alpha > 1, ….$, which gives `NaN`s during training (an RL nightmare). What about approximating the distribution using the Fourier Series of the PDF? This seems like a great idea and does a decent job of approximating the distribution. As intelligent as this seems, it’s very difficult to learn the coefficients and you wouldn’t train an image model by showing it the raw JPEG values. It is like using an electric drill to put a nail in a wall: what you need is a hammer. Just approximating the coefficients works best. And with a softmax layer, [EQ], you can make sure your CDF values sum to 1 and calculate the PDF from that. For me, this feels like an “ugly” solution but so does “more data, more compute”.
+        I tried many ways of approximating this distribution. First a normal distribution with clipping. The bell curve may be a general-purpose tool and appear in many places but approximating arbitrary distributions is not its forte. Even if we truncate, that doesn't help much either. What about a beta distribution, as suggested here? Again, this is not the way forwards. A beta distribution has a purpose too but it isn't a general-purpose tool. Additionally, the distribution will diverge if $\alpha > 1, ….$, which gives `NaN`s during training (an RL nightmare). What about approximating the distribution using the Fourier Series of the PDF? This seems like a great idea and does a decent job of approximating the distribution. As intelligent as this seems, it's very difficult to learn the coefficients and you wouldn't train an image model by showing it the raw JPEG values. It is like using an electric drill to put a nail in a wall: what you need is a hammer. Just approximating the coefficients works best. And with a softmax layer, [EQ], you can make sure your CDF values sum to 1 and calculate the PDF from that. For me, this feels like an “ugly” solution but so does “more data, more compute”.
         </text>
     </paragraph>
     <paragraph>
         <text>
-        If you approximate the policy with this distribution, the next problem is how to approximate the value. The natural way of approaching it, where you use a linear activation in the last layer of an MLP, results in a bias that’s the mean of the data and weakly correlated noise from the weights.
+        If you approximate the policy with this distribution, the next problem is how to approximate the value. The natural way of approaching it, where you use a linear activation in the last layer of an MLP, results in a bias that's the mean of the data and weakly correlated noise from the weights.
         </text>
     </paragraph>
     <paragraph>
@@ -68,12 +68,12 @@ The way to get around this is to approximate the distribution. For curling, we c
     </paragraph>
     <paragraph>
         <text>
-        The second idea that makes MCTS so powerful, an intuition I built up independently but other people have had, is that an MCTS is a policy improvement operator. An MCTS converges to an alpha-beta search (if your value function is accurate), so if you run your policy with MCTS, the resulting policy is very likely to be better. You just keep repeating this until the MCTS returns the same policy - reaching the Nash Equilibrium - and that means you’ve found the optimal policy. Although in practice, you probably stop earlier.
+        The second idea that makes MCTS so powerful, an intuition I built up independently but other people have had, is that an MCTS is a policy improvement operator. An MCTS converges to an alpha-beta search (if your value function is accurate), so if you run your policy with MCTS, the resulting policy is very likely to be better. You just keep repeating this until the MCTS returns the same policy - reaching the Nash Equilibrium - and that means you've found the optimal policy. Although in practice, you probably stop earlier.
         </text>
     </paragraph>
     <paragraph>
         <text>
-        AI curling has taught me a lot about a lot and there isn’t a substitute for just dedicating time to projects. It hasn’t been easy, but this is what has made it so enjoyable. It is my largest and hardest solo project to date and hence the one I’ve learned the most from. As I move forward, armed with much more experience, I can only look forward to the next challenge.
+        AI curling has taught me a lot about a lot and there isn't a substitute for just dedicating time to projects. It hasn't been easy, but this is what has made it so enjoyable. It is my largest and hardest solo project to date and hence the one I've learned the most from. As I move forward, armed with much more experience, I can only look forward to the next challenge.
         </text>
     </paragraph>
 </div>
