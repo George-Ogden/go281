@@ -176,9 +176,9 @@ def build_template(directory: str, file: Optional[str] = None) -> str:
         template = template.replace(
             match.group(0), build_template(directory, match.group(1) + ".html")
         )
-    template = fill_template(template, directory)
-    template = complete_figures(template)
-    template = complete_citations(template, directory)
+        template = fill_template(template, directory)
+        template = complete_figures(template)
+        template = complete_citations(template, directory)
     return template
 
 
