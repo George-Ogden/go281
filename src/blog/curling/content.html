@@ -22,7 +22,7 @@
             I'll ever do in the future:
             how to start. First, I need an idea - usually a problem or an experiment. I have a list of these written
             down waiting for spare time and experience to reject them or take them on. Then comes a plan done with pen
-            and paper away from the keyboard. “Weeks of programming can save hours of planning.” Followed by <span
+            and paper away from the keyboard. "Weeks of programming can save hours of planning." Followed by <span
                 class="font-monospace">git init</span>.
             This is not the first project that has been plagued with the absence of a full version history and in the
             same way I used to lose homework by not pressing <span class="font-monospace">Ctrl+s</span> frequently
@@ -33,7 +33,7 @@
     <paragraph>
         <text>
             There are many other general lessons I learned but I want to share more of the intuitions that I have
-            developed as you can learn most of what I would have written by doing a few projects and realising “this
+            developed as you can learn most of what I would have written by doing a few projects and realising "this
             doesn't work <span class="fst-italic">for me</span>". There's no journal for failed experiments so lots of
             things that seem obvious but no
             one's tried probably have been tried but failed. This isn't always the case but I do a lot of experiments I
@@ -50,7 +50,7 @@
     </paragraph>
     <paragraph>
         <text>
-            I don't want this to turn into “I tried X and it didn't work because of Y. Then I tried Z...” so I'm just
+            I don't want this to turn into "I tried <var>X</var> and it didn't work because of <var>Y</var>. Then I tried <var>Z</var>..." so I'm just
             going to focus on the intuitions I built up rather than the process that got me there. Maybe that reveals
             the most important part and leaves little evidence for you to trust what I say but just look at the GitHub
             code and see what the commits are (from 10% of the way in). Maybe in the future, I'll even add comments to
@@ -64,7 +64,7 @@
             \(f_\theta:
             \mathbb R^d \times S \rightarrow \mathbb R^3\), where \(z \sim \mathcal N(0, I_d)\) is sampled from a
             diagonal multivariate normal distribution. \(s \in S\) is an element of the
-            sample space and \(f_\theta(z, s)\) the “curling vector” consists of initial velocity, angle and curl.
+            sample space and \(f_\theta(z, s)\) the "curling vector" consists of initial velocity, angle and curl.
             Sampling \(z\) is easy and
             ideally, we can then use \(f_\theta(z, s)\) as candidate stone throws.
         </text>
@@ -83,7 +83,7 @@
     <paragraph>
         <text>
             The way to get around this is to approximate the distribution. For curling, we can realistically fix the
-            action space so the agent makes “reasonable throws” that land in a legal area or could clear other stones.
+            action space so the agent makes "reasonable throws" that land in a legal area or could clear other stones.
             But even so, what should this distribution look like?
         </text>
     </paragraph>
@@ -100,8 +100,8 @@
             this seems, it's very difficult to learn the coefficients and you wouldn't train an image model by showing
             it the raw JPEG values. It is like using an electric drill to put a nail in a wall: what you need is a
             hammer. Just approximating the coefficients works best. And with a softmax layer, you can make sure
-            your CDF values sum to 1 and calculate the PDF from that. For me, this feels like an “ugly” solution but so
-            does “more data, more compute”.
+            your CDF values sum to 1 and calculate the PDF from that. For me, this feels like an "ugly" solution but so
+            does "more data, more compute".
         </text>
     </paragraph>
     <paragraph>
