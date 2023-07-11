@@ -65,21 +65,24 @@ def complete_citations(template: str, directory: str) -> str:
     ):
         # fill out fields
         reference = references.entries[citation]
-        authors = reference.persons["author"]
-        # convert authors to readable format
-        author = ", ".join(
-            [
-                abbreviate(
-                    " ".join(name.render_as("html") for name in author.rich_first_names)
-                )
-                + " ".join(name.render_as("html") for name in author.rich_last_names)
-                for author in authors
-            ][:10]
-        )
-        if len(authors) > 10:
-            author += " et al."
-        year = reference.fields["year"]
-        title = reference.fields["title"]
+        try:
+            authors = reference.persons["author"]
+            # convert authors to readable format
+            author = ", ".join(
+                [
+                    abbreviate(
+                        " ".join(name.render_as("html") for name in author.rich_first_names)
+                    )
+                    + " ".join(name.render_as("html") for name in author.rich_last_names)
+                    for author in authors
+                ][:10]
+            )
+            if len(authors) > 10:
+                author += " et al."
+            year = reference.fields["year"]
+            title = reference.fields["title"]
+        except KeyError as e:
+            raise KeyError(f"Missing {e} for {citation}")
         if (
             "eprinttype" in reference.fields
             and reference.fields["eprinttype"] == "arXiv"

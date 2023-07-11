@@ -8,8 +8,8 @@
 <div class="row p-3 pb-1">
     <paragraph>
         <text>
-            After 6 months of working on AI curling (attempting to achieve superhuman level performance in a simulated
-            curling environment [(arena)]), I've reached the time where the best next step would be to restart and
+            After 6 months of working on AI curling - attempting to achieve superhuman level performance in a simulated
+            curling environment [(arena)] - I've reached the time where the best next step would be to restart and
             rewrite the
             whole thing using Jax/Mojo. I've come a long way since the project's inception and when you can see only a
             few peaks in advance, you don't bring swimming trunks to the desert.
@@ -19,7 +19,7 @@
         <text>
             Some side projects are also starting to demand more attention so for now, I put down the stones, broom and
             shoes and move on to the next challenge. 6 months seems like a long time to spend with no concrete
-            deliverable (except reproducing these results with a simulated curling environment). Fortunately, what I've
+            deliverable (except reproducing [[physics]] with a simulated curling environment). Fortunately, what I've
             learned more than makes up for the absence of superhuman AI curlers.
         </text>
     </paragraph>
@@ -50,7 +50,8 @@
     <paragraph>
         <text>
             During this project, the problem gradually transitioned from curling to continuous action spaces and I spent
-            a lot of time with Mujoco because while I managed a ~100x speedup from my original curling environment, the
+            a lot of time with Mujoco [[mujoco]] because while I managed a ~100x speedup from my original curling
+            environment, the
             simulation speed was the main limitation for the research. Mujoco environments and two-player continuous
             games are very different but lots of what you learn in one can be applied in the other.
         </text>
@@ -80,7 +81,8 @@
     <paragraph>
         <text>
             This looks a lot like a conditional image generation task. Image generation may seem like a disproof by
-            counterexample to the difficulty of the problem but GANs and diffusion models try to model the space rather
+            counterexample to the difficulty of the problem but GANs [[GAN]] and diffusion models [[ddpm]] try to model
+            the space rather
             than the distribution. The images do not maximise a reward function (subtly for GANs, this is a loss
             function rather than a reward function). Without overdoing the comparison to image generation models, which
             solve a different problem, assigning probabilities (or a PDF) to a sample and determining the rest of the
@@ -129,8 +131,7 @@
     </paragraph>
     <p class="pt-3">
         Features have meanings and trying to get them to correlate well (correlation is a linear association) with
-        the value function is incredibly hard. Instead, I implemented a variant of the value support from the MuZero
-        paper:
+        the value function is incredibly hard. Instead, I implemented a variant of the value support from [[muzero]]:
     <blockquote class="blockquote px-5 fst-italic">
         For value and reward prediction we scale targets using an invertible transform \(h(x) = sign(x)(\sqrt{|x| + 1} -
         1 + \varepsilon x)\), where \(\varepsilon = 0.001\).
@@ -172,13 +173,13 @@
         <paragraph>
             <text>
                 The second idea that makes MCTS so powerful, an intuition I built up independently but other people have
-                had, is that an MCTS is a policy improvement operator. An MCTS converges to an alpha-beta search (if
-                your
-                value function is accurate), so if you run your policy with MCTS, the resulting policy is very likely to
+                had [[inference]], is that an MCTS is a policy improvement operator. An MCTS converges to an optimal
+                policy (under some constraints) [[proof]], so if you run your policy with MCTS, the resulting policy is very
+                likely to
                 be
                 better. You just keep repeating this until the MCTS returns the same policy - reaching the Nash
                 Equilibrium
-                - and that means you've found the optimal policy. Although in practice, you probably stop earlier.
+                - and that means you've found the optimal policy. Although in practice, you'd probably stop earlier.
             </text>
         </paragraph>
         <paragraph>
