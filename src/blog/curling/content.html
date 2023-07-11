@@ -18,12 +18,15 @@
     </paragraph>
     <paragraph>
         <text>
-            The most important lesson from this project applies to <span class="fst-italic">almost</span> every project I'll ever do in the future:
+            The most important lesson from this project applies to <span class="fst-italic">almost</span> every project
+            I'll ever do in the future:
             how to start. First, I need an idea - usually a problem or an experiment. I have a list of these written
             down waiting for spare time and experience to reject them or take them on. Then comes a plan done with pen
-            and paper away from the keyboard. “Weeks of programming can save hours of planning.” Followed by <span class="font-monospace">git init</span>.
+            and paper away from the keyboard. “Weeks of programming can save hours of planning.” Followed by <span
+                class="font-monospace">git init</span>.
             This is not the first project that has been plagued with the absence of a full version history and in the
-            same way I used to lose homework by not pressing <span class="font-monospace">Ctrl+s</span> frequently enough, I have lost enough reprogramming
+            same way I used to lose homework by not pressing <span class="font-monospace">Ctrl+s</span> frequently
+            enough, I have lost enough reprogramming
             time after deleting code and then deciding I need it again.
         </text>
     </paragraph>
@@ -31,7 +34,8 @@
         <text>
             There are many other general lessons I learned but I want to share more of the intuitions that I have
             developed as you can learn most of what I would have written by doing a few projects and realising “this
-            doesn't work <span class="fst-italic">for me</span>". There's no journal for failed experiments so lots of things that seem obvious but no
+            doesn't work <span class="fst-italic">for me</span>". There's no journal for failed experiments so lots of
+            things that seem obvious but no
             one's tried probably have been tried but failed. This isn't always the case but I do a lot of experiments I
             don't expect to work because I want to know why they don't work.
         </text>
@@ -56,10 +60,13 @@
     <paragraph>
         <text>
             Starting in approximately chronological order, getting neural networks to approximate a continuous
-            probability distribution by sampling is hard. The way this was defined originally is through a function $f:
-            R^d x s -> R^3$, where z is sampled from a diagonal multivariate normal distribution, S is an element of the
-            sample space and the “curling vector” consists of initial velocity, angle and curl. Sampling z is easy and
-            ideally, we can then use f(z) as candidate stone throws.
+            probability distribution by sampling is hard. The way this was defined originally is through a function
+            \(f_\theta:
+            \mathbb R^d \times S \rightarrow \mathbb R^3\), where \(z \sim \mathcal N(0, I_d)\) is sampled from a
+            diagonal multivariate normal distribution. \(s \in S\) is an element of the
+            sample space and \(f_\theta(z, s)\) the “curling vector” consists of initial velocity, angle and curl.
+            Sampling \(z\) is easy and
+            ideally, we can then use \(f_\theta(z, s)\) as candidate stone throws.
         </text>
     </paragraph>
     <paragraph>
@@ -86,12 +93,13 @@
             curve may be a general-purpose tool and appear in many places but approximating arbitrary distributions is
             not its forte. Even if we truncate, that doesn't help much either. What about a beta distribution, as
             suggested here? Again, this is not the way forwards. A beta distribution has a purpose too but it isn't a
-            general-purpose tool. Additionally, the distribution will diverge if $\alpha > 1, ….$, which gives `NaN`s
+            general-purpose tool. Additionally, the distribution will diverge if \(\alpha > 1\) or \(\beta > 1\), which
+            gives <span class="font-monospace">NaN</span>s
             during training (an RL nightmare). What about approximating the distribution using the Fourier Series of the
             PDF? This seems like a great idea and does a decent job of approximating the distribution. As intelligent as
             this seems, it's very difficult to learn the coefficients and you wouldn't train an image model by showing
             it the raw JPEG values. It is like using an electric drill to put a nail in a wall: what you need is a
-            hammer. Just approximating the coefficients works best. And with a softmax layer, [EQ], you can make sure
+            hammer. Just approximating the coefficients works best. And with a softmax layer, you can make sure
             your CDF values sum to 1 and calculate the PDF from that. For me, this feels like an “ugly” solution but so
             does “more data, more compute”.
         </text>
@@ -103,44 +111,69 @@
             bias that's the mean of the data and weakly correlated noise from the weights.
         </text>
     </paragraph>
-    <paragraph>
-        <text>Features have meanings and trying to get them to correlate well (correlation is a linear association) with
-            the value function is incredibly hard. Instead, I implemented a variant of the value support from the MuZero
-            paper (add a quote) and this was a huge improvement. I ran some separate experiments on other datasets and
-            you obtain similar improvements with a 2-layer value support compared to a 2-layer MLP on a vanilla
-            regression task. Changing the problem from approximating f(x) to approximating P(f(x) \approx n) is much
-            easier.
+    <p class="pt-3">
+        Features have meanings and trying to get them to correlate well (correlation is a linear association) with
+        the value function is incredibly hard. Instead, I implemented a variant of the value support from the MuZero
+        paper:
+    <blockquote class="blockquote px-5 fst-italic">
+        For value and reward prediction we scale targets using an invertible transform \(h(x) = sign(x)(\sqrt{|x| + 1} -
+        1 + \varepsilon x)\), where \(\varepsilon = 0.001\).
+        We then apply a transformation \(\varphi\) to the scalar reward and value targets in order to obtain equivalent
+        categorical representations.
+        ... Under this transformation, each scalar is represented as the linear combination of its two adjacent
+        supports, such that the original value can be recovered
+        by \(x = x_{low} \times p_{low} + x_{high} \times p_{high}\). As an example, a target of \(3.7\) would be
+        represented as a weight of \(0.3\)
+        on the support for \(3\) and a weight of \(0.7\) on the support for \(4\). The value and reward outputs of the
+        network are
+        also modeled using a softmax. During inference the actual value and rewards are obtained by
+        first computing their expected value under their respective softmax distribution and subsequently by inverting
+        the
+        scaling transformation. Scaling and transformation of the value and reward happens transparently on the network
+        side and is not visible to the rest of the algorithm.\(\)
+    </blockquote>
+    <p class="pb-3">
+        This was a huge improvement. I ran some separate experiments on other datasets and
+        you obtain similar improvements with a 2-layer value support compared to a 2-layer MLP on a vanilla
+        regression task. Changing the problem from approximating \(f(x)\) to approximating \(P(f(x) \approx n)\) is much
+        easier.
 
-        </text>
-    </paragraph>
-    <paragraph>
-        <text>
-            The improvement to end with is one that transformed the project. My earliest approaches could hardly beat a
-            random player but Monte-Carlo Tree Search still feels like the most impressive creation in the field of
-            reinforcement learning. Using full random rollouts worked very well with an almost uniform policy and this
-            became my baseline, which took a very long time to beat. The first major reason for this is that you
-            generate a counterfactual on each node. Now you can evaluate the strength of your policy relative to other
-            decisions you could have made at that point. Without search, all you can do is approximate and update the
-            policy based on this so having additional data for the same state is incredibly valuable.
-        </text>
-    </paragraph>
-    <paragraph>
-        <text>
-            The second idea that makes MCTS so powerful, an intuition I built up independently but other people have
-            had, is that an MCTS is a policy improvement operator. An MCTS converges to an alpha-beta search (if your
-            value function is accurate), so if you run your policy with MCTS, the resulting policy is very likely to be
-            better. You just keep repeating this until the MCTS returns the same policy - reaching the Nash Equilibrium
-            - and that means you've found the optimal policy. Although in practice, you probably stop earlier.
-        </text>
-    </paragraph>
-    <paragraph>
-        <text>
-            AI curling has taught me a lot about a lot and there isn't a substitute for just dedicating time to
-            projects. It hasn't been easy, but this is what has made it so enjoyable. It is my largest and hardest solo
-            project to date and hence the one I've learned the most from. As I move forward, armed with much more
-            experience, I can only look forward to the next challenge.
-        </text>
-    </paragraph>
+        <paragraph>
+            <text>
+                The improvement to end with is one that transformed the project. My earliest approaches could hardly
+                beat a
+                random player but Monte-Carlo Tree Search still feels like the most impressive creation in the field of
+                reinforcement learning. Using full random rollouts worked very well with an almost uniform policy and
+                this
+                became my baseline, which took a very long time to beat. The first major reason for this is that you
+                generate a counterfactual on each node. Now you can evaluate the strength of your policy relative to
+                other
+                decisions you could have made at that point. Without search, all you can do is approximate and update
+                the
+                policy based on this so having additional data for the same state is incredibly valuable.
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                The second idea that makes MCTS so powerful, an intuition I built up independently but other people have
+                had, is that an MCTS is a policy improvement operator. An MCTS converges to an alpha-beta search (if
+                your
+                value function is accurate), so if you run your policy with MCTS, the resulting policy is very likely to
+                be
+                better. You just keep repeating this until the MCTS returns the same policy - reaching the Nash
+                Equilibrium
+                - and that means you've found the optimal policy. Although in practice, you probably stop earlier.
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                AI curling has taught me a lot about a lot and there isn't a substitute for just dedicating time to
+                projects. It hasn't been easy, but this is what has made it so enjoyable. It is my largest and hardest
+                solo
+                project to date and hence the one I've learned the most from. As I move forward, armed with much more
+                experience, I can only look forward to the next challenge.
+            </text>
+        </paragraph>
 </div>
 <bibliography />
 <github>
