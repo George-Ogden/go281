@@ -1,10 +1,14 @@
 <h1 class="py-5 px-3 text-center">Lessons Learned from AI Curling</h1>
-<figure class="figure d-block mx-auto" id="fig-arena">
-    <img src="/images/curling/arena.png" alt="A rendered image of the curling simulation environment."
-        title="Simulated curling environment" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
-    <figcaption class="figure-caption text-center">A rendering of the simulated curling environment after an evaluation
-        episode.</figcaption>
-</figure>
+<fig>
+    <id>arena</id>
+
+    <body>
+        <img src="/images/curling/arena.png" alt="A rendered image of the curling simulation environment."
+            title="Simulated curling environment" class="img-fluid figure-img rounded"
+            class="img-fluid mb-3 m-auto p-3">
+    </body>
+    <caption>A rendering of the simulated curling environment after an evaluation episode.</caption>
+</fig>
 <div class="row p-3 pb-1">
     <paragraph>
         <text>
@@ -102,7 +106,8 @@
             The bell
             curve may be a general-purpose tool and appear in many places but approximating arbitrary distributions is
             not its forte. Even if we truncate, that doesn't help much either. What about a beta distribution, as
-            suggested in [[a0c]]? Again, this is not the way forwards. A beta distribution has a purpose too but it isn't a
+            suggested in [[a0c]]? Again, this is not the way forwards. A beta distribution has a purpose too but it
+            isn't a
             general-purpose tool. Additionally, the distribution will diverge if \(\alpha > 1\) or \(\beta > 1\), which
             gives <span class="font-monospace">NaN</span>s
             during training (an RL nightmare). What about approximating the distribution using the Fourier Series of the
@@ -114,13 +119,16 @@
             does "more data, more compute" [[bitter]].
         </text>
     </paragraph>
-    <figure class="figure d-block mx-auto" id="fig-dist">
-        <img src="/images/curling/distributions.png" alt="Different approximations of a distribution in one dimension."
-            title="Distribution Approximations" class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
-        <figcaption class="figure-caption text-center">A toy example of approximating different distributions.
-        </figcaption>
-    </figure>
+    <fig>
+        <id>dist</id>
 
+        <body>
+            <img src="/images/curling/distributions.png"
+                alt="Different approximations of a distribution in one dimension." title="Distribution Approximations"
+                class="img-fluid figure-img rounded" class="img-fluid mb-3 m-auto p-3">
+        </body>
+        <caption>A toy example of approximating different distributions.</caption>
+    </fig>
     <paragraph>
         <text>
             If you approximate the policy with this distribution, the next problem is how to approximate the value. The
@@ -173,7 +181,8 @@
             <text>
                 The second idea that makes MCTS so powerful, an intuition I built up independently but other people have
                 had [[inference]], is that an MCTS is a policy improvement operator. An MCTS converges to an optimal
-                policy (under some constraints) [[proof]], so if you run your policy with MCTS, the resulting policy is very
+                policy (under some constraints) [[proof]], so if you run your policy with MCTS, the resulting policy is
+                very
                 likely to
                 be
                 better. You just keep repeating this until the MCTS returns the same policy - reaching the Nash
