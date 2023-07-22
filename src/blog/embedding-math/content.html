@@ -53,73 +53,88 @@
                     ideal starting point. Looking at the clustering of the cities [(cities)], we can see
                     that cities from the same country cluster together, which we expect is due to a common set of
                     semantics along a few dimensions that represent the country.
-                <figure class="figure d-block mx-auto" id="fig-cities">
-                    <img src="/images/embedding-math/countries.png"
-                        alt="A plot of TSNE reduced-dimension embeddings of cities from a range of European countries. Each coloured dot represents the embeddings for a unique major city and they are colour-coded by country."
-                        title="BERT embeddings of major European cities" class="img-fluid figure-img rounded"
-                        class="img-fluid mb-3 m-auto p-3">
-                    <figcaption class="figure-caption text-center">A plot of TSNE[[tsne]] reduced-dimension embeddings
-                        of
-                        cities from a range of European countries. Each coloured dot represents the embeddings for a
-                        unique
-                        major city and they are colour-coded by country.</figcaption>
-                </figure>
+                    <fig>
+                        <id>cities</id>
+
+                        <body>
+                            <visual>
+                                <src>embedding-math/countries.png</src>
+                                <alt>A plot of TSNE reduced-dimension embeddings of cities from a range of European
+                                    countries. Each coloured dot represents the embeddings for a unique major city and
+                                    they are colour-coded by country.</alt>
+                                <title>BERT embeddings of major European cities</title>
+                            </visual>
+                        </body>
+                        <caption>A plot of TSNE[[tsne]] reduced-dimension embeddings of cities from a range of European
+                            countries. Each coloured dot represents the embeddings for a unique major city and they are
+                            colour-coded by country.</caption>
+                    </fig>
                 <p class="py-3">Next, we try to change the location of Paris, the same example used in the Rome
                     Paper[[rome]], which aims to modify factual embeddings in GPT. We modify the embedding of Rome to
                     become
                     $$\text{Rome} - \text{Italy} + \text{France}$$ As a result, the predicted token for "Rome is the
                     capital
                     of [MASK]." changes from France to Italy [(paris)].
-                <figure class="figure d-block mx-auto" id="fig-paris">
-                    <blockquote class="blockquote mx-auto" style="width:fit-content">
-                        Sentence: <b>Rome</b> is the capital of [MASK].<br>Modification: \(\mathbf{\text{Rome}} =
-                        \text{Rome} - \text{Italy} + \text{France}\)<br>Predicted label: France<br>Confidence: 92.9%
-                    </blockquote>
-                    <figcaption class="figure-caption text-center">Modifying the embedding of Rome so that it is in
-                        France.
-                    </figcaption>
-                </figure>
-                <hr>
-                <figure class="figure d-block mx-auto" id="fig-pakistan">
-                    <blockquote class="blockquote mx-auto" style="width:fit-content">
-                        Sentence: <b>Pakistan</b> is the south of [MASK].<br>Modification: \(\mathbf{\text{Pakistan}} =
-                        \text{Pakistan} - \text{Asia} + \mathbf{\text{Continent}}\)
-                    </blockquote>
-                    <table class="table table-striped mx-auto text-center" style="max-width:400px">
-                        <thead>
-                            <tr>
-                                <th scope="col">Continent</th>
-                                <th scope="col">Prediction</th>
-                                <th scope="col">Confidence</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                            <tr>
-                                <td>Asia</td>
-                                <td>Afghanistan</td>
-                                <td>37.8%</td>
-                            </tr>
-                            <tr>
-                                <td>Africa</td>
-                                <td>Angola</td>
-                                <td>4.8%</td>
-                            </tr>
-                            <tr>
-                                <td>Europe</td>
-                                <td>France</td>
-                                <td>4.0%</td>
-                            </tr>
-                            <tr>
-                                <td>Oceania</td>
-                                <td>Paris</td>
-                                <td>1.2%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <figcaption class="figure-caption text-center">Modifying the embedding of Pakistan so that it is in
-                        different continents. The prediction is the most likely token predicted by the model that is not
-                        "Pakistan".</figcaption>
-                </figure>
+                    <fig>
+                        <id>paris</id>
+
+                        <body>
+                            <blockquote class="blockquote mx-auto" style="width:fit-content">
+                                Sentence: <b>Rome</b> is the capital of [MASK].<br>Modification: \(\mathbf{\text{Rome}}
+                                =
+                                \text{Rome} - \text{Italy} + \text{France}\)<br>Predicted label: France<br>Confidence:
+                                92.9%
+                            </blockquote>
+                        </body>
+                        <caption>Modifying the embedding of Rome so that it is in France.</caption>
+                    </fig>
+                    <hr>
+                    <fig>
+                        <id>pakistan</id>
+
+                        <body>
+                            <blockquote class="blockquote mx-auto" style="width:fit-content">
+                                Sentence: <b>Pakistan</b> is the south of [MASK].<br>Modification:
+                                \(\mathbf{\text{Pakistan}} =
+                                \text{Pakistan} - \text{Asia} + \mathbf{\text{Continent}}\)
+                            </blockquote>
+                            <table class="table table-striped mx-auto text-center" style="max-width:400px">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Continent</th>
+                                        <th scope="col">Prediction</th>
+                                        <th scope="col">Confidence</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <td>Asia</td>
+                                        <td>Afghanistan</td>
+                                        <td>37.8%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Africa</td>
+                                        <td>Angola</td>
+                                        <td>4.8%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Europe</td>
+                                        <td>France</td>
+                                        <td>4.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Oceania</td>
+                                        <td>Paris</td>
+                                        <td>1.2%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </body>
+                        <caption>
+                            Modifying the embedding of Pakistan so that it is in different continents. The prediction is
+                            the most likely token predicted by the model that is not "Pakistan".
+                        </caption>
+                    </fig>
                 <p class="py-3">The embedding maths also works on a country-continent scale [(pakistan)]. The results
                     are
                     not as clear as when changing the location of cities, but Rome has a semantically stronger relation
@@ -135,15 +150,21 @@
                     generally
                     white and this assumption leads to a much higher frequency of the phrase "black sheep" than "white
                     sheep" in the training corpus.
-                <figure class="figure d-block mx-auto" id="fig-colour">
-                    <img src="/images/embedding-math/colours.png"
-                        alt="A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram with the clustering."
-                        title="Similarity of BERT embeddings for colours" class="img-fluid figure-img rounded"
-                        class="img-fluid mb-3 m-auto p-3">
-                    <figcaption class="figure-caption text-center">A plot of the cosine similarity of colour embeddings
-                        in
-                        BERT, as well as a dendrogram with the clustering.</figcaption>
-                </figure>
+                    <fig>
+                        <id>colour</id>
+
+                        <body>
+                            <visual>
+                                <src>embedding-math/colours.png</src>
+                                <alt>A plot of the cosine similarity of colour embeddings in BERT, as well as a
+                                    dendrogram with the clustering.</alt>
+                                <title>Similarity of BERT embeddings for colours</title>
+                            </visual>
+                        </body>
+                        <caption>A plot of the cosine similarity of colour embeddings in BERT, as well as a dendrogram
+                            with
+                            the clustering.</caption>
+                    </fig>
                 <p class="py-3">The embeddings for colours [(colour)] display that the similarity (cosine similarity) of
                     colours has very little to do with their visual similarity and a lot more to do with the way they
                     are
@@ -179,49 +200,98 @@
                     be considered fairly neutral sources of information, however, there are clear biases in BERT,
                     including
                     gender.
-                <figure class="figure d-block mx-auto" id="fig-gender">
-                    <blockquote class="blockquote mx-auto" style="width:fit-content">
-                        Sentence: <b>Pronoun</b> works as a [MASK].
-                    </blockquote>
-                    <table class="table table-striped mx-auto text-center" style="max-width:500px">
-                        <thead>
-                            <tr>
-                                <th scope="col">\(\text{He}\)</th>
-                                <th scope="col">\(\text{She}\)</th>
-                                <th scope="col">\(\frac{\text{He} + \text{She}}{2}\)</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                            <tr>
-                                <result><word>Lawyer</word><percent>17.5</percent></result>
-                                <result><word>Teacher</word><percent>16.2</percent></result>
-                                <result><word>Lawyer</word><percent>18.7</percent></result>
-                            </tr>
-                            <tr>
-                                <result><word><b>Farmer</b></word><percent>9.3</percent></result>
-                                <result><word><b>Model</b></word><percent>13.5</percent></result>
-                                <result><word>Teacher</word><percent>10.9</percent></result>
-                            </tr>
-                            <tr>
-                                <result><word>Teacher</word><percent>9.1</percent></result>
-                                <result><word>Journalist</word><percent>9.1</percent></result>
-                                <result><word>Journalist</word><percent>8.7</percent></result>
-                            </tr>
-                            <tr>
-                                <result><word>Jurnalist</word><percent>7.9</percent></result>
-                                <result><word>Lawyer</word><percent>8.4</percent></result>
-                                <result><word><b>Farmer</b></word><percent>5.7</percent></result>
-                            </tr>
-                            <tr>
-                                <result><word><b>Businessman</b></word><percent>5.4</percent></result>
-                                <result><word><b>Nurse</b></word><percent>7.2</percent></result>
-                                <result><word><b>Businessman</b></word><percent>3.9</percent></result>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <figcaption class="figure-caption text-center">Averaging pronouns to create a more gender-neutral
-                        pronoun and reduce biases in BERT's predictions.</figcaption>
-                </figure>
+                    <fig>
+                        <id>gender</id>
+
+                        <body>
+                            <blockquote class="blockquote mx-auto" style="width:fit-content">
+                                Sentence: <b>Pronoun</b> works as a [MASK].
+                            </blockquote>
+                            <table class="table table-striped mx-auto text-center" style="max-width:500px">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">\(\text{He}\)</th>
+                                        <th scope="col">\(\text{She}\)</th>
+                                        <th scope="col">\(\frac{\text{He} + \text{She}}{2}\)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                    <tr>
+                                        <result>
+                                            <word>Lawyer</word>
+                                            <percent>17.5</percent>
+                                        </result>
+                                        <result>
+                                            <word>Teacher</word>
+                                            <percent>16.2</percent>
+                                        </result>
+                                        <result>
+                                            <word>Lawyer</word>
+                                            <percent>18.7</percent>
+                                        </result>
+                                    </tr>
+                                    <tr>
+                                        <result>
+                                            <word><b>Farmer</b></word>
+                                            <percent>9.3</percent>
+                                        </result>
+                                        <result>
+                                            <word><b>Model</b></word>
+                                            <percent>13.5</percent>
+                                        </result>
+                                        <result>
+                                            <word>Teacher</word>
+                                            <percent>10.9</percent>
+                                        </result>
+                                    </tr>
+                                    <tr>
+                                        <result>
+                                            <word>Teacher</word>
+                                            <percent>9.1</percent>
+                                        </result>
+                                        <result>
+                                            <word>Journalist</word>
+                                            <percent>9.1</percent>
+                                        </result>
+                                        <result>
+                                            <word>Journalist</word>
+                                            <percent>8.7</percent>
+                                        </result>
+                                    </tr>
+                                    <tr>
+                                        <result>
+                                            <word>Jurnalist</word>
+                                            <percent>7.9</percent>
+                                        </result>
+                                        <result>
+                                            <word>Lawyer</word>
+                                            <percent>8.4</percent>
+                                        </result>
+                                        <result>
+                                            <word><b>Farmer</b></word>
+                                            <percent>5.7</percent>
+                                        </result>
+                                    </tr>
+                                    <tr>
+                                        <result>
+                                            <word><b>Businessman</b></word>
+                                            <percent>5.4</percent>
+                                        </result>
+                                        <result>
+                                            <word><b>Nurse</b></word>
+                                            <percent>7.2</percent>
+                                        </result>
+                                        <result>
+                                            <word><b>Businessman</b></word>
+                                            <percent>3.9</percent>
+                                        </result>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </body>
+                        <caption>Averaging pronouns to create a more gender-neutral
+                            pronoun and reduce biases in BERT's predictions.</caption>
+                    </fig>
                 <p class="py-3">The approach of averaging the embeddings [(gender)] reduces biases in this example and
                     functions as a more gender-neutral pronoun. It also illustrates that the embedding layer has an
                     important role to play in the presence of biases in language models, due to incorrect semantic
