@@ -1,0 +1,18 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<div id="image">
+    <input type="range" class="form-range" value="1594" min="0" max="2047" id="input">
+    <visual></visual>
+    <visual></visual>
+    <visual></visual>
+</div>
+
+<script>
+    $("#image #input").val(1594)
+    function update_image(e){
+        $("#image img").each(
+            (i, e) => $(e).attr("src", `https://openaipublic.blob.core.windows.net/microscopeprod/2020-07-25/2020-07-25/resnetv2_50_slim/lucid.dataset_examples/_dataset_examples/dataset%3Dimagenet%26op%3Dresnet_v2_50%252Fblock4%252Funit_${3-i}%252Fbottleneck_v2%252Fadd%253A0/channel_${$("#input").val()}_40.png`)
+        )
+    }
+    $(document).ready(update_image)
+    $("#image input").on("input", update_image)
+</script>
