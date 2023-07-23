@@ -1,12 +1,12 @@
 <main class="my-4 col-md-8 col-xl-9 col-12 text-break px-3 fs-5">
     <div id="visualisation" class="mx-auto">
-        <div class="form-group mx-auto py-3" style="max-width: 300px;">
+        <div class="form-group mx-auto py-3" style="max-width: 250px;">
             <div class="input-group w-auto">
                 <span class="input-group-text" id="feature-description">Feature number: </span>
-                <input type="number" class="form-control" id="feature-input" min="0" max="2047" value="1594"
+                <input type="number" class="form-control text-center" id="feature-input" min="0" max="2047" value="1594"
                     aria-describedby="feature-description feature-help">
             </div>
-            <div class="form-text text-center" id="feature-help">Enter the id of the feature to visualize.</div>
+            <div class="form-text text-center" id="feature-help">Enter the id of the feature to visualize (0-2047).</div>
         </div>
         <div class="row">
             <feature>
@@ -22,7 +22,7 @@
                 <unit>1</unit>
             </feature>
         </div>
-        <ul class="nav flex-row text-center mx-auto justify-content-around">
+        <ul class="nav flex-row text-center mx-auto justify-content-center">
             <explanation/>
             <explanation/>
             <explanation/>
@@ -35,8 +35,12 @@
     <script src="/static/resnet-50-weights.js"></script>
     <script>
         function update_visualisation() {
+            let feature = $("#visualisation input").val();
+            if (feature === "" || isNaN(feature) || feature < 0 || feature > 2047) {
+                return;
+            }
             $("#visualisation img").each(
-                (i, e) => $(e).attr("src", `https://openaipublic.blob.core.windows.net/microscopeprod/2020-07-25/2020-07-25/resnetv2_50_slim/lucid.dataset_examples/_dataset_examples/dataset%3Dimagenet%26op%3Dresnet_v2_50%252Fblock4%252Funit_${3 - i}%252Fbottleneck_v2%252Fadd%253A0/channel_${$("#visualisation input").val()}_40.png`)
+                (i, e) => $(e).attr("src", `https://openaipublic.blob.core.windows.net/microscopeprod/2020-07-25/2020-07-25/resnetv2_50_slim/lucid.dataset_examples/_dataset_examples/dataset%3Dimagenet%26op%3Dresnet_v2_50%252Fblock4%252Funit_${3 - i}%252Fbottleneck_v2%252Fadd%253A0/channel_${feature}_40.png`)
             )
             $("#visualisation .explanation").each(
                 function (i, e){
