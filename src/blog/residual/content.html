@@ -10,6 +10,26 @@
                     a lot.
                 </text>
             </paragraph>
+            <paragraph>
+                <text>
+                    Operations on residual streams are often characterised as reads and writes. This communication is a key component of the stream, which acts as a shared, bottlenecked memory between layers and allows modules to iteratively refine a set of shared features into more specialised ones for prediction. One downside of this approach is that small changes to parameters early in the model could be amplified in later layers and a module that reads from the stream later may expect a different distribution after the update. This problem is overcome with normalisation: batch normalisation in CNNs and layer normalisation in transformers.
+                </text>
+            </paragraph>
+            <paragraph>
+                <text>
+                    Before continuing, I must address the confusing terminology as “layer” has specific meanings for each model. Each of the transformers is made up of 12 or 24 layers that contain modules. A ResNet is made up of 5 layers containing between 7 and 49 blocks, which I will refer to as modules when comparing with language models. On the charts, I plot progression in layers in transformers and progression in blocks for the ResNets with vertical lines showing the separation between ResNet layers. 
+                </text>
+            </paragraph>
+            <paragraph>
+                <text>
+                    Another piece of confusing terminology is “features”. Features are properties of the data (dog ears, circles, curves, the texture of broccoli, etc) and some features may not appear in a certain dataset (there are no dog ears in MNIST). Activations are properties of the model when certain data is passed through it - they occur after an operation (add, ReLU, attention, etc) and can be viewed at different resolutions (per neuron, channel, etc). 
+                </text>
+            </paragraph>
+            <paragraph>
+                <text>
+                    Starting with an up-close inspection of image networks, I want to highlight some neuron activations seen under the OpenAI Microscope [[microscope]]. The initial visualisation is channel 1594 of layer 4 block 3 from ResNet-50 [(fig-feature)]. The choice is fairly arbitrary but is part of some exploration I was doing on the model. From the weights of the last layer, we can see that this channel has the highest contribution to the final probability for class 1 (goldfish). Backtracking through the blocks In the final layer, this feature has been refined into a more and more goldfish-like feature until it makes the final classification (see this notebook for more details).
+                </text>
+            </paragraph>
         </div>
     </div>
     <div id="visualisation" class="mx-auto">
