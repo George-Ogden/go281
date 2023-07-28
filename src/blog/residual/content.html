@@ -1,4 +1,17 @@
 <main class="my-4 col-md-8 col-xl-9 col-12 text-break px-3 fs-5">
+    <div class="mx-auto" style="max-width: 700px;">
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    Residual streams [[highway]] are a key component of the transformer architecture [[transformer]] and
+                    are common in deep convolutional neural networks [[resnet]]. The skip connections between layers
+                    allow gradients to propagate backwards through the model efficiently. Karpathy describes residual
+                    streams as a way to optimise all the lines of a short program in parallel [[karpathy]], which I like
+                    a lot.
+                </text>
+            </paragraph>
+        </div>
+    </div>
     <div id="visualisation" class="mx-auto">
         <div class="form-group mx-auto py-3" style="max-width: 250px;">
             <div class="input-group w-auto">
@@ -6,7 +19,8 @@
                 <input type="number" class="form-control text-center" id="feature-input" min="0" max="2047" value="1594"
                     aria-describedby="feature-description feature-help">
             </div>
-            <div class="form-text text-center" id="feature-help">Enter the id of the feature to visualize (0-2047).</div>
+            <div class="form-text text-center" id="feature-help">Enter the id of the feature to visualize (0-2047).
+            </div>
         </div>
         <div class="row">
             <feature>
@@ -23,13 +37,13 @@
             </feature>
         </div>
         <ul class="nav flex-row text-center mx-auto justify-content-center">
-            <explanation/>
-            <explanation/>
-            <explanation/>
-            <explanation/>
-            <explanation/>
+            <explanation />
+            <explanation />
+            <explanation />
+            <explanation />
+            <explanation />
         </ul>
-</div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="/static/imagenet-1k-classes.js"></script>
     <script src="/static/resnet-50-weights.js"></script>
@@ -43,7 +57,7 @@
                 (i, e) => $(e).attr("src", `https://openaipublic.blob.core.windows.net/microscopeprod/2020-07-25/2020-07-25/resnetv2_50_slim/lucid.dataset_examples/_dataset_examples/dataset%3Dimagenet%26op%3Dresnet_v2_50%252Fblock4%252Funit_${3 - i}%252Fbottleneck_v2%252Fadd%253A0/channel_${feature}_40.png`)
             )
             $("#visualisation .explanation").each(
-                function (i, e){
+                function (i, e) {
                     let class_weight = weights[$("#visualisation input").val()][i];
                     let class_name = classes[class_weight[0]];
                     let weight = class_weight[1];
