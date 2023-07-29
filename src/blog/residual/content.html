@@ -10,6 +10,17 @@
                     a lot.
                 </text>
             </paragraph>
+            <fig>
+                <body>
+                    <visual>
+                        <src>/images/residual/transformer.png</src>
+                        <alt>A diagram of a residual block in the transformer architecture.</alt>
+                        <title>Residual Block</title>
+                    </visual>
+                </body>
+                <id>transformer</id>
+                <caption>An illustration of a single block in the transformer architecture.</caption>
+            </fig>
             <paragraph>
                 <text>
                     Operations on residual streams are often characterised as reads and writes. This communication is a key component of the stream, which acts as a shared, bottlenecked memory between layers and allows modules to iteratively refine a set of shared features into more specialised ones for prediction. One downside of this approach is that small changes to parameters early in the model could be amplified in later layers and a module that reads from the stream later may expect a different distribution after the update. This problem is overcome with normalisation: batch normalisation in CNNs and layer normalisation in transformers.
