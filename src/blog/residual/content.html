@@ -43,65 +43,78 @@
             </paragraph>
         </div>
     </div>
-    <div id="visualisation" class="mx-auto">
-        <div class="form-group mx-auto py-3" style="max-width: 250px;">
-            <div class="input-group w-auto">
-                <span class="input-group-text" id="feature-description">Feature number: </span>
-                <input type="number" class="form-control text-center" id="feature-input" min="0" max="2047" value="1594"
-                    aria-describedby="feature-description feature-help">
+    <fig>
+        <body>
+            <div id="visualisation" class="mx-auto">
+                <div class="form-group mx-auto py-3" style="max-width: 250px;">
+                    <div class="input-group w-auto">
+                        <span class="input-group-text" id="feature-description">Feature number: </span>
+                        <input type="number" class="form-control text-center" id="feature-input" min="0" max="2047" value="1594"
+                            aria-describedby="feature-description feature-help">
+                    </div>
+                    <div class="form-text text-center" id="feature-help">Enter the id of the feature to visualize (0-2047).
+                    </div>
+                </div>
+                <div class="row">
+                    <feature>
+                        <channel>1594</channel>
+                        <unit>3</unit>
+                    </feature>
+                    <feature>
+                        <channel>1594</channel>
+                        <unit>2</unit>
+                    </feature>
+                    <feature>
+                        <channel>1594</channel>
+                        <unit>1</unit>
+                    </feature>
+                </div>
+                <ul class="nav flex-row text-center mx-auto justify-content-center pb-4">
+                    <explanation />
+                    <explanation />
+                    <explanation />
+                    <explanation />
+                    <explanation />
+                </ul>
             </div>
-            <div class="form-text text-center" id="feature-help">Enter the id of the feature to visualize (0-2047).
-            </div>
-        </div>
-        <div class="row">
-            <feature>
-                <channel>1594</channel>
-                <unit>3</unit>
-            </feature>
-            <feature>
-                <channel>1594</channel>
-                <unit>2</unit>
-            </feature>
-            <feature>
-                <channel>1594</channel>
-                <unit>1</unit>
-            </feature>
-        </div>
-        <ul class="nav flex-row text-center mx-auto justify-content-center">
-            <explanation />
-            <explanation />
-            <explanation />
-            <explanation />
-            <explanation />
-        </ul>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="/static/imagenet-1k-classes.js"></script>
-    <script src="/static/resnet-50-weights.js"></script>
-    <script>
-        function update_visualisation() {
-            let feature = $("#visualisation input").val();
-            if (feature === "" || isNaN(feature) || feature < 0 || feature > 2047) {
-                return;
-            }
-            $("#visualisation img").each(
-                (i, e) => $(e).attr("src", `https://openaipublic.blob.core.windows.net/microscopeprod/2020-07-25/2020-07-25/resnetv2_50_slim/lucid.dataset_examples/_dataset_examples/dataset%3Dimagenet%26op%3Dresnet_v2_50%252Fblock4%252Funit_${3 - i}%252Fbottleneck_v2%252Fadd%253A0/channel_${feature}_40.png`)
-            )
-            $("#visualisation .explanation").each(
-                function (i, e) {
-                    let class_weight = weights[$("#visualisation input").val()][i];
-                    let class_name = classes[class_weight[0]];
-                    let weight = class_weight[1];
-                    let class_weight_str = (weight >= 0 ? "+" : "") + weight.toFixed(2);
-                    $(e).text(`${class_name} (${class_weight_str})`);
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+            <script src="/static/imagenet-1k-classes.js"></script>
+            <script src="/static/resnet-50-weights.js"></script>
+            <script>
+                function update_visualisation() {
+                    let feature = $("#visualisation input").val();
+                    if (feature === "" || isNaN(feature) || feature < 0 || feature > 2047) {
+                        return;
+                    }
+                    $("#visualisation img").each(
+                        (i, e) => $(e).attr("src", `https://openaipublic.blob.core.windows.net/microscopeprod/2020-07-25/2020-07-25/resnetv2_50_slim/lucid.dataset_examples/_dataset_examples/dataset%3Dimagenet%26op%3Dresnet_v2_50%252Fblock4%252Funit_${3 - i}%252Fbottleneck_v2%252Fadd%253A0/channel_${feature}_40.png`)
+                    )
+                    $("#visualisation .explanation").each(
+                        function (i, e) {
+                            let class_weight = weights[$("#visualisation input").val()][i];
+                            let class_name = classes[class_weight[0]];
+                            let weight = class_weight[1];
+                            let class_weight_str = (weight >= 0 ? "+" : "") + weight.toFixed(2);
+                            $(e).text(`${class_name} (${class_weight_str})`);
 
+                        }
+                    )
                 }
-            )
-        }
-        $(document).ready(update_visualisation)
-        $("#visualisation input").on("input", update_visualisation)
-    </script>
+                $(document).ready(update_visualisation)
+                $("#visualisation input").on("input", update_visualisation)
+            </script>
+        </body>
+        <id>fig-visualisation</id>
+        <caption>An interactive visualisation of the final layer of a ResNet-50. Each image contains samples from the dataset that cause a high activation in the given channel. The weights below give the contribution of this feature to each of the classes before the softmax and final prediction.</caption>
+    </fig>
     <div class="mx-auto" style="max-width: 700px;">
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    This is my first attempt at an interactive visualisation [(fig-visualisation)] in a blog post so it's fairly primitive but I encourage you to visualise different channels so that you have more intuition about the results later. All of the remaining charts give layer-by-layer overviews, however, the visualisations are a useful part of interpreting and understanding neural networks, especially when combined with other approaches [[visualisation]].
+                </text>
+            </paragraph>
+        </div>
     </div>
     <div class="mx-auto" style="max-width: 700px;">
         <bibliography />
