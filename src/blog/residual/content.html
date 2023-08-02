@@ -198,7 +198,7 @@
             <paragraph>
                 <text>
                     We can think of features as being represented by directions [[superposition]] and when these
-                    directions align with the basis, they become easier to interpret. For transformers, the 
+                    directions align with the basis, they become easier to interpret. For transformers, the
                     privileged basis in a residual stream because we only ever perform addition (not an activation) to
                     it, however, for image models, all blocks perform ReLU immediately before adding which forces a
                     residual basis. Looking at activations, we see neurons and channels give rise to features that align
@@ -249,22 +249,59 @@
         <div class="row p-3 pb-1">
             <paragraph>
                 <text>
-                    Perhaps the most surprising result, however, is that we can ablate so many layers without
-                    significant drops in performance. This really demonstrates the power of the stream as the modules
-                    focus on refining the features rather than copying them. One result that I have not shown is that
-                    removing the residual stream at any point destroys the network’s performance - it really serves as
-                    the spine for these models.
+                    If the features are randomly sampled from an isotropic Gaussian distribution, we would expect a
+                    kurtosis of 3 in a non-privileged basis (Gaussian distributions have a kurtosis of 3). Isotropic
+                    Gaussians are invariant to orthonormal changes of basis so if we take a privileged basis and apply a
+                    fixed random rotation to all the features, we can expect the components to be Gaussianly
+                    distributed. We verify this to obtain high kurtoses in the aligned basis (no rotation) and kurtoses
+                    of approximately 3 in the random basis (rotated).
                 </text>
             </paragraph>
         </div>
         <div class="row p-3 pb-1">
             <paragraph>
                 <text>
-                    Perhaps the most surprising result, however, is that we can ablate so many layers without
-                    significant drops in performance. This really demonstrates the power of the stream as the modules
-                    focus on refining the features rather than copying them. One result that I have not shown is that
-                    removing the residual stream at any point destroys the network’s performance - it really serves as
-                    the spine for these models.
+                    In language models, we already see an aligned basis appearing in the embeddings (layer 0) and the
+                    number of identified outliers grows as we add layers. Something similar happens in large vision
+                    models, however, the values of the kurtoses are smaller.
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+
+                    The residual stream is evidently an
+                    important part of these model architectures, however, we want to understand why it appears.
+                    [[privilege]] suggests that this could be due to the layernorm and replaces it with RMSNorm, which
+                    is basis invariant:
+                    $$\text{RMSNorm}(x_i) = \alpha \cdot \frac{x_i}{\sqrt{\frac 1d \sum_{i=1}^d x_i^2}}$$
+                    They also consider the effects of performing the computation in a separate basis to the stream and
+                    this is effective when the computation is different for each head but fails to reduce the kurtosis
+                    when the computation basis is shared. In fact, removing all parts of the architecture that could
+                    contribute to the alignment doesn’t reduce the kurtosis.
+
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    Fortunately, after many different experiments, I managed to determine conclusively why this occurs.
+                    The results come from two extremely similar runs where I train “gpt2-nano” [[autoencoders]], a GPT-2 style
+                    architecture with 6 layers and 4 heads but with RMSNorm instead of layernorm and SGD with momentum
+                    and gradient clipping (the RMS of the normalisation layers was diverging without gradient clipping)
+                    as the optimizer. In one run, the momentum is set to 0.8 and in the second run, it is set to 0.
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    As hypothesised in [[privilege]], we can verify that storing momentum in a basis aligned with the
+                    optimizer is responsible for making the residual stream privileged. I also checked that this trick
+                    doesn’t work for image models as image models perform a ReLU at the end of a block that writes to a
+                    residual stream.
                 </text>
             </paragraph>
         </div>
