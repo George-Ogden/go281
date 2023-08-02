@@ -11,6 +11,7 @@
                 </text>
             </paragraph>
             <fig>
+
                 <body>
                     <visual>
                         <src>/images/residual/transformer.png</src>
@@ -23,36 +24,59 @@
             </fig>
             <paragraph>
                 <text>
-                    Operations on residual streams are often characterised as reads and writes. This communication is a key component of the stream, which acts as a shared, bottlenecked memory between layers and allows modules to iteratively refine a set of shared features into more specialised ones for prediction. One downside of this approach is that small changes to parameters early in the model could be amplified in later layers and a module that reads from the stream later may expect a different distribution after the update. This problem is overcome with normalisation: batch normalisation in CNNs and layer normalisation in transformers.
+                    Operations on residual streams are often characterised as reads and writes. This communication is a
+                    key component of the stream, which acts as a shared, bottlenecked memory between layers and allows
+                    modules to iteratively refine a set of shared features into more specialised ones for prediction.
+                    One downside of this approach is that small changes to parameters early in the model could be
+                    amplified in later layers and a module that reads from the stream later may expect a different
+                    distribution after the update. This problem is overcome with normalisation: batch normalisation in
+                    CNNs and layer normalisation in transformers.
                 </text>
             </paragraph>
             <paragraph>
                 <text>
-                    Before continuing, I must address the confusing terminology as “layer” has specific meanings for each model. Each of the transformers is made up of 12 or 24 layers that contain modules. A ResNet is made up of 5 layers containing between 7 and 49 blocks, which I will refer to as modules when comparing with language models. On the charts, I plot progression in layers in transformers and progression in blocks for the ResNets with vertical lines showing the separation between ResNet layers. 
+                    Before continuing, I must address the confusing terminology as “layer” has specific meanings for
+                    each model. Each of the transformers is made up of 12 or 24 layers that contain modules. A ResNet is
+                    made up of 5 layers containing between 7 and 49 blocks, which I will refer to as modules when
+                    comparing with language models. On the charts, I plot progression in layers in transformers and
+                    progression in blocks for the ResNets with vertical lines showing the separation between ResNet
+                    layers.
                 </text>
             </paragraph>
             <paragraph>
                 <text>
-                    Another piece of confusing terminology is “features”. Features are properties of the data (dog ears, circles, curves, the texture of broccoli, etc) and some features may not appear in a certain dataset (there are no dog ears in MNIST). Activations are properties of the model when certain data is passed through it - they occur after an operation (add, ReLU, attention, etc) and can be viewed at different resolutions (per neuron, channel, etc). 
+                    Another piece of confusing terminology is “features”. Features are properties of the data (dog ears,
+                    circles, curves, the texture of broccoli, etc) and some features may not appear in a certain dataset
+                    (there are no dog ears in MNIST). Activations are properties of the model when certain data is
+                    passed through it - they occur after an operation (add, ReLU, attention, etc) and can be viewed at
+                    different resolutions (per neuron, channel, etc).
                 </text>
             </paragraph>
             <paragraph>
                 <text>
-                    Starting with an up-close inspection of image networks, I want to highlight some neuron activations seen under the OpenAI Microscope [[microscope]]. The initial visualisation is channel 1594 of layer 4 block 3 from ResNet-50 [(fig-feature)]. The choice is fairly arbitrary but is part of some exploration I was doing on the model. From the weights of the last layer, we can see that this channel has the highest contribution to the final probability for class 1 (goldfish). Backtracking through the blocks In the final layer, this feature has been refined into a more and more goldfish-like feature until it makes the final classification (see this notebook for more details).
+                    Starting with an up-close inspection of image networks, I want to highlight some neuron activations
+                    seen under the OpenAI Microscope [[microscope]]. The initial visualisation is channel 1594 of layer
+                    4 block 3 from ResNet-50 [(fig-feature)]. The choice is fairly arbitrary but is part of some
+                    exploration I was doing on the model. From the weights of the last layer, we can see that this
+                    channel has the highest contribution to the final probability for class 1 (goldfish). Backtracking
+                    through the blocks In the final layer, this feature has been refined into a more and more
+                    goldfish-like feature until it makes the final classification (see this notebook for more details).
                 </text>
             </paragraph>
         </div>
     </div>
     <fig>
+
         <body>
             <div id="visualisation" class="mx-auto">
                 <div class="form-group mx-auto py-3" style="max-width: 250px;">
                     <div class="input-group w-auto">
                         <span class="input-group-text" id="feature-description">Feature number: </span>
-                        <input type="number" class="form-control text-center" id="feature-input" min="0" max="2047" value="1594"
-                            aria-describedby="feature-description feature-help">
+                        <input type="number" class="form-control text-center" id="feature-input" min="0" max="2047"
+                            value="1594" aria-describedby="feature-description feature-help">
                     </div>
-                    <div class="form-text text-center" id="feature-help">Enter the id of the feature to visualize (0-2047).
+                    <div class="form-text text-center" id="feature-help">Enter the id of the feature to visualize
+                        (0-2047).
                     </div>
                 </div>
                 <div class="row">
@@ -105,13 +129,142 @@
             </script>
         </body>
         <id>fig-visualisation</id>
-        <caption>An interactive visualisation of the final layer of a ResNet-50. Each image contains samples from the dataset that cause a high activation in the given channel. The weights below give the contribution of this feature to each of the classes before the softmax and final prediction.</caption>
+        <caption>An interactive visualisation of the final layer of a ResNet-50. Each image contains samples from the
+            dataset that cause a high activation in the given channel. The weights below give the contribution of this
+            feature to each of the classes before the softmax and final prediction.</caption>
     </fig>
     <div class="mx-auto" style="max-width: 700px;">
         <div class="row p-3 pb-1">
             <paragraph>
                 <text>
-                    This is my first attempt at an interactive visualisation [(fig-visualisation)] in a blog post so it's fairly primitive but I encourage you to visualise different channels so that you have more intuition about the results later. All of the remaining charts give layer-by-layer overviews, however, the visualisations are a useful part of interpreting and understanding neural networks, especially when combined with other approaches [[visualisation]].
+                    This is my first attempt at an interactive visualisation [(fig-visualisation)] in a blog post so
+                    it's fairly primitive but I encourage you to visualise different channels so that you have more
+                    intuition about the results later. All of the remaining charts give layer-by-layer overviews,
+                    however, the visualisations are a useful part of interpreting and understanding neural networks,
+                    especially when combined with other approaches [[visualisation]].
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    It is worth noting that the dimensionality of the residual stream changes between layers in the
+                    ResNet due to the down-sampling. The number of channels (which are averaged to identify activations)
+                    increases at these points even though the size of the image decreases. This gives some interesting
+                    phenomena that transformers (where the residual stream is a fixed size) do not exhibit. The first
+                    phenomenon is that there are sharp changes in how features are represented. The type change
+                    [[types]] on these boundaries is dominated by the write from the block rather than the direct
+                    shortcut in the residual stream meaning the features do not line up as expected
+                    [(fig-visualisation)].
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    A further example of the importance of the blocks around layer transitions comes from an experiment
+                    where we consider the accuracy of models as we ablate more and more components (figure). There are
+                    very sharp changes in the accuracy of image models when we exclude downsampling blocks, suggesting
+                    that these blocks are more important than the blocks around them when making predictions.
+                    Interestingly, we also see a similar phenomenon with layer 20 of RoBERTa-large [[roberta]] and layer
+                    9 of RoBERTa-base even though the layers are identical (apart from the parameters). This remains a
+                    mystery to me and could possibly be an artefact of fine-tuning the model.
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    The other clear result from this experiment - that ablating from the end has a less significant
+                    effect than ablating from the start - is hardly surprising. Intuitively, we expect that a layer with
+                    a different input distribution than expected will magnify this change with an even more anomalous
+                    output distribution. These results can also be explained in terms of reads and writes by considering
+                    a later layer attempting to read a value that was not written to by a previous one.
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    Perhaps the most surprising result, however, is that we can ablate so many layers without
+                    significant drops in performance. This really demonstrates the power of the stream as the modules
+                    focus on refining the features rather than copying them. One result that I have not shown is that
+                    removing the residual stream at any point destroys the network’s performance - it really serves as
+                    the spine for these models.
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    We can think of features as being represented by directions [[superposition]] and when these
+                    directions align with the basis, they become easier to interpret. For transformers, the 
+                    privileged basis in a residual stream because we only ever perform addition (not an activation) to
+                    it, however, for image models, all blocks perform ReLU immediately before adding which forces a
+                    residual basis. Looking at activations, we see neurons and channels give rise to features that align
+                    with the basis. To investigate this further, I reproduced some experiments from [[privilege]],
+                    hoping the presence of an aligned basis may offer some explanations about how the residual stream is
+                    used.
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    Like the original paper, we measure the number of activations where outliers occur in a neuron or
+                    channel on the validation set in each layer. The number of outliers is low at the start and
+                    increases as we go from generic to specific features, with a change in distribution as we approach
+                    the final linear layer. Even with different thresholds, the number of outliers in GPT-2 [[gpt2]] is
+                    much larger than in RoBERTa [[roberta]]. This is a byproduct of architecture choices as RoBERTa has
+                    a single layernorm at the end of each block, whereas GPT-2 has two in different locations. As in
+                    [[int8]], we see a dichotomy between lots of outliers and very few outliers in the language models
+                    (this phenomenon was even more extreme when the standard value of 6 was used as a threshold for
+                    outliers).
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    In image models, we see far fewer outliers at the start of the model where features are generic
+                    (curve detectors, high-low frequency detectors, etc) and then this increases drastically as we
+                    obtain more specific, class-dependent features (dog ears, goldfish, etc). And the change between
+                    different numbers of channels is even more drastic given the ability to represent a larger number of
+                    complex features.
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    Before showing the results of the kurtosis experiments, I will give a short explanation of what it
+                    is in case you’re not familiar. Firstly, here is the definition
+                    Kurt[X] = E[x-mu]...
+                    The fourth power means that values within 1 standard deviation of the mean have a minimal
+                    contribution relative to the values outside. Intuitively kurtosis can be thought of as a measure of
+                    the tendency to produce outliers [[kurtosis]].
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    Perhaps the most surprising result, however, is that we can ablate so many layers without
+                    significant drops in performance. This really demonstrates the power of the stream as the modules
+                    focus on refining the features rather than copying them. One result that I have not shown is that
+                    removing the residual stream at any point destroys the network’s performance - it really serves as
+                    the spine for these models.
+                </text>
+            </paragraph>
+        </div>
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>
+                    Perhaps the most surprising result, however, is that we can ablate so many layers without
+                    significant drops in performance. This really demonstrates the power of the stream as the modules
+                    focus on refining the features rather than copying them. One result that I have not shown is that
+                    removing the residual stream at any point destroys the network’s performance - it really serves as
+                    the spine for these models.
                 </text>
             </paragraph>
         </div>
