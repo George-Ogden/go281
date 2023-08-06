@@ -1,4 +1,5 @@
 <main class="my-4 col-md-8 col-xl-9 col-12 text-break px-3 fs-5">
+    <h1 class="py-5 px-3 text-center">Residual Streams</h1>
     <div class="mx-auto" style="max-width: 700px;">
         <section>
             <id>introduction</id>
@@ -73,13 +74,15 @@
                         activations
                         seen under the OpenAI Microscope [[microscope]]. The initial visualisation is channel 1594 of
                         layer
-                        4 block 3 from ResNet-50 [(feature)]. The choice is fairly arbitrary but is part of some
+                        4 block 3 from ResNet-50 [(visualisation)]. The choice is fairly arbitrary but is part of some
                         exploration I was doing on the model. From the weights of the last layer, we can see that this
                         channel has the highest contribution to the final probability for class 1 (goldfish).
                         Backtracking
                         through the blocks In the final layer, this feature has been refined into a more and more
-                        goldfish-like feature until it makes the final classification (see this notebook for more
-                        details).
+                        goldfish-like feature until it makes the final classification <a
+                            href="https://github.com/George-Ogden/residual/blob/master/visualisation/notebook.ipynb"
+                            title="Visualisation Notebook" target="_blank">(see this notebook for more
+                            details)</a>.
                     </text>
                 </paragraph>
             </body>
@@ -171,7 +174,7 @@
                     interesting phenomena that transformers (where the residual stream is a fixed size) do not exhibit.
                     The first phenomenon is that there are sharp changes in how features are represented. The type
                     change [[types]] on these boundaries is dominated by the write from the block rather than the direct
-                    shortcut in the residual stream meaning the features do not line up as expected [(visualisation)].
+                    shortcut in the residual stream meaning the features do not line up as expected.
                 </text>
             </paragraph>
         </div>
@@ -196,7 +199,7 @@
             <body>
                 <paragraph>
                     <text>A further example of the importance of the blocks around layer transitions comes from an
-                        experiment where we consider the accuracy of models as we ablate more and more components from
+                        experiment where we consider the accuracy of models as we ablate more and more blocks from
                         the start or end [(ablation)]. There are very sharp changes in the accuracy of image models when
                         we exclude downsampling blocks, suggesting that these blocks are more important than the blocks
                         around them when modifying the residual stream. Interestingly, we also see a similar phenomenon
@@ -361,7 +364,7 @@
                         Isotropic Gaussians are invariant to orthonormal changes of basis so if we take a privileged
                         basis and apply a fixed random rotation to all the features, we can expect the components to be
                         Gaussianly distributed. We verify this to obtain high kurtoses in the aligned basis (no
-                        rotation) and kurtoses of approximately 3 in the random basis (rotated).
+                        rotation) and kurtoses of approximately 3 in the random basis (rotated) [(kurtosis)].
                     </text>
                 </paragraph>
             </body>
@@ -424,7 +427,7 @@
                     <text>One remaining theory for the presence of the privileged basis is the effect of the optimizer.
                         Firstly, I train a ResNet with SGD to gain some intuitions about whether doing so with a
                         transformer will be worthwhile. I obtain reasonable accuracy after training ResNet-18 and
-                        ResNet-34 (with RMSnorm over BatchNorm) on ImageNet [[imagenet]] for 20 epochs but these models
+                        ResNet-34 (with RMSNorm over BatchNorm) on ImageNet [[imagenet]] for 20 epochs but these models
                         are much more fragile [(ablation-sgd)]. The kurtosis remains high, as expected
                         [(kurtosis-comparison)].
                     </text>
@@ -496,17 +499,31 @@
 
             <body>
                 <paragraph>
-                    <text> Residual streams are an extremely important part of the transformer and ResNet architectures with modules reading to and writing to it as a shared memory. Under conventional training schemes, they form a privileged basis, which produces aligned, interpretable features that give more of an insight into how the network operates.
-                   </text>
+                    <text> Residual streams are an extremely important part of the transformer and ResNet architectures
+                        with modules reading to and writing to it as a shared memory. Under conventional training
+                        schemes, they form a privileged basis, which produces aligned, interpretable features that give
+                        more of an insight into how the network operates.
+                    </text>
                 </paragraph>
                 <paragraph>
-                    <text>  We assume the distribution of the activations of the residual stream is Gaussian in a random basis, however, it has a much higher kurtosis than we would expect - strong evidence for an aligned basis. We can recover the Gaussianness by rotating into a random basis but changes to the architecture alone do not restore a kurtosis of 3. However, we have found evidence that the optimizer is responsible for the aligned basis. With an undertrained, small model, it is impossible to say this for certain but I pass on the baton for someone to repeat these experiments, as I expect that this can be solved with more data and more compute [[bitter]].
-                  </text>
+                    <text> We assume the distribution of the activations of the residual stream is Gaussian in a random
+                        basis and see strong evidence for this. In teh original basis, however, it has a much higher kurtosis than we would expect - strong evidence for an
+                        aligned basis. We can recover the Gaussianness by rotating into a random basis but changes to
+                        the architecture alone do not restore a kurtosis of 3. However, we have found evidence that the
+                        optimizer is responsible for the aligned basis. With an undertrained, small model, it is
+                        impossible to say this for certain but I pass on the baton for someone to repeat these
+                        experiments, as I expect that this can be solved with more data and more compute [[bitter]].
+                    </text>
                 </paragraph>
             </body>
         </section>
         <div class="mx-auto" style="max-width: 700px;">
             <bibliography />
         </div>
+        <github>
+            <repo>
+                https://github.com/George-Ogden/residual
+            </repo>
+        </github>
     </div>
 </main>
