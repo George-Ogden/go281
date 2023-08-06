@@ -1,69 +1,89 @@
 <main class="my-4 col-md-8 col-xl-9 col-12 text-break px-3 fs-5">
     <div class="mx-auto" style="max-width: 700px;">
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    Residual streams [[highway]] are a key component of the transformer architecture [[transformer]] and
-                    are common in deep convolutional neural networks [[resnet]]. The skip connections between layers
-                    allow gradients to propagate backwards through the model efficiently. Karpathy describes residual
-                    streams as a way to optimise all the lines of a short program in parallel [[karpathy]], which I like
-                    a lot.
-                </text>
-            </paragraph>
-            <fig>
+        <section>
+            <id>introduction</id>
+            <header>Introduction</header>
 
-                <body>
-                    <visual>
-                        <src>/images/residual/transformer.png</src>
-                        <alt>A diagram of a residual block in the transformer architecture.</alt>
-                        <title>Residual Block</title>
-                    </visual>
-                </body>
-                <id>transformer</id>
-                <caption>An illustration of a single block in the transformer architecture.</caption>
-            </fig>
-            <paragraph>
-                <text>
-                    Operations on residual streams are often characterised as reads and writes. This communication is a
-                    key component of the stream, which acts as a shared, bottlenecked memory between layers and allows
-                    modules to iteratively refine a set of shared features into more specialised ones for prediction.
-                    One downside of this approach is that small changes to parameters early in the model could be
-                    amplified in later layers and a module that reads from the stream later may expect a different
-                    distribution after the update. This problem is overcome with normalisation: batch normalisation in
-                    CNNs and layer normalisation in transformers.
-                </text>
-            </paragraph>
-            <paragraph>
-                <text>
-                    Before continuing, I must address the confusing terminology as “layer” has specific meanings for
-                    each model. Each of the transformers is made up of 12 or 24 layers that contain modules. A ResNet is
-                    made up of 5 layers containing between 7 and 49 blocks, which I will refer to as modules when
-                    comparing with language models. On the charts, I plot progression in layers in transformers and
-                    progression in blocks for the ResNets with vertical lines showing the separation between ResNet
-                    layers.
-                </text>
-            </paragraph>
-            <paragraph>
-                <text>
-                    Another piece of confusing terminology is “features”. Features are properties of the data (dog ears,
-                    circles, curves, the texture of broccoli, etc) and some features may not appear in a certain dataset
-                    (there are no dog ears in MNIST). Activations are properties of the model when certain data is
-                    passed through it - they occur after an operation (add, ReLU, attention, etc) and can be viewed at
-                    different resolutions (per neuron, channel, etc).
-                </text>
-            </paragraph>
-            <paragraph>
-                <text>
-                    Starting with an up-close inspection of image networks, I want to highlight some neuron activations
-                    seen under the OpenAI Microscope [[microscope]]. The initial visualisation is channel 1594 of layer
-                    4 block 3 from ResNet-50 [(fig-feature)]. The choice is fairly arbitrary but is part of some
-                    exploration I was doing on the model. From the weights of the last layer, we can see that this
-                    channel has the highest contribution to the final probability for class 1 (goldfish). Backtracking
-                    through the blocks In the final layer, this feature has been refined into a more and more
-                    goldfish-like feature until it makes the final classification (see this notebook for more details).
-                </text>
-            </paragraph>
-        </div>
+            <body>
+                <paragraph>
+                    <text>
+                        Residual streams [[highway]] are a key component of the transformer architecture [[transformer]]
+                        and are common in deep convolutional neural networks [[resnet]]. The skip connections between
+                        layers allow gradients to propagate backwards through the model efficiently. Karpathy describes
+                        residual streams as a way to optimise all the lines of a short program in parallel [[karpathy]],
+                        which I like a lot.
+                    </text>
+                </paragraph>
+                <fig>
+
+                    <body>
+                        <visual>
+                            <src>/images/residual/transformer.png</src>
+                            <alt>A diagram of a residual block in the transformer architecture.</alt>
+                            <title>Residual Block</title>
+                        </visual>
+                    </body>
+                    <id>transformer</id>
+                    <caption>An illustration of a single block in the transformer architecture.</caption>
+                </fig>
+                <paragraph>
+                    <text>
+                        Operations on residual streams are often characterised as reads and writes. This communication
+                        is a key component of the stream, which acts as a shared, bottlenecked memory between layers and
+                        allows modules to iteratively refine a set of shared features into more specialised ones for
+                        prediction. One downside of this approach is that small changes to parameters early in the model
+                        could be amplified in later layers and a module that reads from the stream later may expect a
+                        different distribution after the update. This problem is overcome with normalisation: batch
+                        normalisation in CNNs and layer normalisation in transformers.
+                    </text>
+                </paragraph>
+            </body>
+        </section>
+        <section>
+            <id>definitions</id>
+            <header>Definitions</header>
+
+            <body>
+                <paragraph>
+                    <text>Before continuing, I must address the confusing terminology as “layer” has specific meanings
+                        for each model. Each of the transformers is made up of 12 or 24 layers, each of which is a
+                        single residual block. A ResNet is made up of 5 layers containing between 2 and 36 blocks each.
+                        On the charts, I plot progression in blocks and have vertical lines showing the separation of
+                        layers between ResNet layers.
+                    </text>
+                </paragraph>
+                <paragraph>
+                    <text>Another piece of confusing terminology is “features”. Features are properties of the data (dog
+                        ears, circles, curves, the texture of broccoli, etc) and some features may not appear in a
+                        certain dataset (there are no dog ears in MNIST). Activations are properties of the model when
+                        certain data is passed through it - they occur after an operation (add, ReLU, attention, etc)
+                        and can be viewed at different resolutions (per neuron, channel, etc).
+                    </text>
+                </paragraph>
+            </body>
+        </section>
+        <section>
+            <id>feature-visualisation</id>
+            <header>ResNet Feature Visualisation</header>
+
+            <body>
+                <paragraph>
+                    <text>
+                        Starting with an up-close inspection of image networks, I want to highlight some neuron
+                        activations
+                        seen under the OpenAI Microscope [[microscope]]. The initial visualisation is channel 1594 of
+                        layer
+                        4 block 3 from ResNet-50 [(feature)]. The choice is fairly arbitrary but is part of some
+                        exploration I was doing on the model. From the weights of the last layer, we can see that this
+                        channel has the highest contribution to the final probability for class 1 (goldfish).
+                        Backtracking
+                        through the blocks In the final layer, this feature has been refined into a more and more
+                        goldfish-like feature until it makes the final classification (see this notebook for more
+                        details).
+                    </text>
+                </paragraph>
+            </body>
+        </section>
     </div>
     <fig>
 
@@ -128,7 +148,7 @@
                 $("#visualisation input").on("input", update_visualisation)
             </script>
         </body>
-        <id>fig-visualisation</id>
+        <id>visualisation</id>
         <caption>An interactive visualisation of the final layer of a ResNet-50. Each image contains samples from the
             dataset that cause a high activation in the given channel. The weights below give the contribution of this
             feature to each of the classes before the softmax and final prediction.</caption>
@@ -137,96 +157,180 @@
         <div class="row p-3 pb-1">
             <paragraph>
                 <text>
-                    This is my first attempt at an interactive visualisation [(fig-visualisation)] in a blog post so
+                    This is my first attempt at an interactive visualisation [(visualisation)] in a blog post so
                     it's fairly primitive but I encourage you to visualise different channels so that you have more
                     intuition about the results later. All of the remaining charts give layer-by-layer overviews,
                     however, the visualisations are a useful part of interpreting and understanding neural networks,
                     especially when combined with other approaches [[visualisation]].
                 </text>
             </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
             <paragraph>
-                <text>
-                    It is worth noting that the dimensionality of the residual stream changes between layers in the
-                    ResNet due to the down-sampling. The number of channels (which are averaged to identify activations)
-                    increases at these points even though the size of the image decreases. This gives some interesting
-                    phenomena that transformers (where the residual stream is a fixed size) do not exhibit. The first
-                    phenomenon is that there are sharp changes in how features are represented. The type change
-                    [[types]] on these boundaries is dominated by the write from the block rather than the direct
-                    shortcut in the residual stream meaning the features do not line up as expected
-                    [(fig-visualisation)].
+                <text>It is worth noting that the dimensionality of the residual stream changes between layers in the
+                    ResNet due to the down-sampling [(resnet)]. The number of channels (which are averaged to identify
+                    activations) increases at these points even though the size of the image decreases. This gives some
+                    interesting phenomena that transformers (where the residual stream is a fixed size) do not exhibit.
+                    The first phenomenon is that there are sharp changes in how features are represented. The type
+                    change [[types]] on these boundaries is dominated by the write from the block rather than the direct
+                    shortcut in the residual stream meaning the features do not line up as expected [(visualisation)].
                 </text>
             </paragraph>
         </div>
+    </div>
+    <fig>
+
+        <body>
+            <visual>
+                <src>/images/residual/resnet.png</src>
+                <alt>Diagram of ResNet-50 Architecture</alt>
+                <title>ResNet-50 Architecture</title>
+            </visual>
+        </body>
+        <id>resnet</id>
+        <caption>A diagram of the ResNet-50 architecture taken from [[resnet]].</caption>
+    </fig>
+    <div class="mx-auto" style="max-width: 700px;">
+        <section>
+            <id>ablation</id>
+            <header>Head-Tail Ablation</header>
+
+            <body>
+                <paragraph>
+                    <text>A further example of the importance of the blocks around layer transitions comes from an
+                        experiment where we consider the accuracy of models as we ablate more and more components from
+                        the start or end [(ablation)]. There are very sharp changes in the accuracy of image models when
+                        we exclude downsampling blocks, suggesting that these blocks are more important than the blocks
+                        around them when modifying the residual stream. Interestingly, we also see a similar phenomenon
+                        with layer 20 of RoBERTa-large [[roberta]] and layer 9 of RoBERTa-base even though the layers
+                        are identical (apart from the parameters). This remains a mystery to me and could possibly be an
+                        artefact of fine-tuning the model.
+                    </text>
+                </paragraph>
+            </body>
+        </section>
+    </div>
+    <fig>
+
+        <body>
+            <visual>
+                <src>/images/residual/small-ablation.png</src>
+                <alt>A chart showing the accuracy of small LLMs on MNLI and MNLI-MM with ablated layers.</alt>
+                <title>Accuracy of small LLMs with ablated layers</title>
+            </visual>
+            <visual>
+                <src>/images/residual/large-ablation.png</src>
+                <alt>A chart showing the accuracy of large LLMs on MNLI and MNLI-MM with ablated layers.</alt>
+                <title>Accuracy of large LLMs with ablated layers</title>
+            </visual>
+            <visual>
+                <src>/images/residual/resnet-ablation.png</src>
+                <alt>A chart showing the accuracy of ResNets on ImageNet with ablated layers.</alt>
+                <title>Accuracy of ResNets with ablated layers</title>
+            </visual>
+        </body>
+        <caption>
+            Accuracy of models as blocks are ablated from the beginning and end of the model. For text models, results
+            are based on MNLI matched and unmatched. For image models, the results are from ImageNet.
+        </caption>
+        <id>ablation</id>
+    </fig>
+    <div class="mx-auto" style="max-width: 700px">
         <div class="row p-3 pb-1">
             <paragraph>
-                <text>
-                    A further example of the importance of the blocks around layer transitions comes from an experiment
-                    where we consider the accuracy of models as we ablate more and more components (figure). There are
-                    very sharp changes in the accuracy of image models when we exclude downsampling blocks, suggesting
-                    that these blocks are more important than the blocks around them when making predictions.
-                    Interestingly, we also see a similar phenomenon with layer 20 of RoBERTa-large [[roberta]] and layer
-                    9 of RoBERTa-base even though the layers are identical (apart from the parameters). This remains a
-                    mystery to me and could possibly be an artefact of fine-tuning the model.
-                </text>
-            </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    The other clear result from this experiment - that ablating from the end has a less significant
+                <text>The other clear result from this experiment - that ablating from the end has a less significant
                     effect than ablating from the start - is hardly surprising. Intuitively, we expect that a layer with
                     a different input distribution than expected will magnify this change with an even more anomalous
                     output distribution. These results can also be explained in terms of reads and writes by considering
                     a later layer attempting to read a value that was not written to by a previous one.
                 </text>
             </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
             <paragraph>
-                <text>
-                    Perhaps the most surprising result, however, is that we can ablate so many layers without
-                    significant drops in performance. This really demonstrates the power of the stream as the modules
-                    focus on refining the features rather than copying them. One result that I have not shown is that
-                    removing the residual stream at any point destroys the network’s performance - it really serves as
-                    the spine for these models.
+                <text>Perhaps the most surprising result, however, is that we can ablate so many layers from the end
+                    without significant drops in performance, a core concept behind the logit lens [[logit-lens]]. This
+                    really demonstrates the power of the stream as the modules focus on refining the features rather
+                    than copying them. One result that I have not shown is that removing the residual stream at any
+                    point destroys the network’s performance - it really serves as the spine for these models.
                 </text>
             </paragraph>
         </div>
+        <section>
+            <header>Privileged Basis</header>
+            <id>privileged-basis</id>
+
+            <body>
+
+                <paragraph>
+                    <text>We can think of features as being represented by directions [[superposition]] and when these
+                        directions align with the basis, they become easier to interpret. This phenomenon is known as an
+                        aligned basis and may occur when the basis is privileged: components of the setup encourage
+                        features to align with the basis and neuron activations to coincide with features. The
+                        likelihood of an aligned basis without a privileged basis is negligible so we can use an aligned
+                        basis as strong evidence for a privileged basis.
+                    </text>
+                </paragraph>
+                <paragraph>
+                    <text>
+                        For transformers, the residual stream is generally considered not to be privileged because we
+                        only ever perform addition (not an activation) to it, however, for image models, all blocks
+                        perform ReLU immediately before adding which creates the privileged basis. Looking at
+                        activations, we see neurons and channels give rise to features that align with the basis. To
+                        investigate this further, I reproduced some experiments from [[privilege]], hoping the presence
+                        of an aligned basis may offer some explanations about how the residual stream is used and come
+                        to a conclusion about what else is contributing to the privileged basis.
+                    </text>
+                </paragraph>
+            </body>
+        </section>
+        <section>
+            <header>Outliers</header>
+            <id>outliers</id>
+
+            <body>
+                <paragraph>
+                    <text>Like the original paper, we measure the number of activations where outliers occur in a neuron
+                        or channel on the validation set in each layer. The number of outliers is low at the start and
+                        increases as we go from generic to specific features, with a change in distribution as we
+                        approach the final linear layer. Even with different thresholds, the number of outliers in GPT-2
+                        [[gpt2]] is much larger than in RoBERTa [[roberta]]. This is a byproduct of architecture choices
+                        as RoBERTa has a single layernorm at the end of each block, whereas GPT-2 has two in different
+                        locations. As in [[int8]], we see a dichotomy between lots of outliers and very few outliers in
+                        the language models (this phenomenon was even more extreme when the standard value of 6 was used
+                        as a threshold for outliers).
+                    </text>
+                </paragraph>
+            </body>
+        </section>
+    </div>
+
+    <fig>
+
+        <body>
+            <visual>
+                <src>/images/residual/small-outliers.png</src>
+                <alt>A chart showing the percentage of features with outliers in small LLMs.</alt>
+                <title>Percentage of outliers in small LLMs</title>
+            </visual>
+            <visual>
+                <src>/images/residual/large-outliers.png</src>
+                <alt>A chart showing the percentage of features with outliers in large LLMs.</alt>
+                <title>Percentage of outliers in large LLMs</title>
+            </visual>
+            <visual>
+                <src>/images/residual/resnet-outliers.png</src>
+                <alt>A chart showing the percentage of features with outliers in ResNets.</alt>
+                <title>Percentage of outliers in ResNets</title>
+            </visual>
+        </body>
+        <caption>
+            Each chart shows the percentage of features where an outlier appears in at least one example in each layer
+            of the model. For encoder models (RoBERTa), we use 4 as the threshold for outliers; for decoder models
+            (GPT-2), we use 10 as the threshold; and for image models (ResNets), we use 6 as the threshold.
+        </caption>
+        <id>outliers</id>
+    </fig>
+    <div class="mx-auto" style="max-width: 700px">
         <div class="row p-3 pb-1">
             <paragraph>
-                <text>
-                    We can think of features as being represented by directions [[superposition]] and when these
-                    directions align with the basis, they become easier to interpret. For transformers, the
-                    privileged basis in a residual stream because we only ever perform addition (not an activation) to
-                    it, however, for image models, all blocks perform ReLU immediately before adding which forces a
-                    residual basis. Looking at activations, we see neurons and channels give rise to features that align
-                    with the basis. To investigate this further, I reproduced some experiments from [[privilege]],
-                    hoping the presence of an aligned basis may offer some explanations about how the residual stream is
-                    used.
-                </text>
-            </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    Like the original paper, we measure the number of activations where outliers occur in a neuron or
-                    channel on the validation set in each layer. The number of outliers is low at the start and
-                    increases as we go from generic to specific features, with a change in distribution as we approach
-                    the final linear layer. Even with different thresholds, the number of outliers in GPT-2 [[gpt2]] is
-                    much larger than in RoBERTa [[roberta]]. This is a byproduct of architecture choices as RoBERTa has
-                    a single layernorm at the end of each block, whereas GPT-2 has two in different locations. As in
-                    [[int8]], we see a dichotomy between lots of outliers and very few outliers in the language models
-                    (this phenomenon was even more extreme when the standard value of 6 was used as a threshold for
-                    outliers).
-                </text>
-            </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    In image models, we see far fewer outliers at the start of the model where features are generic
+                <text>In image models, we see far fewer outliers at the start of the model where features are generic
                     (curve detectors, high-low frequency detectors, etc) and then this increases drastically as we
                     obtain more specific, class-dependent features (dog ears, goldfish, etc). And the change between
                     different numbers of channels is even more drastic given the ability to represent a larger number of
@@ -234,79 +338,175 @@
                 </text>
             </paragraph>
         </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    Before showing the results of the kurtosis experiments, I will give a short explanation of what it
-                    is in case you’re not familiar. Firstly, here is the definition:
-                    $$\text{Kurt}\left[X\right] = E\left[\left(\frac{x-\mu}{\sigma}\right)^4\right]$$
-                    The fourth power means that values within 1 standard deviation of the mean have a minimal
-                    contribution relative to the values outside. Intuitively kurtosis can be thought of as a measure of
-                    the tendency to produce outliers [[kurtosis]].
-                </text>
-            </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    If the features are randomly sampled from an isotropic Gaussian distribution, we would expect a
-                    kurtosis of 3 in a non-privileged basis (Gaussian distributions have a kurtosis of 3). Isotropic
-                    Gaussians are invariant to orthonormal changes of basis so if we take a privileged basis and apply a
-                    fixed random rotation to all the features, we can expect the components to be Gaussianly
-                    distributed. We verify this to obtain high kurtoses in the aligned basis (no rotation) and kurtoses
-                    of approximately 3 in the random basis (rotated).
-                </text>
-            </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    In language models, we already see an aligned basis appearing in the embeddings (layer 0) and the
-                    number of identified outliers grows as we add layers. Something similar happens in large vision
-                    models, however, the values of the kurtoses are smaller.
-                </text>
-            </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
+        <section>
+            <id>kurtosis</id>
+            <header>Kurtosis</header>
 
-                    The residual stream is evidently an
-                    important part of these model architectures, however, we want to understand why it appears.
-                    [[privilege]] suggests that this could be due to the layernorm and replaces it with RMSNorm, which
-                    is basis invariant:
-                    $$\text{RMSNorm}(x_i) = \alpha \cdot \frac{x_i}{\sqrt{\frac 1d \sum_{i=1}^d x_i^2}}$$
-                    They also consider the effects of performing the computation in a separate basis to the stream and
-                    this is effective when the computation is different for each head but fails to reduce the kurtosis
-                    when the computation basis is shared. In fact, removing all parts of the architecture that could
-                    contribute to the alignment doesn’t reduce the kurtosis.
-
-                </text>
-            </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    Fortunately, after many different experiments, I managed to determine conclusively why this occurs.
-                    The results come from two extremely similar runs where I train “gpt2-nano” [[autoencoders]], a GPT-2 style
-                    architecture with 6 layers and 4 heads but with RMSNorm instead of layernorm and SGD with momentum
-                    and gradient clipping (the RMS of the normalisation layers was diverging without gradient clipping)
-                    as the optimizer. In one run, the momentum is set to 0.8 and in the second run, it is set to 0.
-                </text>
-            </paragraph>
-        </div>
-        <div class="row p-3 pb-1">
-            <paragraph>
-                <text>
-                    As hypothesised in [[privilege]], we can verify that storing momentum in a basis aligned with the
-                    optimizer is responsible for making the residual stream privileged. I also checked that this trick
-                    doesn’t work for image models as image models perform a ReLU at the end of a block that writes to a
-                    residual stream.
-                </text>
-            </paragraph>
-        </div>
+            <body>
+                <paragraph>
+                    <text>
+                        Before showing the results of the kurtosis experiments, I will give a short explanation of what
+                        it
+                        is in case you’re not familiar. Firstly, here is the definition:
+                        $$\text{Kurt}\left[X\right] = E\left[\left(\frac{x-\mu}{\sigma}\right)^4\right]$$
+                        The fourth power means that values within 1 standard deviation of the mean have a minimal
+                        contribution relative to the values outside. Intuitively kurtosis can be thought of as a measure
+                        of
+                        the tendency to produce outliers [[kurtosis]].
+                    </text>
+                </paragraph>
+                <paragraph>
+                    <text>If the features are randomly sampled from an isotropic Gaussian distribution, we would expect
+                        a kurtosis of 3 in a non-privileged basis (Gaussian distributions have a kurtosis of 3).
+                        Isotropic Gaussians are invariant to orthonormal changes of basis so if we take a privileged
+                        basis and apply a fixed random rotation to all the features, we can expect the components to be
+                        Gaussianly distributed. We verify this to obtain high kurtoses in the aligned basis (no
+                        rotation) and kurtoses of approximately 3 in the random basis (rotated).
+                    </text>
+                </paragraph>
+            </body>
+        </section>
     </div>
-    <div class="mx-auto" style="max-width: 700px;">
-        <bibliography />
+    <fig>
+
+        <body>
+            <visual>
+                <src>/images/residual/small-kurtosis.png</src>
+                <alt>A chart showing the average kurtosis of layers of small LLMs.</alt>
+                <title>Kurtosis in small LLMs</title>
+            </visual>
+            <visual>
+                <src>/images/residual/large-kurtosis.png</src>
+                <alt>A chart showing the average kurtosis of layers of large LLMs.</alt>
+                <title>Kurtosis in large LLMs</title>
+            </visual>
+            <visual>
+                <src>/images/residual/resnet-kurtosis.png</src>
+                <alt>A chart showing the average kurtosis of layers of ResNets.</alt>
+                <title>Kurtosis in ResNets</title>
+            </visual>
+        </body>
+        <caption>
+            Each chart shows the average kurtosis of the features in each layer of the model. Additionally, we apply a
+            random rotation to each layer and measure the mean rotated kurtosis, which is approximately 3 - what we'd
+            expect for a Gaussian distribution.
+        </caption>
+        <id>kurtosis</id>
+    </fig>
+    <div class="mx-auto" style="max-width: 700px">
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text>In language models, we already see an aligned basis appearing in the embeddings (layer 0) and we
+                    see an interesting range of distributions across the models. Something similar happens in large
+                    vision models, however, the values of the kurtoses are smaller.
+                </text>
+            </paragraph>
+        </div>
+        <section>
+            <id>optimizer</id>
+            <header>Effect of the Optimizer</header>
+
+            <body>
+                <paragraph>
+                    <text>
+                        The residual stream is evidently an important part of these model architectures, however, we
+                        want to understand why it appears. [[privilege]] suggests that this could be due to the
+                        layernorm and replaces it with RMSNorm, which is basis invariant.
+                        $$\text{RMSNorm}(x_i) = \alpha \cdot \frac{x_i}{\sqrt{\frac 1d \sum_{i=1}^d x_i^2}}$$
+                        They also consider the effects of performing the computation in a separate basis to the stream
+                        and this is effective when the computation is different for each head but fails to reduce the
+                        kurtosis when the computation basis is shared. In fact, removing all parts of the architecture
+                        that could contribute to the alignment doesn’t reduce the kurtosis.
+
+                    </text>
+                </paragraph>
+                <paragraph>
+                    <text>One remaining theory for the presence of the privileged basis is the effect of the optimizer.
+                        Firstly, I train a ResNet with SGD to gain some intuitions about whether doing so with a
+                        transformer will be worthwhile. I obtain reasonable accuracy after training ResNet-18 and
+                        ResNet-34 (with RMSnorm over BatchNorm) on ImageNet [[imagenet]] for 20 epochs but these models
+                        are much more fragile [(ablation-sgd)]. The kurtosis remains high, as expected
+                        [(kurtosis-comparison)].
+                    </text>
+                </paragraph>
+            </body>
+        </section>
+    </div>
+    <fig>
+
+        <body>
+            <visual>
+                <src>/images/residual/resnet-sgd-ablation.png</src>
+                <alt>A chart showing the accuracy of ResNets on ImageNet with ablated layers.</alt>
+                <title>Top-5 accuracy of ResNets with ablated layers</title>
+            </visual>
+        </body>
+        <caption>
+            Top-5 accuracy of models as blocks are ablated from the beginning and end of the model.
+        </caption>
+        <id>ablation-sgd</id>
+    </fig>
+    <fig>
+
+        <body>
+            <visual>
+                <src>/images/residual/resnet-comparison-kurtosis.png</src>
+                <alt>A chart showing the average kurtosis of layers of ResNets.</alt>
+                <title>Kurtosis in ResNets</title>
+            </visual>
+            <visual>
+                <src>/images/residual/nano-comparison-kurtosis.png</src>
+                <alt>A chart showing the average kurtosis for different training regimes of GPT-2 nano.</alt>
+                <title>Kurtosis in GPT-2 Nano models</title>
+            </visual>
+        </body>
+        <caption>
+            Each chart shows the average kurtosis of the features in each layer of the model. We compare different
+            training regimes for the different models.
+        </caption>
+        <id>kurtosis-comparison</id>
+    </fig>
+    <div class="mx-auto" style="max-width: 700px">
+        <div class="row p-3 pb-1">
+            <paragraph>
+                <text> I run a similar setup with “gptr2-nano” [[autoencoders]], a GPT-2 style architecture with 6
+                    layers and 4 heads but with RMSNorm instead of LayerNorm trained for one epoch on Wikipedia. I train
+                    models using gradient clipping (the RMSNorm weight was diverging) with and without momentum and
+                    weight decay (four models in total) and measure the resulting kurtoses.
+                </text>
+            </paragraph>
+            <paragraph>
+                <text> The results are surprising but inconclusive. The model that is closest to having a kurtosis of 3
+                    in all layers is the model trained without weight decay or momentum. However, we see a divergence
+                    from this in the final layer, which doesn’t quite match the results from a model trained with
+                    independent rotations [[privilege]]. The kurtosis is also 3 for the first three layers of the model
+                    trained without momentum but with weight decay, which is also promising, but this changes towards
+                    the end of the model. The strangest result (to me at least) is that the model trained with momentum
+                    and without weight decay has an increasing kurtosis but drops to less than 3 in the final three
+                    layers, suggesting a very different distribution from what we’d expect. Although not shown, the
+                    kurtosis is approximately three for all of these models in a randomly rotated basis.
+
+                </text>
+            </paragraph>
+            </body>
+        </div>
+        <section>
+            <header>Conclusions</header>
+            <id>conclusions</id>
+
+            <body>
+                <paragraph>
+                    <text> Residual streams are an extremely important part of the transformer and ResNet architectures with modules reading to and writing to it as a shared memory. Under conventional training schemes, they form a privileged basis, which produces aligned, interpretable features that give more of an insight into how the network operates.
+                   </text>
+                </paragraph>
+                <paragraph>
+                    <text>  We assume the distribution of the activations of the residual stream is Gaussian in a random basis, however, it has a much higher kurtosis than we would expect - strong evidence for an aligned basis. We can recover the Gaussianness by rotating into a random basis but changes to the architecture alone do not restore a kurtosis of 3. However, we have found evidence that the optimizer is responsible for the aligned basis. With an undertrained, small model, it is impossible to say this for certain but I pass on the baton for someone to repeat these experiments, as I expect that this can be solved with more data and more compute [[bitter]].
+                  </text>
+                </paragraph>
+            </body>
+        </section>
+        <div class="mx-auto" style="max-width: 700px;">
+            <bibliography />
+        </div>
     </div>
 </main>
