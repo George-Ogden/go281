@@ -231,8 +231,10 @@
             </visual>
         </body>
         <caption>
-            Accuracy of models as blocks are ablated from the beginning and end of the model. For text models, results
-            are based on MNLI matched and unmatched. For image models, the results are from ImageNet.
+            Accuracy of models as blocks are ablated from the beginning and end of the model. For accuracy, all the
+            blocks after the marked one are ablated; for reverse accuracy, all the blocks before the marked one are
+            ablated. For text models, results are based on MNLI matched and unmatched. For image models, the results are
+            from ImageNet.
         </caption>
         <id>ablation</id>
     </fig>
@@ -507,7 +509,8 @@
                 </paragraph>
                 <paragraph>
                     <text> We assume the distribution of the activations of the residual stream is Gaussian in a random
-                        basis and see strong evidence for this. In teh original basis, however, it has a much higher kurtosis than we would expect - strong evidence for an
+                        basis and see strong evidence for this. In teh original basis, however, it has a much higher
+                        kurtosis than we would expect - strong evidence for an
                         aligned basis. We can recover the Gaussianness by rotating into a random basis but changes to
                         the architecture alone do not restore a kurtosis of 3. However, we have found evidence that the
                         optimizer is responsible for the aligned basis. With an undertrained, small model, it is
