@@ -73,3 +73,15 @@
         </wandb>
     </body>
 </section>
+<section>
+    <id>support</id>
+    <header>Value Support</header>
+    <body>
+        <paragraph>
+            <text>The next critic trick is a negative result, however, this would not be science if I left it out. In <a href=/blog/curling>an earlier post</a>, I described how value support was useful for improving performance. Unfortunately, this turns out not to be the case. The idea is to represent the critic network as a probability distribution over possible values (on the support) and to use the mean as the estimated value. For more details see <a href="/blog/curling#support-explanation">this extract from the previous post</a>. This should work better because it is hard for a model to generate features correlated (linearly related) with a value. Here, I test this claim more rigorously, however, we see that there is only a marginal improvement on Acrobot, a decrease in performance on CartPole and again scores 0 on MountainCar.</text>
+        </paragraph>
+        <wandb>
+            <url>https://wandb.ai/george_ogden/ppo-critic-experiments/reports/Value-Support-PPO--Vmlldzo1OTI0MzEz</url>
+        </wandb>    
+    </body>
+</section>
