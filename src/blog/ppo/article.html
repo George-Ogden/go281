@@ -60,7 +60,9 @@
             </text>
         </paragraph>
         <wandb>
-            <url>https://wandb.ai/george_ogden/ppo-critic-experiments/reports/Classic-Control-Critic-First-PPO--Vmlldzo1OTI0MTE2</url>
+            <url>
+                https://wandb.ai/george_ogden/ppo-critic-experiments/reports/Classic-Control-Critic-First-PPO--Vmlldzo1OTI0MTE2
+            </url>
         </wandb>
         <paragraph>
             <text>
@@ -69,19 +71,54 @@
             </text>
         </paragraph>
         <wandb>
-            <url>https://wandb.ai/george_ogden/ppo-spinup-critic/reports/SpinUp-Classic-Control-Critic-First-PPO--Vmlldzo1OTMwMDM5</url>
+            <url>
+                https://wandb.ai/george_ogden/ppo-spinup-critic/reports/SpinUp-Classic-Control-Critic-First-PPO--Vmlldzo1OTMwMDM5
+            </url>
         </wandb>
     </body>
 </section>
 <section>
     <id>support</id>
     <header>Value Support</header>
+
     <body>
         <paragraph>
-            <text>The next critic trick is a negative result, however, this would not be science if I left it out. In <a href=/blog/curling>an earlier post</a>, I described how value support was useful for improving performance. Unfortunately, this turns out not to be the case. The idea is to represent the critic network as a probability distribution over possible values (on the support) and to use the mean as the estimated value. For more details see <a href="/blog/curling#support-explanation">this extract from the previous post</a>. This should work better because it is hard for a model to generate features correlated (linearly related) with a value. Here, I test this claim more rigorously, however, we see that there is only a marginal improvement on Acrobot, a decrease in performance on CartPole and again scores 0 on MountainCar.</text>
+            <text>The next critic trick is a negative result, however, this would not be science if I left it out. In <a
+                    href=/blog/curling>an earlier post</a>, I described how value support was useful for improving
+                performance. Unfortunately, this turns out not to be the case. The idea is to represent the critic
+                network as a probability distribution over possible values (on the support) and to use the mean as the
+                estimated value. For more details see <a href="/blog/curling#support-explanation">this extract from the
+                    previous post</a>. This should work better because it is hard for a model to generate features
+                correlated (linearly related) with a value. Here, I test this claim more rigorously, however, we see
+                that there is only a marginal improvement on Acrobot, a decrease in performance on CartPole and again
+                scores 0 on MountainCar.</text>
         </paragraph>
         <wandb>
             <url>https://wandb.ai/george_ogden/ppo-critic-experiments/reports/Value-Support-PPO--Vmlldzo1OTI0MzEz</url>
-        </wandb>    
+        </wandb>
+    </body>
+</section>
+<section>
+    <id>rnns</id>
+    <header>LSTM vs GRU</header>
+
+    <body>
+        <paragraph>
+            <text>
+                The next experiments investigate a problem that remains misunderstood: LSTM vs GRU. With the rise of
+                transformers, LSTMs and GRUs have fallen out of fashion for next-token prediction tasks. However, the
+                advice I always went to when choosing between them was that no one understood which would work better on
+                a given task, so try both and pick the one that does best for the problem. In RL, it is still common to
+                use LSTMs for recurrent architectures. However, we can see that GRU performs just as well on BeamRider
+                and Pong and even better on Breakout. On top of this, we can see that it runs slightly quicker due to
+                the simpler architecture, however, an issue with the training setup has caused the Breakout LSTM
+                experiment to take significantly longer.
+            </text>
+        </paragraph>
+        <wandb>
+            <url>
+                https://wandb.ai/george_ogden/ppo-rnn-experiments/reports/Atari-NoFrameSkip-RNN-Architectures--Vmlldzo1OTI0NTAx
+            </url>
+        </wandb>
     </body>
 </section>
