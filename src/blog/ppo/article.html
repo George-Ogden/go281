@@ -1,0 +1,69 @@
+<h1 class="py-5 px-3 text-center">PPO Research</h1>
+<section>
+    <id>introduction</id>
+    <header>Introduction</header>
+
+    <body>
+        <paragraph><text>Proximal Policy Optimisation [[PPO]] is the leading algorithm for training reinforcement
+                learning
+                models. Like other reinforcement learning algorithms, it suffers from data inefficiency and converges to
+                local instead of global optima. In this post, I present some new research that improves the efficiency
+                and performance of the algorithm with some tricks.
+            </text>
+        </paragraph>
+    </body>
+</section>
+<section>
+    <id>updates</id>
+    <header>Update Ordering</header>
+
+    <body>
+        <paragraph>
+            <text>
+                The first trick applies to general actor-critic setups, however, I have tested the code on PPO to
+                compare with SOTA results. The PPO algorithm [[PPO]] is as follows:
+            </text>
+        </paragraph>
+        <blockquote>
+            <b>for</b> iteration \(i= 1, 2, \ldots\) <b>do</b><br>
+            &emsp;<b>for</b> actor \(= 1, 2, \ldots, N \) <b>do</b><br>
+            &emsp;&emsp;Run policy \(\pi_{\theta_{i-1}}\) in environment for \(T\) timesteps<br>
+            &emsp;&emsp;Compute advantage estimates \(\hat{A}_t = G(s_t,a_t) - V_{\theta_{i-1}}(s_t)\)<br>
+            &emsp;<b>end for</b><br>
+            &emsp;Optimize surrogate \(L\) wrt \( \theta_i \), with \(K\) epochs and minibatch size \(M\)<br>
+            <b>end for</b>
+        </blockquote>
+        <paragraph>
+            <text>
+                The main problem with the current algorithm is the way that the advantage \(\hat{A}_t\) is calculated.
+                When calculating the advantage at iteration, \(i\), we use the value network, \(V_{\theta_i}\) trained
+                using experience from the policy \(\pi_{i-1}\). While the divergence of the policy is small, I propose
+                using a value network, \(V_{\theta_i}\) trained using experience from the policy \(\pi_{\theta_i}\):
+            </text>
+        </paragraph>
+        <blockquote>
+            <b>for</b> iteration \(i= 1, 2, \ldots\) <b>do</b><br>
+            &emsp;<b>for</b> actor \(= 1, 2, \ldots, N \) <b>do</b><br>
+            &emsp;&emsp;Run policy \(\pi_{\theta_{i-1}}\) in environment for \(T\) timesteps<br>
+            &emsp;<b>end for</b><br>
+            &emsp;Optimize surrogate \(L_V\) wrt \( V_{\theta_i} \), with \(K\) epochs and minibatch size \(M\)<br>
+            &emsp;Compute advantage estimates \(\hat{A}_t = G(s_t,a_t) - V_{\theta_i}(s_t)\)<br>
+            &emsp;Optimize surrogate \(L_{\pi}\) wrt \( \pi_{\theta_i} \), with \(K\) epochs and minibatch size
+            \(M\)<br>
+            <b>end for</b>
+        </blockquote>
+        <paragraph>
+            <text>
+                For this and subsequent experiments, I use the same setup as [[implementation]] and we can see that my
+                version improves on both Acrobot and CartPole classic control environments. The modification does not
+                solve the exploration problem, hence all algorithms score 0 on MountainCar.
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                Additionally, I modify the Spinning Up [[spinup]] implementation in the same way to see that this
+                updated version performs better on Acrobot, similarly on CartPole and again fails to solve MountainCar.
+            </text>
+        </paragraph>
+    </body>
+</section>
