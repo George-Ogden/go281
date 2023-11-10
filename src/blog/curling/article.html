@@ -143,7 +143,7 @@
     <p class="pt-3">
         Features have meanings and trying to get them to correlate well (correlation is a linear association) with
         the value function is incredibly hard. Instead, I implemented a variant of the value support from [[muzero]]:
-    <blockquote class="blockquote px-5 fst-italic">
+    <blockquote class="blockquote px-5 fst-italic" id="support-explanation">
         For value and reward prediction we scale targets using an invertible transform \(h(x) = sign(x)(\sqrt{|x| + 1} -
         1 + \varepsilon x)\), where \(\varepsilon = 0.001\).
         We then apply a transformation \(\varphi\) to the scalar reward and value targets in order to obtain equivalent
