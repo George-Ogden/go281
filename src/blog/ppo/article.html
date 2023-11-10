@@ -122,3 +122,31 @@
         </wandb>
     </body>
 </section>
+<section>
+    <id>comb</id>
+    <header>Continuous Distributions</header>
+
+    <body>
+        <paragraph>
+            <text>
+                The final experiments challenge the assumption that you should use a Gaussian Distribution with a
+                diagonal covariance matrix. Instead, I use a general distribution with pointwise estimates of the PDF at
+                equally spaced intervals. The action dimensions are still independent meaning the model outputs
+                \(n_\text{combs} * \text{action_dim}\) values that are normalised across each \(\text{action_dim}\).
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                The comb distribution performs better on Cheetah but worse on Hopper and Walker. I cannot offer an
+                explanation as all of these environments seem very similar in terms of action dimensionality and
+                objective. Even though it allows generalisation to a wider class of distributions, this generalised distribution
+                is much slower to run and more complicated to implement.
+            </text>
+        </paragraph>
+        <wandb>
+            <url>
+                https://wandb.ai/george_ogden/ppo-continuous-experiments/reports/Continuous-PPO--Vmlldzo1OTMwODky
+            </url>
+        </wandb>
+    </body>
+</section>
