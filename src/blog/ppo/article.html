@@ -136,8 +136,9 @@
                 use LSTMs for recurrent architectures. However, we can see that GRU performs just as well on BeamRider
                 and Pong and even better on Breakout. On top of this, we can see that it runs slightly quicker due to
                 the simpler architecture, however, an issue with the training setup has caused the Breakout LSTM
-                experiment to take significantly longer. It is worth noting that all these experiments are based on the 
-                NoFrameSkip version of the Atari environments, which displays every frame to the agent and requires a policy
+                experiment to take significantly longer. It is worth noting that all these experiments are based on the
+                NoFrameSkip version of the Atari environments, which displays every frame to the agent and requires a
+                policy
                 that can control in more detail the duration of each action.
             </text>
         </paragraph>
@@ -175,5 +176,28 @@
                 https://wandb.ai/george_ogden/ppo-continuous-experiments/reports/Continuous-PPO--Vmlldzo1OTMwODky
             </url>
         </wandb>
+    </body>
+</section>
+<section>
+    <id>conclusion</id>
+    <header>Conclusion</header>
+
+    <body>
+        <paragraph>
+            <text>
+                In this post, I have presented a range of research on PPO. The most impressive results come from the
+                first experiment, which highlights how a small change in the order of updates can improve performance;
+                and the third experiment, which highlights that using the GRU is an alternative to an LSTM that keeps or
+                improves performance and requires less computational resources to run.
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                Reinforcement learning offers huge potential for agents to interact and learn from their environments
+                without the limitations of human cognition. Future research is needed to improve techniques to compete
+                with human-level learning and I believe that this will only be the beginning of my contributions in this
+                area.
+            </text>
+        </paragraph>
     </body>
 </section>
