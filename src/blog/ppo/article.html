@@ -5,10 +5,34 @@
 
     <body>
         <paragraph><text>Proximal Policy Optimisation [[PPO]] is the leading algorithm for training reinforcement
-                learning
-                models. Like other reinforcement learning algorithms, it suffers from data inefficiency and converges to
-                local instead of global optima. In this post, I present some new research that improves the efficiency
-                and performance of the algorithm with some tricks.
+                learning models. As well as other tasks, PPO plays a huge role in applying RLHF to LLMs [[instruct]].
+                Like other reinforcement learning algorithms, it suffers from data inefficiency and converges to local
+                instead of global optima, thus improving both of these is an open area of research.
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                In this post, I present some new research that improves the efficiency and performance of the algorithm
+                in the following ways:
+                <ol>
+                    <li>An <a href=#updates>improved training algirithm</a> (which could pretentiously be called PPO+)
+                        as it applies a small modification to the original algorithm to improve performance.</li>
+                    <li>An <a href="#support">alternative critic loss</a> where I test out the idea of using a value
+                        support in the critic instead of a scalar value.</li>
+                    <li>A comparison of <a href="#rnns">LSTM vs GRU</a> architectures in recurrent actors.</li>
+                    <li>Using a <a href="#comb">general distribution</a> instead of a Gaussian for continuous action
+                        spaces.</li>
+                </ol>
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                All of the experiments are based on the incredible blog post <a
+                    href="https://iclr-blog-track.github.io/2022/03/25/ppo-implementation-details/">The 37
+                    Implementation Details of Proximal Policy Optimization</a> [[implementation]], using their codebase
+                as a starting point. I use all the same hyperparameters as the original setup and exploring this space
+                to optimise the results is left as further work. All code is available on <a href=#github>GitHub</a> and
+                all experiments are available as you read through the post.
             </text>
         </paragraph>
     </body>
@@ -112,7 +136,9 @@
                 use LSTMs for recurrent architectures. However, we can see that GRU performs just as well on BeamRider
                 and Pong and even better on Breakout. On top of this, we can see that it runs slightly quicker due to
                 the simpler architecture, however, an issue with the training setup has caused the Breakout LSTM
-                experiment to take significantly longer.
+                experiment to take significantly longer. It is worth noting that all these experiments are based on the 
+                NoFrameSkip version of the Atari environments, which displays every frame to the agent and requires a policy
+                that can control in more detail the duration of each action.
             </text>
         </paragraph>
         <wandb>
@@ -139,7 +165,8 @@
             <text>
                 The comb distribution performs better on Cheetah but worse on Hopper and Walker. I cannot offer an
                 explanation as all of these environments seem very similar in terms of action dimensionality and
-                objective. Even though it allows generalisation to a wider class of distributions, this generalised distribution
+                objective. Even though it allows generalisation to a wider class of distributions, this generalised
+                distribution
                 is much slower to run and more complicated to implement.
             </text>
         </paragraph>
