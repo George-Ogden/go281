@@ -1,0 +1,214 @@
+<h1 class="py-5 px-3 text-center">Advancements in PPO</h1>
+<section>
+    <id>introduction</id>
+    <header>Introduction</header>
+
+    <body>
+        <paragraph><text>Proximal Policy Optimisation [[PPO]] is the leading algorithm for training reinforcement
+                learning models. As well as other tasks, PPO plays a huge role in applying RLHF to LLMs [[instruct]].
+                Like other reinforcement learning algorithms, it suffers from data inefficiency and converges to local
+                instead of global optima and improving both of these are open areas of research.
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                In this post, I present some new research that improves the efficiency and performance of the algorithm
+                in the following ways:
+                <ol>
+                    <li>An <a href=#updates>improved training algirithm</a> (which could pretentiously be called PPO+)
+                        as it applies a small modification to the original algorithm to improve performance.</li>
+                    <li>An <a href="#support">alternative critic loss</a> where I test out the idea of using a value
+                        support in the critic instead of a scalar value.</li>
+                    <li>A comparison of <a href="#rnns">LSTM vs GRU</a> architectures in recurrent actors.</li>
+                    <li>Using a <a href="#comb">general distribution</a> instead of a Gaussian for continuous action
+                        spaces.</li>
+                </ol>
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                All of the experiments are based on the incredible blog post <a target="_blank"
+                    href="https://iclr-blog-track.github.io/2022/03/25/ppo-implementation-details/">The 37
+                    Implementation Details of Proximal Policy Optimization</a> [[implementation]], using their codebase
+                as a starting point. I use all the same hyperparameters as the original setup and exploring this space
+                to optimise the results is left as further work. All code is available on <a href=#code>GitHub</a> and
+                all experiments are available as you read through the post.
+            </text>
+        </paragraph>
+    </body>
+</section>
+<section>
+    <id>updates</id>
+    <header>Update Ordering</header>
+
+    <body>
+        <paragraph>
+            <text>
+                The first trick applies to general actor-critic setups, however, I have tested the result on PPO to
+                compare with SOTA results.
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>The PPO algorithm [[PPO]] is as follows:
+            </text>
+        </paragraph>
+        <blockquote>
+            <b>for</b> iteration \(i= 1, 2, \ldots\) <b>do</b><br>
+            &emsp;<b>for</b> actor \(= 1, 2, \ldots, N \) <b>do</b><br>
+            &emsp;&emsp;Run policy \(\pi_{\theta_{i-1}}\) in environment for \(T\) timesteps<br>
+            &emsp;&emsp;Compute advantage estimates \(\hat{A}_t = G(s_t,a_t) - V_{\theta_{i-1}}(s_t)\)<br>
+            &emsp;<b>end for</b><br>
+            &emsp;Optimize surrogate \(L\) wrt \( \theta_i \), with \(K\) epochs and minibatch size \(M\)<br>
+            <b>end for</b>
+        </blockquote>
+        <paragraph>
+            <text>
+                The main problem with the current algorithm is the way that the advantage \(\hat{A}_t\) is calculated.
+                When calculating the advantage at iteration, \(i\), we use the value network, \(V_{\theta_{i-1}}\) trained
+                using experience from the policy \(\pi_{\theta_{i-2}}\). While the divergence of the policy is small, I propose
+                using a value network, \(V_{\theta_i}\) trained using experience from the policy \(\pi_{\theta_{i-1}}\):
+            </text>
+        </paragraph>
+        <blockquote>
+            <b>for</b> iteration \(i= 1, 2, \ldots\) <b>do</b><br>
+            &emsp;<b>for</b> actor \(= 1, 2, \ldots, N \) <b>do</b><br>
+            &emsp;&emsp;Run policy \(\pi_{\theta_{i-1}}\) in environment for \(T\) timesteps<br>
+            &emsp;<b>end for</b><br>
+            &emsp;Optimize surrogate \(L_V\) wrt \( V_{\theta_i} \), with \(K\) epochs and minibatch size \(M\)<br>
+            &emsp;Compute advantage estimates \(\hat{A}_t = G(s_t,a_t) - V_{\theta_i}(s_t)\)<br>
+            &emsp;Optimize surrogate \(L_{\pi}\) wrt \( \pi_{\theta_i} \), with \(K\) epochs and minibatch size
+            \(M\)<br>
+            <b>end for</b>
+        </blockquote>
+        <paragraph>
+            <text>
+                For this and subsequent experiments, I use the same setup as [[implementation]] and we can see that my
+                version improves on both Acrobot and CartPole classic control environments. The modification does not
+                solve the exploration problem, hence all algorithms score 0 on MountainCar.
+            </text>
+        </paragraph>
+        <wandb>
+            <url>
+                https://wandb.ai/george_ogden/ppo-critic-experiments/reports/Classic-Control-Critic-First-PPO--Vmlldzo1OTI0MTE2
+            </url>
+        </wandb>
+        <paragraph>
+            <text>
+                Additionally, I modify the Spinning Up implementation [[spinup]] in the same way to see that this
+                updated version performs better on Acrobot, similarly on CartPole and again fails to solve MountainCar.
+            </text>
+        </paragraph>
+        <wandb>
+            <url>
+                https://wandb.ai/george_ogden/ppo-spinup-critic/reports/SpinUp-Classic-Control-Critic-First-PPO--Vmlldzo1OTMwMDM5
+            </url>
+        </wandb>
+    </body>
+</section>
+<section>
+    <id>support</id>
+    <header>Value Support</header>
+
+    <body>
+        <paragraph>
+            <text>The next critic trick is a negative result, however, this would not be science if I left it out. In <a
+                    href="/blog/curling" target="_blank">an earlier post</a>, I described how value support was useful for improving
+                performance. Unfortunately, this turns out not to be the case. The idea is to represent the critic
+                network as a probability distribution over possible values (on the support) and to use the mean as the
+                estimated value. For more details see <a href="/blog/curling#support-explanation" target="_blank">this extract from the
+                    previous post</a>. This should work better because it is hard for a model to generate features
+                correlated (linearly related) to a value. After running experiments to test this, however, we see
+                that there is only a marginal improvement on Acrobot, a decrease in performance on CartPole and again
+                a score of 0 on MountainCar.</text>
+        </paragraph>
+        <wandb>
+            <url>https://wandb.ai/george_ogden/ppo-critic-experiments/reports/Value-Support-PPO--Vmlldzo1OTI0MzEz</url>
+        </wandb>
+    </body>
+</section>
+<section>
+    <id>rnns</id>
+    <header>LSTM vs GRU</header>
+
+    <body>
+        <paragraph>
+            <text>
+                The next experiments investigate a problem that remains misunderstood: LSTM vs GRU. With the rise of
+                transformers, LSTMs and GRUs have fallen out of fashion for next-token prediction tasks. However, the
+                advice I always went with when choosing between them (for any sequence prediction problem) was that no one understood which would work better on
+                a given task, so try both and pick the one that does best for the problem. In RL, it is still common to
+                use LSTMs for recurrent architectures. However, we can see that GRU performs just as well on BeamRider
+                and Pong and even better on Breakout. On top of this, we can see that it runs slightly quicker due to
+                the simpler architecture. It is worth noting that all these experiments are based on the
+                NoFrameSkip version of the Atari environments, which displays every frame to the agent and requires a
+                policy that can control in more detail the duration of each action.
+            </text>
+        </paragraph>
+        <wandb>
+            <url>
+                https://wandb.ai/george_ogden/ppo-rnn-experiments/reports/Atari-NoFrameSkip-RNN-Architectures--Vmlldzo1OTI0NTAx
+            </url>
+        </wandb>
+    </body>
+</section>
+<section>
+    <id>comb</id>
+    <header>Continuous Distributions</header>
+
+    <body>
+        <paragraph>
+            <text>
+                The final experiments challenge the assumption that you should use a Gaussian Distribution with a
+                diagonal covariance matrix. Instead, I use a general distribution with pointwise estimates of the PDF at
+                equally spaced intervals. The action dimensions are still independent meaning the model outputs
+                \(n_\text{combs} * \text{action_dim}\) values that are normalised across each \(\text{action_dim}\).
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                The comb distribution performs better on Cheetah but worse on Hopper and Walker. I cannot offer an
+                explanation as all of these environments seem very similar in terms of action dimensionality and
+                objective. Even though it allows generalisation to a wider class of distributions, this generalised
+                distribution
+                is much slower to run and more complicated to implement.
+            </text>
+        </paragraph>
+        <wandb>
+            <url>
+                https://wandb.ai/george_ogden/ppo-continuous-experiments/reports/Continuous-PPO--Vmlldzo1OTMwODky
+            </url>
+        </wandb>
+    </body>
+</section>
+<section>
+    <id>conclusion</id>
+    <header>Conclusion</header>
+
+    <body>
+        <paragraph>
+            <text>
+                In this post, I have presented a range of research on PPO. The most impressive results come from the
+                first experiment, which highlights how a small change in the order of updates can improve performance;
+                and the third experiment, which highlights that using the GRU is an alternative to an LSTM that keeps or
+                improves performance and requires less computational resources to run.
+            </text>
+        </paragraph>
+        <paragraph>
+            <text>
+                Reinforcement learning offers huge potential for agents to interact and learn from their environments
+                without the limitations of human cognition. Future research is needed to improve techniques to compete
+                with human-level learning and I believe that this will only be the beginning of my contributions in this
+                area.
+            </text>
+        </paragraph>
+    </body>
+</section>
+<bibliography></bibliography>
+<div class="row p-3 pb-1" id="code">
+    <h2 class="py-2">Code</h2>
+    <paragraph><text>The code is available on GitHub: <a href="https://github.com/George-Ogden/ppo-experiments"
+                target="_blank">https://github.com/George-Ogden/ppo-experiments</a> contains the main experiment and <a
+                href="https://github.com/George-Ogden/spinningup"
+                target="_blank">https://github.com/George-Ogden/spinningup</a> contains the modified Spinning Up
+            implementation.</text></paragraph>
+</div>
