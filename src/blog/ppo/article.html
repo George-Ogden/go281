@@ -19,7 +19,7 @@
                         as it applies a small modification to the original algorithm to improve performance.</li>
                     <li>An <a href="#support">alternative critic loss</a> where I test out the idea of using a value
                         support in the critic instead of a scalar value.</li>
-                    <li>A comparison of <a href="#rnns">LSTM vs GRU</a> architectures in recurrent actors.</li>
+                    <li>A comparison of <a href="#rnns">LSTM vs GRU</a> architectures in recurrent architectures.</li>
                     <li>Using a <a href="#comb">general distribution</a> instead of a Gaussian for continuous action
                         spaces.</li>
                 </ol>
@@ -66,7 +66,7 @@
                 The main problem with the current algorithm is the way that the advantage \(\hat{A}_t\) is calculated.
                 When calculating the advantage at iteration, \(i\), we use the value network, \(V_{\theta_{i-1}}\) trained
                 using experience from the policy \(\pi_{\theta_{i-2}}\). While the divergence of the policy is small, I propose
-                using a value network, \(V_{\theta_i}\) trained using experience from the policy \(\pi_{\theta_{i-1}}\):
+                using a value network, \(V_{\theta_i}\) trained using experience from the policy \(\pi_{\theta_{i-1}}\). Here is the updated algorithm:
             </text>
         </paragraph>
         <blockquote>
@@ -118,7 +118,7 @@
                 estimated value. For more details see <a href="/blog/curling#support-explanation" target="_blank">this extract from the
                     previous post</a>. This should work better because it is hard for a model to generate features
                 correlated (linearly related) to a value. After running experiments to test this, however, we see
-                that there is only a marginal improvement on Acrobot, a decrease in performance on CartPole and again
+                that there is a decrease in performance on Acrobot and CartPole and again
                 a score of 0 on MountainCar.</text>
         </paragraph>
         <wandb>
@@ -169,8 +169,9 @@
                 The comb distribution performs better on Cheetah but worse on Hopper and Walker. I cannot offer an
                 explanation as all of these environments seem very similar in terms of action dimensionality and
                 objective. Even though it allows generalisation to a wider class of distributions, this generalised
-                distribution
-                is much slower to run and more complicated to implement.
+                distribution is much slower to run and more complicated to implement. I call this a
+                <code>CombDistribution</code>, however, the PDF is linearly interpolated between points so that the
+                actions space is still continuous - <b>not</b> a discretized version of the original action space.
             </text>
         </paragraph>
         <wandb>
