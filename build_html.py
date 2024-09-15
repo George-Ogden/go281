@@ -132,17 +132,26 @@ def complete_figures(template: str) -> str:
 
 ATTRIBUTES = {
     "h1": "py-5 px-3 text-center",
-    "p": "py-3"
+    "p": "py-3",
+    "a": {
+        "class": "text-decoration-none",
+        "target": "blank"
+    }
 }
 def markdown_template(template: str) -> str:
     html = markdown.markdown(template)
     soup = BeautifulSoup(html, "html.parser")
-    for tag in ATTRIBUTES:
+    for tag, values in ATTRIBUTES.items():
+        if not isinstance(values, dict):
+            values = {
+                "class": values
+            }
         for node in soup.find_all(tag):
-            if "class" in node:
-                node["class"] += " " + ATTRIBUTES[tag]
-            else:
-                node["class"] = ATTRIBUTES[tag]
+            for key, value in values.items():
+                if key in node:
+                    node[key] += " " + value
+                else:
+                    node[key] = value
     return str(soup)
 
 def fill_template(template: str, directory: str) -> str:
