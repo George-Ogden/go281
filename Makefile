@@ -1,5 +1,5 @@
 SOURCE_DIR=src
-TARGET_DIR=build
+TARGET_DIR=/var/www/go281
 
 all: build
 build: $(SOURCE_DIR)/**/*
