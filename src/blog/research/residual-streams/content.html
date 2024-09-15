@@ -253,7 +253,7 @@
                     without significant drops in performance, a core concept behind the logit lens [[logit-lens]]. This
                     really demonstrates the power of the stream as the modules focus on refining the features rather
                     than copying them. One result that I have not shown is that removing the residual stream at any
-                    point destroys the network’s performance - it really serves as the spine for these models.
+                    point destroys the network's performance - it really serves as the spine for these models.
                 </text>
             </paragraph>
         </div>
@@ -352,7 +352,7 @@
                     <text>
                         Before showing the results of the kurtosis experiments, I will give a short explanation of what
                         it
-                        is in case you’re not familiar. Firstly, here is the definition:
+                        is in case you're not familiar. Firstly, here is the definition:
                         $$\text{Kurt}\left[X\right] = E\left[\left(\frac{x-\mu}{\sigma}\right)^4\right]$$
                         The fourth power means that values within 1 standard deviation of the mean have a minimal
                         contribution relative to the values outside. Intuitively kurtosis can be thought of as a measure
@@ -421,7 +421,7 @@
                         They also consider the effects of performing the computation in a separate basis to the stream
                         and this is effective when the computation is different for each head but fails to reduce the
                         kurtosis when the computation basis is shared. In fact, removing all parts of the architecture
-                        that could contribute to the alignment doesn’t reduce the kurtosis.
+                        that could contribute to the alignment doesn't reduce the kurtosis.
 
                     </text>
                 </paragraph>
@@ -483,12 +483,12 @@
             <paragraph>
                 <text> The results are surprising but inconclusive. The model that is closest to having a kurtosis of 3
                     in all layers is the model trained without weight decay or momentum. However, we see a divergence
-                    from this in the final layer, which doesn’t quite match the results from a model trained with
+                    from this in the final layer, which doesn't quite match the results from a model trained with
                     independent rotations [[privilege]]. The kurtosis is also 3 for the first three layers of the model
                     trained without momentum but with weight decay, which is also promising, but this changes towards
                     the end of the model. The strangest result (to me at least) is that the model trained with momentum
                     and without weight decay has an increasing kurtosis but drops to less than 3 in the final three
-                    layers, suggesting a very different distribution from what we’d expect. Although not shown, the
+                    layers, suggesting a very different distribution from what we'd expect. Although not shown, the
                     kurtosis is approximately three for all of these models in a randomly rotated basis.
 
                 </text>
