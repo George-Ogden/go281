@@ -76,18 +76,4 @@
     </div>
 </div>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script>
-    /* load "scroll" cookie and scroll to the last position */
-    window.onload = function () {
-        if (!window.location.hash){
-            var scroll = document.cookie.split(';').find(row => row.startsWith('scroll='));
-            if (scroll) {
-                window.scrollTo(0, scroll.split('=')[1]);
-            }
-        }
-    }
-    /* save scroll position in "scroll" cookie */
-    window.onscroll = function () {
-        document.cookie = "scroll=" + window.scrollY;
-    }
 </script>
