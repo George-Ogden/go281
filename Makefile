@@ -8,6 +8,7 @@ build: $(SOURCE_DIR)/**/*
 	cp $(SOURCE_DIR)/static $(TARGET_DIR)/ -r
 	cp $(SOURCE_DIR)/favicon.ico $(TARGET_DIR)/
 	cp $(SOURCE_DIR)/.htaccess $(TARGET_DIR)/
+	cp $(SOURCE_DIR)/google*.html $(TARGET_DIR)/
 
 clean:
 	rm -rf $(TARGET_DIR)
