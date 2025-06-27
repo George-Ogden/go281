@@ -21,7 +21,8 @@ These specifications not only improved the final design but also meant the imple
 
 Using these locks, I experimented with many implementations for simple algorithms.
 I was constantly surprised by the results of these experiments.
-For example, when parallelising an array sum, I observed a huge performance increase when each CPU summed contiguous over interleaved chunks. [DIAGRAM]
+For example, when parallelising an array sum, I observed a huge performance increase when each CPU summed contiguous over interleaved chunks:
+![Diagram of contiguous vs interleaved chunks for an array sum.](/images/final-project/array-sum.svg)
 (Fun fact: if you do this experiment on a GPU, you get the opposite results - but that was a different project.)
 Even though it felt like I was working at a very low level, this revealed many of the abstractions I was building on top of.
 
