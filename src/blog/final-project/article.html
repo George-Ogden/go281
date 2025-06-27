@@ -1,0 +1,61 @@
+!markdown
+# An Unusual Final Project
+In the final year of my degree course, every student does a project.
+I wanted to build a complex system from scratch, focusing on low-level concurrency and avoiding black-box abstractions.
+This approach differed from the standard format, which involves taking a problem with an existing body of research, applying known techniques to tackle it, and possibly developing an original solution.
+Because of its unconventional nature, I was unable to find a willing supervisor.
+However, a faculty member provided guidance and perspectives relevant to assessment.
+The minimal oversight gave me the freedom to pursue unconventional ideas and improve my design through continual experimentation.
+
+I started running experiments with `pthreads` - a C wrapper for the operating system's threading library - but after speaking with Shaun, I realised that I could delve deeper and work with hardware primitives.
+This insight opened up the project in unforeseen ways, leading to numerous fascinating problems.
+
+As part of the process for developing a lock, I generated a specification and formally verified it.
+I had seen pseudocode for locks in one of my courses, but challenged myself to write an original version.
+My early attempts failed - the model checker could find contradictions, so I added more code to handle these edge cases.
+After finally passing the checker, I realised that I could delete half of my algorithm to simplify it.
+Later on, I verified a shared lock, which is more complex.
+This took fewer attempts, as I was more experienced at reasoning through concurrent code.
+And again, once I passed the checker, I realised that there was a simplification I could make, going from three variables down to two.
+These specifications not only improved the final design but also meant the implementations were very smooth, with negligible debugging.
+
+Using these locks, I experimented with many implementations for simple algorithms.
+I was constantly surprised by the results of these experiments.
+For example, when parallelising an array sum, I observed a huge performance increase when each CPU summed contiguous over interleaved chunks. [DIAGRAM]
+(Fun fact: if you do this experiment on a GPU, you get the opposite results - but that was a different project.)
+Even though it felt like I was working at a very low level, this revealed many of the abstractions I was building on top of.
+
+To iterate on the experiments, I went through many iterations of an experiment pipeline and a visualisation script.
+This allowed me to extend my tools when I saw limitations.
+For example, I initially stored the current Git hash, but then began storing a diff of the current working tree so that I could go back to the exact source code for each experiment.
+I used minimal libraries (argument parsing, YAML serialisation) to craft my approach and make deliberate decisions about each feature.
+
+As I ran more experiments, writing new algorithms became less hard.
+I wanted a fresh challenge to keep the project as engaging as it had been initially, and decided to write a programming language with automatic parallelisation.
+Starting with text, I generated progressively lower-level representations.
+I struggled to define appropriate representations to keep the transformations independent.
+Eventually, I resolved this by breaking down one complicated stage into two simpler ones.
+It was awesome when it finally came together: the code in my language ran and produced an output.
+My minimal subset (for the first iteration of the language) was too large, but it meant there were countless exciting problems, many of which were unrelated to concurrency.
+How would I have been able to type-check polymorphic code if I hadn't allowed polymorphism in my language?
+
+Lots of the development process involved optimising the language and making it run faster.
+Some of the compiler optimisations were the most satisfying parts.
+Most of the optimisations I implemented already existed, but it was so rewarding to rediscover them.
+They felt so simple and elegant, even if their implementations weren't.
+I felt a deep sense of satisfaction from playing around with a problem on paper and transforming it into a complete algorithm.
+
+An integral part of the language was its use of concurrency.
+I tried many different models, which allowed me to iterate on the language as well as the development process.
+The performance increased, and I experienced the benefits of drawing out state-transition diagrams or adding more specific tests in the early stages.
+I debugged lots of code - this project produced some of the hardest bugs I have ever had to deal with.
+This gave me a chance to _really_ learn to use a debugger and made my attitude toward and emotions around debugging much more effective.
+I fixed every bug I found, or I rewrote the part causing the error.
+I would try to find the bugs early, rather than being afraid they would appear and allowed enough time in the development process to resolve them instead of hoping they would disappear quickly.
+So often, the solutions were simple - the refactored versions were almost always shorter and easier to understand.
+Throughout this project, I developed complex variants before arriving at the simple solution.
+
+My project didn't follow the standard approach.
+While this led to significant resistance, it's been one of my favourite ever projects.
+I learnt _so much_ through it: not a list of facts or best practices, but skills that allow me to write, plan and debug complex systems.
+For now, writing data science code in Python feels tedious, and I look forward to the new problems and challenges that will arise in the next project.
