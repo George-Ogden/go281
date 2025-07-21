@@ -136,6 +136,9 @@ ATTRIBUTES = {
     "a": {
         "class": "text-decoration-none",
         "target": "blank"
+    },
+    "img": {
+        "class": "img-fluid mb-3 d-block m-auto p-3",
     }
 }
 def markdown_template(template: str) -> str:
