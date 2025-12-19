@@ -127,6 +127,7 @@ ATTRIBUTES = {
     "img": {
         "class": "img-fluid mb-3 d-block m-auto p-3",
     },
+    "div": {"match": {"class_": "footnote"}, "class": "small"},
 }
 
 
@@ -140,7 +141,8 @@ def markdown_template(template: str) -> str:
     for tag, values in ATTRIBUTES.items():
         if not isinstance(values, dict):
             values = {"class": values}
-        for node in soup.find_all(tag):
+        kwargs = values.pop("match", {})
+        for node in soup.find_all(tag, **kwargs):
             for key, value in values.items():
                 if key in node:
                     node[key] += " " + value
