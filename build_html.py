@@ -44,9 +44,7 @@ def complete_citations(template: str, directory: str) -> str:
             reference = references.entries[citation]
             # convert authors to readable format
             authors = reference.persons["author"]
-            author = " ".join(
-                name.render_as("html") for name in authors[0].rich_last_names
-            )
+            author = " ".join(name.render_as("html") for name in authors[0].rich_last_names)
             if len(authors) > 1:
                 author += " et al."
 
@@ -61,9 +59,7 @@ def complete_citations(template: str, directory: str) -> str:
 
     # generate bibliography
     bibliography = ""
-    for citation in citations + sorted(
-        list(set(references.entries.keys()).difference(citations))
-    ):
+    for citation in citations + sorted(list(set(references.entries.keys()).difference(citations))):
         # fill out fields
         reference = references.entries[citation]
         try:
@@ -71,9 +67,7 @@ def complete_citations(template: str, directory: str) -> str:
             # convert authors to readable format
             author = ", ".join(
                 [
-                    abbreviate(
-                        " ".join(name.render_as("html") for name in author.rich_first_names)
-                    )
+                    abbreviate(" ".join(name.render_as("html") for name in author.rich_first_names))
                     + " ".join(name.render_as("html") for name in author.rich_last_names)
                     for author in authors
                 ][:10]
@@ -84,10 +78,7 @@ def complete_citations(template: str, directory: str) -> str:
             title = reference.fields["title"]
         except KeyError as e:
             raise KeyError(f"Missing {e} for {citation}")
-        if (
-            "eprinttype" in reference.fields
-            and reference.fields["eprinttype"] == "arXiv"
-        ):
+        if "eprinttype" in reference.fields and reference.fields["eprinttype"] == "arXiv":
             # add link to arXiv
             journal = "arXiv preprint arXiv:{eprint}".format(**reference.fields)
         elif "journal" in reference.fields:
@@ -97,9 +88,7 @@ def complete_citations(template: str, directory: str) -> str:
         else:
             raise ValueError(f"Unknown journal type for {citation}")
         # add line to bibliography
-        bibliography += (
-            f'<p id ="bib-{citation}">{author}. {title}. <i>{journal}</i>, {year}.</p>'
-        )
+        bibliography += f'<p id ="bib-{citation}">{author}. {title}. <i>{journal}</i>, {year}.</p>'
 
     # add bibliography to template
     template = template.replace("[[bibliography]]", bibliography)
@@ -126,36 +115,41 @@ def complete_figures(template: str) -> str:
         # add figure to main text
         html = html.replace(
             f"[({figure})]",
-            f'(<a onclick="document.getElementById(\'{prefix}-{figure}\').scrollIntoView()" class="text-decoration-none">Figure {i+1}</a>)',
+            f'(<a onclick="document.getElementById(\'{prefix}-{figure}\').scrollIntoView()" class="text-decoration-none">Figure {i + 1}</a>)',
         )
     return html
+
 
 ATTRIBUTES = {
     "h1": "py-5 px-3 text-center",
     "p": "py-3",
-    "a": {
-        "class": "text-decoration-none",
-        "target": "blank"
-    },
+    "a": {"class": "text-decoration-none", "target": "blank"},
     "img": {
         "class": "img-fluid mb-3 d-block m-auto p-3",
-    }
+    },
+    "div": {"match": {"class_": "footnote"}, "class": "small"},
 }
+
+
 def markdown_template(template: str) -> str:
-    html = markdown.markdown(template)
+    html = markdown.markdown(
+        template,
+        extensions=["footnotes"],
+        extension_configs={"footnotes": {"BACKLINK_TEXT": ""}},
+    )
     soup = BeautifulSoup(html, "html.parser")
     for tag, values in ATTRIBUTES.items():
         if not isinstance(values, dict):
-            values = {
-                "class": values
-            }
-        for node in soup.find_all(tag):
+            values = {"class": values}
+        kwargs = values.pop("match", {})
+        for node in soup.find_all(tag, **kwargs):
             for key, value in values.items():
                 if key in node:
                     node[key] += " " + value
                 else:
                     node[key] = value
     return str(soup)
+
 
 def fill_template(template: str, directory: str) -> str:
     soup = BeautifulSoup(template, "html.parser")
