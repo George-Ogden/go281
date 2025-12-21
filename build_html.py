@@ -10,7 +10,7 @@ import argparse
 import os
 import re
 
-IGNORED = {}
+IGNORED = {"blog", "blog/research"}
 
 
 def parse_args():
